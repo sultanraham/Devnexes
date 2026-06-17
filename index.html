@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <title>Devnexes Digital Solutions — AI & Web Development</title>
+  <meta name="description" content="Devnexes builds AI-powered web and mobile solutions. Get a free consultation for your next project." />
+  <meta name="theme-color" content="#061632" />
+  <link rel="canonical" href="https://devnexes.site" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Devnexes Digital Solutions" />
+  <meta property="og:description" content="AI-powered web and mobile development agency. Let's build something great." />
+  <meta property="og:url" content="https://devnexes.site" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/favicon.png" />
+
+  <!-- Preconnect to Google Fonts origin (eliminates DNS lookup on font request) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!--
+    Preload the Outfit variable font (single request covers all weights).
+    display=swap ensures text is visible while the font loads.
+    Only Outfit is preloaded — Inter is removed since the site doesn't use it.
+  -->
+  <link
+    rel="preload"
+    as="style"
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&display=swap"
+  />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&display=swap"
+    media="print"
+    onload="this.media='all'"
+  />
+  <!-- Fallback for no-JS -->
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&display=swap" />
+  </noscript>
+
+  <!-- DNS prefetch for third-party domains used at runtime -->
+  <link rel="dns-prefetch" href="https://api.dicebear.com" />
+  <link rel="dns-prefetch" href="https://images.unsplash.com" />
+  <link rel="dns-prefetch" href="https://api.qrserver.com" />
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>

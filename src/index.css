@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+/* Font is loaded via <link> in index.html — no duplicate import here */
+
+@layer base {
+  :root {
+    --font-outfit: "Outfit", sans-serif;
+  }
+
+  /* Prevent layout shift while Outfit loads */
+  html {
+    font-family: "Outfit", system-ui, -apple-system, sans-serif;
+  }
+
+  /* Reduce motion for users who prefer it — improves accessibility score */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer utilities {
+  .logo-outline {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.7);
+  }
+
+  /* Hide scrollbar cross-browser */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
