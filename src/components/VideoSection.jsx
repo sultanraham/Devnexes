@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { motion, useInView, useSpring, useTransform } from 'framer-motion'
+import { supabase } from '../supabaseClient'
 
 const Counter = ({ value }) => {
   const ref = useRef(null)
@@ -26,11 +27,43 @@ const Counter = ({ value }) => {
 }
 
 const VideoSection = () => {
+  const [siteStats, setSiteStats] = useState({
+    stat_1_value: '150K', stat_1_label: 'AI Solutions',
+    stat_2_value: '500K', stat_2_label: 'Vision AI',
+    stat_3_value: '250M', stat_3_label: 'Web Dev',
+    stat_4_value: '200K', stat_4_label: 'Custom'
+  })
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      const keys = ['stat_1_value', 'stat_1_label', 'stat_2_value', 'stat_2_label', 'stat_3_value', 'stat_3_label', 'stat_4_value', 'stat_4_label']
+      try {
+        const { data } = await supabase.from('site_settings').select('key, value').in('key', keys)
+        if (data && data.length > 0) {
+          const fetchedStats = {}
+          data.forEach(item => fetchedStats[item.key] = item.value)
+          setSiteStats(prev => ({ ...prev, ...fetchedStats }))
+        }
+      } catch (err) {}
+    }
+    fetchSettings()
+
+    const channel = supabase.channel('video_stats_settings')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'site_settings' }, (payload) => {
+        if (payload.new && payload.new.key && payload.new.key.startsWith('stat_')) {
+          setSiteStats(prev => ({ ...prev, [payload.new.key]: payload.new.value }))
+        }
+      })
+      .subscribe()
+
+    return () => supabase.removeChannel(channel)
+  }, [])
+
   const stats = [
-    { value: '150K', label: 'AI Solutions', color: 'text-[#7c1d1d]' },
-    { value: '500K', label: 'Vision AI', color: 'text-[#0f172a]' },
-    { value: '250M', label: 'Web Dev', color: 'text-[#1e3a8a]' },
-    { value: '200K', label: 'Custom', color: 'text-[#0f172a]' },
+    { value: siteStats.stat_1_value, label: siteStats.stat_1_label, color: 'text-[#7c1d1d]' },
+    { value: siteStats.stat_2_value, label: siteStats.stat_2_label, color: 'text-[#0f172a]' },
+    { value: siteStats.stat_3_value, label: siteStats.stat_3_label, color: 'text-[#1e3a8a]' },
+    { value: siteStats.stat_4_value, label: siteStats.stat_4_label, color: 'text-[#0f172a]' },
   ]
 
   const checklist = [

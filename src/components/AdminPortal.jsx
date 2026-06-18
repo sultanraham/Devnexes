@@ -1,398 +1,480 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useNavigate } from 'react-router-dom'
 import {
-  ShieldCheck, CheckCircle, Briefcase, TrendingUp, X, Settings,
-  Activity, Cpu, Send, Menu, Users, Search, Clock, LogOut, User, Plus, Target
+  ShieldCheck, X, Cpu, Menu, LogOut, Plus, Target, TrendingUp, Activity, CheckCircle, Database, Users, Clock, Mail
 } from 'lucide-react'
+import { supabase } from '../supabaseClient'
 
 const AdminPortal = ({ onLogout }) => {
-  const navigate = useNavigate()
-  const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001'
-  const token = localStorage.getItem('token')
-  const authHeaders = { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
-
-  const [clients, setClients] = useState([])
-  const [selectedClientId, setSelectedClientId] = useState(null)
-  const [projects, setProjects] = useState([])
-  const [activeProjectId, setActiveProjectId] = useState(null)
-  const [tasks, setTasks] = useState([])
   const [loading, setLoading] = useState(true)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [messages, setMessages] = useState([])
-  const [chatInput, setChatInput] = useState('')
-  const [activeTab, setActiveTab] = useState('projects')
-  const [showAddTask, setShowAddTask] = useState(false)
-  const [newTaskName, setNewTaskName] = useState('')
-  const [siteSettings, setSiteSettings] = useState({ download_title: '', download_subtitle: '', download_desc: '', qr_url: '', mobile_wallpaper: '' })
-  const chatEndRef = useRef(null)
-
-  const apiFetch = useCallback(async (url, options = {}) => {
-    const res = await fetch(`${API_BASE}${url}`, { ...options, headers: { ...authHeaders, ...(options.headers || {}) } })
-    if (res.status === 401) { onLogout(); navigate('/'); return null }
-    return res.ok ? res.json() : null
-  }, [API_BASE, token])
+  const [activeTab, setActiveTab] = useState('social')
+  const [saveStatus, setSaveStatus] = useState(null)
+  
+  const [siteSettings, setSiteSettings] = useState({ 
+    download_title: '', download_subtitle: '', download_desc: '', qr_url: '', mobile_wallpaper: '', trusted_clients_count: '1000+k',
+    stat_1_value: '150K', stat_1_label: 'AI Solutions',
+    stat_2_value: '500K', stat_2_label: 'Vision AI',
+    stat_3_value: '250M', stat_3_label: 'Web Dev',
+    stat_4_value: '200K', stat_4_label: 'Custom'
+  })
+  const [socialData, setSocialData] = useState({ transaction_volume: '9.9M', split_values: '3.5%', reviewed_by: '100k+', social_proof: '' })
+  const [trustedClients, setTrustedClients] = useState([])
+  const [sessions, setSessions] = useState([])
+  const [contacts, setContacts] = useState([])
 
   const syncData = useCallback(async () => {
-    const cData = await apiFetch('/api/admin/users')
-    if (cData) {
-      setClients(cData)
-      if (cData.length > 0 && !selectedClientId) setSelectedClientId(cData[0].id)
+    const { data: sData } = await supabase.from('site_settings').select('*')
+    if (sData) {
+      const settings = {}
+      sData.forEach(r => settings[r.key] = r.value)
+      setSiteSettings(settings)
     }
 
-    const sData = await apiFetch('/api/settings')
-    if (sData) setSiteSettings(sData)
+    const { data: social } = await supabase.from('social_data').select('*').eq('id', 1).single()
+    if (social) setSocialData(social)
 
-    if (selectedClientId) {
-      const pData = await apiFetch(`/api/projects?user_id=${selectedClientId}`)
-      if (pData) {
-        setProjects(pData)
-        if (pData.length > 0 && !activeProjectId) setActiveProjectId(pData[0].id)
-      }
-
-      if (activeProjectId) {
-        const tData = await apiFetch(`/api/projects/${activeProjectId}/tasks`)
-        if (tData) setTasks(tData)
-      } else {
-        setTasks([])
-      }
-
-      const mData = await apiFetch(`/api/messages?user_id=${selectedClientId}`)
-      if (mData) setMessages(mData)
+    const { data: clients } = await supabase.from('trusted_clients').select('*').order('ring').order('angle')
+    if (clients && clients.length > 0) setTrustedClients(clients)
+    else {
+      setTrustedClients([
+        { id: 1, name: 'Sara', role: 'Digital Creator', ring: 'outer', angle: 0, text: 'Quick and easy account opening.' },
+        { id: 2, name: 'Jack', role: 'Software Engineer', ring: 'outer', angle: 90, text: 'Best automation tools available.' },
+        { id: 3, name: 'Oliver', role: 'Business Owner', ring: 'outer', angle: 180, text: 'Expert technical guidance.' },
+        { id: 4, name: 'Emma', role: 'Marketing Lead', ring: 'outer', angle: 270, text: 'Secure digital platforms.' }
+      ])
     }
+
+    const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001'
+    try {
+      const res = await fetch(`${API_BASE}/api/admin/sessions`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
+      if (res.ok) setSessions(await res.json())
+
+      const cRes = await fetch(`${API_BASE}/api/admin/contacts`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
+      if (cRes.ok) setContacts(await cRes.json())
+    } catch {}
+
     setLoading(false)
-  }, [selectedClientId, activeProjectId, apiFetch])
+  }, [])
 
   useEffect(() => {
     syncData()
-    const interval = setInterval(syncData, 3000)
-    return () => clearInterval(interval)
+    const channel = supabase.channel('admin_changes')
+      .on('postgres_changes', { event: '*', schema: 'public' }, () => {
+        syncData()
+      })
+      .subscribe()
+    return () => supabase.removeChannel(channel)
   }, [syncData])
 
-  useEffect(() => { chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages])
-
-  const sendReply = async (e) => {
-    e.preventDefault()
-    if (!chatInput.trim() || !selectedClientId) return
-    await apiFetch('/api/messages', { method: 'POST', body: JSON.stringify({ sender: 'Developer', text: chatInput, user_id: selectedClientId }) })
-    setChatInput('')
-    syncData()
-  }
-
-  const addTask = async (e) => {
-    e.preventDefault()
-    if (!newTaskName || !activeProjectId) return
-    await apiFetch('/api/tasks', { method: 'POST', body: JSON.stringify({ project_id: activeProjectId, name: newTaskName }) })
-    setNewTaskName('')
-    setShowAddTask(false)
-    syncData()
-  }
-
-  const approveProject = async (id) => {
-    await apiFetch(`/api/projects/${id}/status`, { method: 'PUT', body: JSON.stringify({ status: 'Active', progress: 15 }) })
-    syncData()
-  }
-
-  const updateProgress = async (id, progress) => {
-    await apiFetch(`/api/projects/${id}/status`, { method: 'PUT', body: JSON.stringify({ progress }) })
-    syncData()
-  }
-
-  const updateFinance = async (id, field, value) => {
-    await apiFetch(`/api/projects/${id}/status`, { method: 'PUT', body: JSON.stringify({ [field]: value }) })
-    syncData()
-  }
-
-  const approveTask = async (taskId) => {
-    await apiFetch(`/api/tasks/${taskId}/approve`, { method: 'PUT' })
-    syncData()
-  }
-
-  const removeTask = async (id) => {
-    await apiFetch(`/api/tasks/${id}`, { method: 'DELETE' })
-    syncData()
+  const showSuccess = () => {
+    setSaveStatus('Saved!')
+    setTimeout(() => setSaveStatus(null), 3000)
   }
 
   const updateSettings = async () => {
-    const res = await apiFetch('/api/settings', { method: 'PUT', body: JSON.stringify(siteSettings) })
-    if (res) alert('Marketing Hub Updated!')
+    const updates = Object.keys(siteSettings).map((key) => ({ key, value: siteSettings[key] }))
+    await supabase.from('site_settings').upsert(updates, { onConflict: 'key' })
+    showSuccess()
   }
 
-  const handleLogout = () => { onLogout(); navigate('/') }
+  const updateSocialData = async () => {
+    await supabase.from('social_data').upsert({ id: 1, ...socialData })
+    showSuccess()
+  }
 
-  const filteredClients = clients.filter(c => c.username.toLowerCase().includes(searchTerm.toLowerCase()))
-  const activeProject = projects.find(p => p.id === activeProjectId)
-  const selectedClient = clients.find(c => c.id === selectedClientId)
+  const updateTrustedClients = async () => {
+    for (const client of trustedClients) {
+      await supabase.from('trusted_clients').upsert(client)
+    }
+    const ids = trustedClients.map(c => c.id).filter(id => id);
+    if (ids.length > 0) {
+      await supabase.from('trusted_clients').delete().not('id', 'in', `(${ids.join(',')})`);
+    } else {
+      await supabase.from('trusted_clients').delete().neq('id', 0);
+    }
+    
+    if (siteSettings.trusted_clients_count !== undefined) {
+      const { data } = await supabase.from('site_settings').select('id').eq('key', 'trusted_clients_count').single();
+      const settingId = data ? data.id : 6;
+      await supabase.from('site_settings').upsert({ id: settingId, key: 'trusted_clients_count', value: siteSettings.trusted_clients_count }, { onConflict: 'key' })
+    }
+    
+    showSuccess()
+  }
+
+  const addNewClient = () => {
+    const maxId = Math.max(...trustedClients.map(c => c.id || 0), 0)
+    const newClient = {
+      id: maxId + 1,
+      name: 'New Client',
+      role: 'Role',
+      ring: 'outer',
+      angle: (trustedClients.filter(c => c.ring === 'outer').length) * 90,
+      text: 'Share your testimonial...'
+    }
+    setTrustedClients([...trustedClients, newClient])
+  }
+
+  const removeClient = (idx) => {
+    const updated = trustedClients.filter((_, i) => i !== idx)
+    setTrustedClients(updated)
+  }
+
+  const markContactRead = async (id) => {
+    const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001'
+    await fetch(`${API_BASE}/api/admin/contacts/${id}/read`, { 
+      method: 'PUT', 
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } 
+    })
+    syncData()
+  }
+
+  const handleLogout = () => { onLogout() }
 
   if (loading) return (
-    <div className="min-h-screen bg-white flex items-center justify-center">
-      <Cpu className="w-8 h-8 text-[#1e4b8b] animate-pulse" />
+    <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center">
+      <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }} transition={{ repeat: Infinity, duration: 1.5 }}>
+        <Database className="w-12 h-12 text-blue-600" />
+      </motion.div>
     </div>
   )
 
   const Sidebar = () => (
-    <div className="w-80 h-full bg-white border-r border-slate-100 flex flex-col p-8">
-      <div className="flex items-center justify-between lg:block mb-8">
-        <div className="flex items-center gap-3">
-          <ShieldCheck className="w-8 h-8 text-[#1e4b8b]" />
+    <div className="w-80 h-full bg-white backdrop-blur-2xl border-r border-slate-200 flex flex-col p-8 shadow-xl">
+      <div className="flex items-center justify-between lg:block mb-10">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/30">
+            <ShieldCheck className="w-6 h-6 text-white" />
+          </div>
           <div>
-            <span className="text-[#1e4b8b] font-medium text-lg tracking-tighter block leading-none">ADMIN</span>
-            <span className="text-slate-300 text-[8px] font-medium uppercase tracking-[0.4em] mt-1 block">Command Hub</span>
+            <span className="text-slate-900 font-bold text-xl tracking-tight block leading-none">Command Hub</span>
+            <span className="text-blue-600 text-[9px] font-bold uppercase tracking-[0.4em] mt-1.5 block">Admin Access</span>
           </div>
         </div>
-        <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden p-2 text-slate-400"><X className="w-6 h-6" /></button>
+        <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden p-2 text-slate-400 hover:text-slate-800"><X className="w-6 h-6" /></button>
       </div>
 
-      <div className="mb-6">
-        <div className="relative mb-4">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
-          <input type="text" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} placeholder="Search Clients..." className="w-full bg-slate-50 border border-slate-100 rounded-xl pl-9 pr-4 py-3 text-xs font-medium outline-none focus:border-[#1e4b8b] transition-all" />
-        </div>
-        <div className="flex gap-2">
-          <button onClick={() => setActiveTab('projects')} className={`flex-1 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${activeTab === 'projects' ? 'bg-[#1e4b8b] text-white shadow-lg' : 'bg-slate-50 text-slate-400 hover:bg-slate-100'}`}>Clients</button>
-          <button onClick={() => setActiveTab('marketing')} className={`flex-1 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${activeTab === 'marketing' ? 'bg-emerald-600 text-white shadow-lg' : 'bg-slate-50 text-slate-400 hover:bg-slate-100'}`}>Marketing</button>
-        </div>
+      <div className="mb-8 space-y-3">
+        <button onClick={() => setActiveTab('social')} className={`w-full text-left px-5 py-4 rounded-2xl font-bold text-[11px] uppercase tracking-widest transition-all flex items-center gap-3 ${activeTab === 'social' ? 'bg-blue-50 text-blue-600 border border-blue-200 shadow-sm' : 'bg-transparent text-slate-500 hover:bg-slate-50 hover:text-slate-800'}`}><TrendingUp size={16} /> Social Metrics</button>
+        <button onClick={() => setActiveTab('trusted')} className={`w-full text-left px-5 py-4 rounded-2xl font-bold text-[11px] uppercase tracking-widest transition-all flex items-center gap-3 ${activeTab === 'trusted' ? 'bg-pink-50 text-pink-600 border border-pink-200 shadow-sm' : 'bg-transparent text-slate-500 hover:bg-slate-50 hover:text-slate-800'}`}><Activity size={16} /> Trusted Clients</button>
+        <button onClick={() => setActiveTab('marketing')} className={`w-full text-left px-5 py-4 rounded-2xl font-bold text-[11px] uppercase tracking-widest transition-all flex items-center gap-3 ${activeTab === 'marketing' ? 'bg-emerald-50 text-emerald-600 border border-emerald-200 shadow-sm' : 'bg-transparent text-slate-500 hover:bg-slate-50 hover:text-slate-800'}`}><Target size={16} /> Marketing Assets</button>
+        <button onClick={() => setActiveTab('users')} className={`w-full text-left px-5 py-4 rounded-2xl font-bold text-[11px] uppercase tracking-widest transition-all flex items-center gap-3 ${activeTab === 'users' ? 'bg-orange-50 text-orange-600 border border-orange-200 shadow-sm' : 'bg-transparent text-slate-500 hover:bg-slate-50 hover:text-slate-800'}`}><Users size={16} /> Active Users</button>
+        <button onClick={() => setActiveTab('inquiries')} className={`w-full text-left px-5 py-4 rounded-2xl font-bold text-[11px] uppercase tracking-widest transition-all flex items-center gap-3 ${activeTab === 'inquiries' ? 'bg-purple-50 text-purple-600 border border-purple-200 shadow-sm' : 'bg-transparent text-slate-500 hover:bg-slate-50 hover:text-slate-800'}`}><Mail size={16} /> Contact Inquiries</button>
       </div>
 
-      <nav className="flex-1 overflow-y-auto space-y-6 scrollbar-hide">
-        {activeTab === 'projects' && (
-          <>
-            <div>
-              <p className="text-slate-300 text-[9px] font-medium uppercase tracking-widest mb-4 px-2">Clients ({filteredClients.length})</p>
-              {filteredClients.map(client => (
-                <button key={client.id} onClick={() => { setSelectedClientId(client.id); setActiveProjectId(null) }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all mb-1 ${selectedClientId === client.id ? 'bg-[#1e4b8b] text-white shadow-lg' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50'}`}>
-                  <User className="w-4 h-4" />
-                  <span className="text-[13px] font-medium truncate">{client.username}</span>
-                </button>
-              ))}
-            </div>
-            <div>
-              <p className="text-slate-300 text-[9px] font-medium uppercase tracking-widest mb-4 px-2">Projects</p>
-              {projects.map(project => (
-                <button key={project.id} onClick={() => setActiveProjectId(project.id)}
-                  className={`w-full text-left px-4 py-3 rounded-xl transition-all mb-1 flex items-center gap-3 ${activeProjectId === project.id ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50'}`}>
-                  <Briefcase className="w-4 h-4" />
-                  <span className="text-[12px] font-medium truncate">{project.name}</span>
-                </button>
-              ))}
-            </div>
-          </>
-        )}
-      </nav>
+      <nav className="flex-1 overflow-y-auto space-y-6 scrollbar-hide"></nav>
 
-      <div className="mt-auto pt-6 border-t border-slate-100">
-        <button onClick={handleLogout} className="flex items-center gap-3 text-slate-400 hover:text-red-500 transition-all font-medium text-xs w-full p-2">
-          <LogOut className="w-4 h-4" /><span>Sign Out</span>
+      <div className="mt-auto pt-8 border-t border-slate-100">
+        <button onClick={handleLogout} className="flex items-center gap-3 text-slate-500 hover:text-red-500 transition-all font-medium text-xs w-full p-3 rounded-xl hover:bg-red-50">
+          <LogOut className="w-4 h-4" /><span>Disconnect Session</span>
         </button>
       </div>
     </div>
   )
 
+  const TopBar = ({ title, subtitle, onSave, colorClass, btnColorClass }) => (
+    <header className="h-28 lg:h-36 border-b border-slate-200 flex items-center justify-between px-8 lg:px-14 bg-white/90 backdrop-blur-xl shrink-0 sticky top-0 z-20 shadow-sm">
+      <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
+        <h1 className={`text-3xl lg:text-4xl font-bold tracking-tight ${colorClass}`}>{title}</h1>
+        <p className="text-slate-500 text-[10px] font-bold uppercase tracking-[0.4em] mt-2">{subtitle}</p>
+      </motion.div>
+      <div className="flex items-center gap-4">
+        <AnimatePresence>
+          {saveStatus && (
+            <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} className="flex items-center gap-2 text-emerald-600 bg-emerald-50 px-4 py-2 rounded-full border border-emerald-200">
+              <CheckCircle size={14} /> <span className="text-xs font-bold uppercase tracking-wider">{saveStatus}</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={onSave} className={`${btnColorClass} text-white px-8 py-4 rounded-2xl font-bold text-xs uppercase tracking-widest shadow-lg transition-all border border-white/20 relative overflow-hidden group`}>
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+          <span className="relative z-10">Push to Live</span>
+        </motion.button>
+      </div>
+    </header>
+  )
+
   return (
-    <div className="flex h-screen bg-[#f8fafc] text-slate-600 font-outfit overflow-hidden relative">
+    <div className="flex h-screen bg-[#f8fafc] text-slate-700 font-outfit overflow-hidden relative selection:bg-blue-500/30">
+      {/* Background Gradients */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-500/10 blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-500/10 blur-[120px]" />
+      </div>
+
       {/* Mobile Header */}
-      <div className="lg:hidden absolute top-0 left-0 right-0 h-20 bg-white border-b border-slate-100 flex items-center justify-between px-6 z-30">
+      <div className="lg:hidden absolute top-0 left-0 right-0 h-20 bg-white/90 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-6 z-30 shadow-sm">
         <div className="flex items-center gap-3">
-          <ShieldCheck className="w-6 h-6 text-[#1e4b8b]" />
-          <span className="text-[#1e4b8b] font-medium text-xl">Command</span>
+          <ShieldCheck className="w-6 h-6 text-blue-600" />
+          <span className="text-slate-900 font-medium text-xl">Command</span>
         </div>
-        <button onClick={() => setIsSidebarOpen(true)} className="p-2 text-slate-400"><Menu className="w-6 h-6" /></button>
+        <button onClick={() => setIsSidebarOpen(true)} className="p-2 text-slate-500"><Menu className="w-6 h-6" /></button>
       </div>
 
       {/* Sidebar */}
-      <div className="hidden lg:block"><Sidebar /></div>
+      <div className="hidden lg:block z-10 relative"><Sidebar /></div>
       <AnimatePresence>
         {isSidebarOpen && (
-          <motion.div initial={{ x: -300 }} animate={{ x: 0 }} exit={{ x: -300 }} className="fixed left-0 top-0 z-40 h-full shadow-xl">
+          <motion.div initial={{ x: -300 }} animate={{ x: 0 }} exit={{ x: -300 }} className="fixed left-0 top-0 z-40 h-full">
             <Sidebar />
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden pt-20 lg:pt-0">
-        {activeTab === 'projects' ? (
-          <>
-            <header className="min-h-[100px] lg:h-28 border-b border-slate-100 flex flex-col lg:flex-row items-center justify-between px-6 lg:px-12 py-4 lg:py-0 bg-white gap-4">
-              <div>
-                <div className="flex items-center gap-4 mb-1">
-                  <h1 className="text-[#1e4b8b] text-2xl lg:text-3xl font-medium tracking-tighter uppercase">{activeProject?.name || 'No Project Selected'}</h1>
-                  {activeProject && (
-                    <span className={`text-[8px] font-medium px-2 py-1 rounded-md uppercase tracking-widest border ${activeProject.status === 'Active' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-amber-50 text-amber-600 border-amber-100'}`}>{activeProject.status}</span>
+      <div className="flex-1 flex flex-col overflow-hidden pt-20 lg:pt-0 relative z-10">
+        <AnimatePresence mode="wait">
+          {activeTab === 'social' && (
+            <motion.div key="social" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="flex-1 flex flex-col overflow-hidden">
+              <TopBar title="Social Data Hub" subtitle="Live hero section metrics" onSave={updateSocialData} colorClass="text-blue-600" btnColorClass="bg-gradient-to-r from-blue-600 to-indigo-600" />
+              <div className="flex-1 overflow-y-auto p-6 lg:p-12 custom-scrollbar">
+                <div className="max-w-5xl mx-auto space-y-8">
+                  <div className="bg-white rounded-[32px] p-10 border border-slate-200 shadow-xl relative overflow-hidden group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                    <h3 className="text-slate-900 font-bold text-xl mb-8 flex items-center gap-3"><TrendingUp className="w-5 h-5 text-blue-600" /> Performance Metrics</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                      <div className="space-y-8">
+                        <div>
+                          <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-blue-600 block mb-3">Daily Transaction Volume</label>
+                          <input type="text" value={socialData.transaction_volume || ''} onChange={e => setSocialData({ ...socialData, transaction_volume: e.target.value })} className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-slate-900 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none" />
+                        </div>
+                        <div>
+                          <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-blue-600 block mb-3">Growth / Split Values</label>
+                          <input type="text" value={socialData.split_values || ''} onChange={e => setSocialData({ ...socialData, split_values: e.target.value })} className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-slate-900 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none" />
+                        </div>
+                      </div>
+                      <div className="space-y-8">
+                        <div>
+                          <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-blue-600 block mb-3">Reviewed By Text</label>
+                          <input type="text" value={socialData.reviewed_by || ''} onChange={e => setSocialData({ ...socialData, reviewed_by: e.target.value })} className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-slate-900 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none" />
+                        </div>
+                        <div>
+                          <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-blue-600 block mb-3">Social Proof Quote</label>
+                          <textarea rows="3" value={socialData.social_proof || ''} onChange={e => setSocialData({ ...socialData, social_proof: e.target.value })} className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-slate-900 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none resize-none" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Live Preview Pane */}
+                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-[32px] p-10 border border-blue-100 shadow-inner">
+                    <h3 className="text-slate-900 font-bold text-lg mb-8 flex items-center gap-2"><Database className="w-4 h-4 text-blue-600" /> Live Synchronized View</h3>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+                      <div className="text-left bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                        <p className="text-blue-600 text-[10px] font-bold uppercase tracking-widest mb-3">Transactions</p>
+                        <p className="text-5xl font-outfit font-bold text-slate-900 tracking-tighter drop-shadow-sm">{socialData.transaction_volume}</p>
+                      </div>
+                      <div className="text-left bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                        <p className="text-blue-600 text-[10px] font-bold uppercase tracking-widest mb-3">Growth Rate</p>
+                        <p className="text-5xl font-outfit font-bold text-slate-900 tracking-tighter drop-shadow-sm">{socialData.split_values}</p>
+                      </div>
+                      <div className="text-left bg-white p-6 rounded-2xl border border-slate-200 shadow-sm col-span-2 md:col-span-1">
+                        <p className="text-blue-600 text-[10px] font-bold uppercase tracking-widest mb-3">Reviews</p>
+                        <p className="text-5xl font-outfit font-bold text-slate-900 tracking-tighter drop-shadow-sm">{socialData.reviewed_by}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {activeTab === 'trusted' && (
+            <motion.div key="trusted" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="flex-1 flex flex-col overflow-hidden">
+              <TopBar title="Client Roster" subtitle="Manage orbit testimonials" onSave={updateTrustedClients} colorClass="text-pink-600" btnColorClass="bg-gradient-to-r from-pink-600 to-rose-600" />
+              <div className="px-8 lg:px-14 py-6 border-b border-slate-200 bg-white flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <button onClick={addNewClient} className="bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-800 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all flex items-center gap-2"><Plus size={16} /> Mint New Client Node</button>
+                <div className="flex items-center gap-4 bg-slate-50 p-2 pl-4 rounded-xl border border-slate-200">
+                  <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-pink-600">Total Clients Count</label>
+                  <input type="text" value={siteSettings.trusted_clients_count || '1000+k'} onChange={e => setSiteSettings({ ...siteSettings, trusted_clients_count: e.target.value })} className="w-28 bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm font-bold text-slate-900 focus:border-pink-500 focus:ring-4 focus:ring-pink-500/10 transition-all outline-none text-center" />
+                </div>
+              </div>
+              <div className="flex-1 overflow-y-auto p-6 lg:p-12 custom-scrollbar">
+                <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <AnimatePresence>
+                    {trustedClients.map((client, idx) => (
+                      <motion.div key={client.id || idx} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} className="bg-white rounded-[24px] p-8 border border-slate-200 shadow-xl relative group">
+                        <button onClick={() => removeClient(idx)} className="absolute top-5 right-5 bg-red-50 text-red-500 hover:bg-red-500 hover:text-white p-2.5 rounded-xl transition-all opacity-0 group-hover:opacity-100"><X size={16} /></button>
+                        
+                        <div className="flex items-center gap-6 mb-8">
+                          <div className="w-16 h-16 rounded-full bg-slate-100 border-2 border-pink-500/20 overflow-hidden shrink-0 shadow-sm">
+                            <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${client.name}`} alt="avatar" className="w-full h-full object-cover" />
+                          </div>
+                          <div className="flex-1">
+                            <input type="text" value={client.name || ''} onChange={e => { const updated = [...trustedClients]; updated[idx] = { ...updated[idx], name: e.target.value }; setTrustedClients(updated); }} className="w-full bg-transparent border-none text-2xl font-bold text-slate-900 placeholder-slate-300 focus:ring-0 outline-none mb-1" placeholder="Client Name" />
+                            <input type="text" value={client.role || ''} onChange={e => { const updated = [...trustedClients]; updated[idx] = { ...updated[idx], role: e.target.value }; setTrustedClients(updated); }} className="w-full bg-transparent border-none text-xs uppercase tracking-widest text-pink-600 placeholder-pink-300 focus:ring-0 outline-none" placeholder="Role / Position" />
+                          </div>
+                        </div>
+
+                        <div className="space-y-5">
+                          <div className="flex gap-4">
+                            <div className="flex-1">
+                              <label className="text-[9px] font-bold uppercase tracking-widest text-slate-500 block mb-2">Orbit Ring</label>
+                              <select value={client.ring || 'outer'} onChange={e => { const updated = [...trustedClients]; updated[idx] = { ...updated[idx], ring: e.target.value }; setTrustedClients(updated); }} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 outline-none focus:border-pink-500 focus:ring-4 focus:ring-pink-500/10 appearance-none">
+                                <option value="outer">Outer Orbit</option>
+                                <option value="middle">Middle Orbit</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div>
+                            <label className="text-[9px] font-bold uppercase tracking-widest text-slate-500 block mb-2">Testimonial Quote</label>
+                            <textarea rows="2" value={client.text || ''} onChange={e => { const updated = [...trustedClients]; updated[idx] = { ...updated[idx], text: e.target.value }; setTrustedClients(updated); }} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 outline-none focus:border-pink-500 focus:ring-4 focus:ring-pink-500/10 resize-none italic" placeholder="Enter quote..." />
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {activeTab === 'marketing' && (
+            <motion.div key="marketing" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="flex-1 flex flex-col overflow-hidden">
+              <TopBar title="Digital Assets" subtitle="Manage static content" onSave={updateSettings} colorClass="text-emerald-600" btnColorClass="bg-gradient-to-r from-emerald-600 to-teal-600" />
+              <div className="flex-1 overflow-y-auto p-6 lg:p-12 custom-scrollbar">
+                <div className="max-w-4xl mx-auto space-y-8">
+                  <div className="bg-white rounded-[32px] p-10 border border-slate-200 shadow-xl">
+                    <h3 className="text-slate-900 font-bold text-xl mb-8 flex items-center gap-3"><Target className="w-5 h-5 text-emerald-600" /> Download App Section</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                      <div className="space-y-6">
+                        {[['Section Title', 'download_title'], ['Subtitle', 'download_subtitle']].map(([label, key]) => (
+                          <div key={key}>
+                            <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-600 block mb-3">{label}</label>
+                            <input type="text" value={siteSettings[key] || ''} onChange={e => setSiteSettings({ ...siteSettings, [key]: e.target.value })} className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-slate-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition-all outline-none" />
+                          </div>
+                        ))}
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-600 block mb-3">Description</label>
+                        <textarea rows="6" value={siteSettings.download_desc || ''} onChange={e => setSiteSettings({ ...siteSettings, download_desc: e.target.value })} className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-slate-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition-all outline-none resize-none" />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-10 pt-10 border-t border-slate-200">
+                      {[['QR Code URL', 'qr_url'], ['Mobile UI Image URL', 'mobile_wallpaper']].map(([label, key]) => (
+                        <div key={key}>
+                          <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-600 block mb-3">{label}</label>
+                          <input type="text" value={siteSettings[key] || ''} onChange={e => setSiteSettings({ ...siteSettings, [key]: e.target.value })} className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-[13px] font-mono text-slate-600 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition-all outline-none" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-[32px] p-10 border border-slate-200 shadow-xl">
+                    <h3 className="text-slate-900 font-bold text-xl mb-8 flex items-center gap-3"><TrendingUp className="w-5 h-5 text-emerald-600" /> Global Statistics Section</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                      {[1, 2, 3, 4].map(num => (
+                        <div key={num} className="space-y-4 bg-slate-50 p-5 rounded-2xl border border-slate-200">
+                          <div>
+                            <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-600 block mb-2">Stat {num} Value</label>
+                            <input type="text" value={siteSettings[`stat_${num}_value`] || ''} onChange={e => setSiteSettings({ ...siteSettings, [`stat_${num}_value`]: e.target.value })} className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none" />
+                          </div>
+                          <div>
+                            <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-600 block mb-2">Stat {num} Label</label>
+                            <input type="text" value={siteSettings[`stat_${num}_label`] || ''} onChange={e => setSiteSettings({ ...siteSettings, [`stat_${num}_label`]: e.target.value })} className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none" />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {activeTab === 'users' && (
+            <motion.div key="users" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="flex-1 flex flex-col overflow-hidden bg-white text-slate-900 z-20">
+              <TopBar title="Active User Sessions" subtitle="Real-time tracking of user activity" onSave={syncData} colorClass="text-orange-600" btnColorClass="bg-gradient-to-r from-orange-500 to-red-500" />
+              <div className="flex-1 overflow-y-auto p-6 lg:p-14 custom-scrollbar bg-[#f8fafc]">
+                <div className="max-w-5xl mx-auto">
+                  <div className="bg-white border border-slate-200 shadow-xl rounded-2xl overflow-hidden">
+                    <table className="w-full text-left">
+                      <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 text-xs uppercase tracking-widest font-bold">
+                        <tr>
+                          <th className="px-6 py-5">User</th>
+                          <th className="px-6 py-5">Status</th>
+                          <th className="px-6 py-5">Login Time</th>
+                          <th className="px-6 py-5">Duration</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100">
+                        {sessions.map(s => {
+                          const login = new Date(s.first_seen + 'Z')
+                          const lastSeen = new Date(s.last_seen + 'Z')
+                          const isOnline = s.is_active === 1
+                          const diffMinutes = Math.max(0, Math.floor((lastSeen - login) / 60000))
+                          
+                          return (
+                            <tr key={s.id} className="hover:bg-slate-50 transition-colors">
+                              <td className="px-6 py-5 font-bold text-slate-800">
+                                {s.username === 'Anonymous' ? <span className="text-slate-400 italic">Guest Visitor</span> : s.username}
+                              </td>
+                              <td className="px-6 py-5">
+                                {isOnline ? (
+                                  <span className="inline-flex items-center gap-2 text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"><span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Active</span>
+                                ) : (
+                                  <span className="inline-flex items-center gap-2 text-slate-500 bg-slate-100 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"><span className="w-2 h-2 rounded-full bg-slate-400"></span> Offline</span>
+                                )}
+                              </td>
+                              <td className="px-6 py-5 text-slate-600 text-sm font-medium">{login.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</td>
+                              <td className="px-6 py-5 text-slate-600 text-sm font-medium flex items-center gap-2"><Clock size={16} className="text-slate-400" /> {diffMinutes} mins</td>
+                            </tr>
+                          )
+                        })}
+                        {sessions.length === 0 && (
+                          <tr><td colSpan="4" className="text-center py-10 text-slate-500 font-medium">No sessions found.</td></tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {activeTab === 'inquiries' && (
+            <motion.div key="inquiries" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="flex-1 flex flex-col overflow-hidden bg-[#f8fafc] z-20">
+              <TopBar title="Contact Inquiries" subtitle="Manage user consultation requests" onSave={syncData} colorClass="text-purple-600" btnColorClass="bg-gradient-to-r from-purple-600 to-fuchsia-600" />
+              <div className="flex-1 overflow-y-auto p-6 lg:p-14 custom-scrollbar">
+                <div className="max-w-6xl mx-auto space-y-6">
+                  {contacts.map(contact => (
+                    <div key={contact.id} className={`p-8 rounded-[24px] border transition-all shadow-sm ${contact.is_read ? 'bg-white border-slate-200' : 'bg-purple-50 border-purple-200 shadow-md shadow-purple-500/5'}`}>
+                      <div className="flex justify-between items-start mb-6">
+                        <div>
+                          <h3 className="text-xl font-bold text-slate-900 flex items-center gap-3">
+                            {contact.name}
+                            {!contact.is_read && <span className="text-[9px] bg-purple-600 text-white px-2 py-1 rounded-full uppercase tracking-widest animate-pulse">New</span>}
+                          </h3>
+                          <p className="text-purple-600 text-sm mt-1">{contact.email}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-slate-500 text-xs font-medium">{new Date(contact.timestamp + 'Z').toLocaleString()}</p>
+                          {!contact.is_read && (
+                            <button onClick={() => markContactRead(contact.id)} className="mt-3 text-[10px] text-purple-600 border border-purple-200 hover:bg-purple-100 px-4 py-2 rounded-lg uppercase tracking-widest font-bold transition-all bg-white shadow-sm">Mark as Read</button>
+                          )}
+                        </div>
+                      </div>
+                      <div className="bg-white p-6 rounded-xl border border-slate-200 text-slate-700 text-sm leading-relaxed shadow-inner">
+                        {contact.message}
+                      </div>
+                    </div>
+                  ))}
+                  {contacts.length === 0 && (
+                    <div className="text-center py-20 text-slate-500 font-bold uppercase tracking-widest">No inquiries found.</div>
                   )}
                 </div>
-                <p className="text-slate-300 text-[10px] font-medium uppercase tracking-[0.4em]">Client: {selectedClient?.username || 'None'}</p>
               </div>
-              {activeProject && (
-                <div className="flex flex-col items-end gap-2">
-                  <div className="flex items-center gap-2">
-                    <TrendingUp className="w-4 h-4 text-emerald-500" />
-                    <span className="text-[#1e4b8b] font-medium text-xl">{activeProject.progress}%</span>
-                    <div className="flex gap-1 ml-2">
-                      {[0, 25, 50, 75, 100].map(v => (
-                        <button key={v} onClick={() => updateProgress(activeProject.id, v)} className={`text-[9px] px-2 py-1 rounded-md border font-bold transition-all ${activeProject.progress === v ? 'bg-[#1e4b8b] text-white border-[#1e4b8b]' : 'border-slate-100 text-slate-400 hover:border-[#1e4b8b]'}`}>{v}%</button>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="w-48 h-1 bg-slate-50 rounded-full overflow-hidden border border-slate-100">
-                    <motion.div initial={{ width: 0 }} animate={{ width: `${activeProject.progress}%` }} className="h-full bg-emerald-500 rounded-full" />
-                  </div>
-                </div>
-              )}
-            </header>
-
-            <div className="flex-1 p-6 lg:p-12 overflow-y-auto grid grid-cols-1 xl:grid-cols-3 gap-8 custom-scrollbar bg-slate-50/30">
-              {activeProject ? (
-                <>
-                  <div className="xl:col-span-2 space-y-8">
-                    {/* Finance Controls */}
-                    <div className="bg-white border border-slate-100 rounded-[32px] p-8 shadow-sm">
-                      <h3 className="text-sm font-bold uppercase tracking-widest text-[#1e4b8b] mb-6 flex items-center gap-3"><Activity className="w-4 h-4" /> Finance & Contract</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                          <p className="text-[9px] font-bold uppercase tracking-widest text-slate-300 mb-2">Payment</p>
-                          <div className="flex gap-2">
-                            {['Unpaid', 'Paid'].map(v => (
-                              <button key={v} onClick={() => updateFinance(activeProject.id, 'payment_status', v)} className={`flex-1 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest border transition-all ${activeProject.payment_status === v ? 'bg-emerald-600 text-white border-emerald-600' : 'border-slate-100 text-slate-400 hover:border-emerald-200'}`}>{v}</button>
-                            ))}
-                          </div>
-                        </div>
-                        <div>
-                          <p className="text-[9px] font-bold uppercase tracking-widest text-slate-300 mb-2">Contract</p>
-                          <div className="flex gap-2">
-                            {['Pending', 'Signed'].map(v => (
-                              <button key={v} onClick={() => updateFinance(activeProject.id, 'contract_status', v)} className={`flex-1 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest border transition-all ${activeProject.contract_status === v ? 'bg-[#1e4b8b] text-white border-[#1e4b8b]' : 'border-slate-100 text-slate-400 hover:border-blue-200'}`}>{v}</button>
-                            ))}
-                          </div>
-                        </div>
-                        <div>
-                          <p className="text-[9px] font-bold uppercase tracking-widest text-slate-300 mb-2">Project Status</p>
-                          <div className="flex gap-2">
-                            {['Pending Approval', 'Active'].map(v => (
-                              <button key={v} onClick={() => updateFinance(activeProject.id, 'status', v)} className={`flex-1 py-2 rounded-xl text-[9px] font-bold uppercase tracking-widest border transition-all ${activeProject.status === v ? 'bg-amber-500 text-white border-amber-500' : 'border-slate-100 text-slate-400 hover:border-amber-200'}`}>{v === 'Pending Approval' ? 'Pending' : v}</button>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Task Control */}
-                    <div className="bg-white border border-slate-100 rounded-[32px] p-8 shadow-sm">
-                      <div className="flex items-center justify-between mb-8">
-                        <h3 className="text-lg font-medium uppercase tracking-tighter flex items-center gap-4 text-[#1e4b8b]"><Activity className="w-5 h-5" /> Module Control</h3>
-                        <button onClick={() => setShowAddTask(!showAddTask)} className="flex items-center gap-2 bg-[#1e4b8b] text-white px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-blue-700 transition-all">
-                          <Plus className="w-4 h-4" /> Add Task
-                        </button>
-                      </div>
-
-                      <AnimatePresence>
-                        {showAddTask && (
-                          <motion.form initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} onSubmit={addTask} className="flex gap-3 mb-6 overflow-hidden">
-                            <input value={newTaskName} onChange={e => setNewTaskName(e.target.value)} placeholder="Task name..." className="flex-1 bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#1e4b8b] transition-all" />
-                            <button type="submit" className="bg-[#1e4b8b] text-white px-6 rounded-xl text-xs font-bold uppercase">Add</button>
-                          </motion.form>
-                        )}
-                      </AnimatePresence>
-
-                      <div className="space-y-4">
-                        {tasks.map(task => (
-                          <div key={task.id} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                            <div className="flex items-center gap-4">
-                              {task.approved ? <CheckCircle className="w-5 h-5 text-emerald-500" /> : <Clock className="w-5 h-5 text-amber-400" />}
-                              <div>
-                                <span className={`text-sm font-medium ${task.approved ? 'text-slate-400 line-through' : 'text-slate-700'}`}>{task.name}</span>
-                                {task.is_requested === 1 && <span className="ml-2 text-[9px] bg-blue-50 text-blue-500 px-2 py-0.5 rounded-full border border-blue-100 font-bold uppercase">Client Request</span>}
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              {!task.approved && <button onClick={() => approveTask(task.id)} className="p-2 text-emerald-600 hover:bg-emerald-100 rounded-lg transition-all"><CheckCircle className="w-4 h-4" /></button>}
-                              <button onClick={() => removeTask(task.id)} className="p-2 text-red-400 hover:bg-red-50 rounded-lg transition-all"><X className="w-4 h-4" /></button>
-                            </div>
-                          </div>
-                        ))}
-                        {tasks.length === 0 && <p className="text-center text-slate-300 text-sm py-8">No tasks. Add one above.</p>}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Chat */}
-                  <div className="space-y-8">
-                    <div className="bg-white border border-slate-100 rounded-[32px] p-8 shadow-sm h-[580px] flex flex-col">
-                      <h3 className="text-sm font-bold uppercase tracking-widest text-[#1e4b8b] mb-6">Client Chat — {selectedClient?.username}</h3>
-                      <div className="flex-1 overflow-y-auto space-y-3 mb-6 custom-scrollbar pr-2">
-                        {messages.map((m, i) => (
-                          <div key={i} className={`p-3 rounded-xl text-xs ${m.sender === 'Developer' ? 'bg-blue-50 text-blue-700 ml-4' : 'bg-slate-50 text-slate-600 mr-4'}`}>
-                            <p className="font-medium">{m.sender}</p>
-                            <p className="mt-0.5">{m.text}</p>
-                            <p className="text-[9px] opacity-40 mt-1">{new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-                          </div>
-                        ))}
-                        {messages.length === 0 && <p className="text-center text-slate-300 text-xs py-8">No messages yet.</p>}
-                        <div ref={chatEndRef} />
-                      </div>
-                      <form onSubmit={sendReply} className="flex gap-2">
-                        <input type="text" value={chatInput} onChange={e => setChatInput(e.target.value)} className="flex-1 bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-xs outline-none" placeholder="Reply to client..." />
-                        <button type="submit" className="bg-[#1e4b8b] text-white p-2 rounded-xl"><Send className="w-4 h-4" /></button>
-                      </form>
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <div className="col-span-full h-full flex flex-col items-center justify-center text-center p-20 bg-white/50 border border-dashed border-slate-200 rounded-[40px]">
-                  <Briefcase className="w-12 h-12 text-slate-200 mb-6" />
-                  <p className="text-slate-400 font-medium">Select a client and project from the sidebar.</p>
-                </div>
-              )}
-            </div>
-          </>
-        ) : (
-          <div className="flex-1 flex flex-col bg-slate-50 overflow-hidden">
-            <header className="h-24 lg:h-32 border-b border-slate-100 flex items-center justify-between px-6 lg:px-12 bg-white shrink-0">
-              <div>
-                <h1 className="text-emerald-600 text-2xl lg:text-3xl font-medium tracking-tighter uppercase">Marketing Hub</h1>
-                <p className="text-slate-300 text-[9px] font-medium uppercase tracking-[0.4em] mt-1">Manage public assets</p>
-              </div>
-              <button onClick={updateSettings} className="bg-emerald-600 text-white px-8 py-4 rounded-2xl font-bold text-xs uppercase tracking-widest shadow-xl hover:scale-105 transition-all">Save Settings</button>
-            </header>
-            <div className="flex-1 overflow-y-auto p-6 lg:p-12 custom-scrollbar">
-              <div className="max-w-4xl mx-auto space-y-8">
-                <div className="bg-white rounded-[32px] p-10 border border-slate-100 shadow-sm">
-                  <h3 className="text-[#1e4b8b] font-bold text-lg mb-8 flex items-center gap-3"><Target className="w-5 h-5" /> Download Section</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="space-y-6">
-                      {[['Section Title', 'download_title'], ['Subtitle', 'download_subtitle']].map(([label, key]) => (
-                        <div key={key}>
-                          <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 block mb-2">{label}</label>
-                          <input type="text" value={siteSettings[key] || ''} onChange={e => setSiteSettings({ ...siteSettings, [key]: e.target.value })} className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 text-sm focus:border-emerald-500 transition-all outline-none" />
-                        </div>
-                      ))}
-                    </div>
-                    <div>
-                      <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 block mb-2">Description</label>
-                      <textarea rows="5" value={siteSettings.download_desc || ''} onChange={e => setSiteSettings({ ...siteSettings, download_desc: e.target.value })} className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 text-sm focus:border-emerald-500 transition-all outline-none resize-none" />
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 pt-8 border-t border-slate-50">
-                    {[['QR Code URL', 'qr_url'], ['Mobile UI Image URL', 'mobile_wallpaper']].map(([label, key]) => (
-                      <div key={key}>
-                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 block mb-2">{label}</label>
-                        <input type="text" value={siteSettings[key] || ''} onChange={e => setSiteSettings({ ...siteSettings, [key]: e.target.value })} className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 text-xs font-mono focus:border-emerald-500 transition-all outline-none" />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       <style>{`
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.05); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.2); }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
       `}</style>
     </div>

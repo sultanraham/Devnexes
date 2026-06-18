@@ -11,7 +11,6 @@ import DownloadSection from './components/DownloadSection'
 import FAQSection from './components/FAQSection'
 import CustomerSupport from './components/CustomerSupport'
 import ContactSection from './components/ContactSection'
-import ProjectsPage from './components/ProjectsPage'
 import AdminPortal from './components/AdminPortal'
 import AboutPage from './components/AboutPage'
 import PortfolioPage from './components/PortfolioPage'
@@ -23,7 +22,7 @@ const Home = ({ t, onLogin, user }) => (
   <>
     <Hero t={t.hero} />
     <Features t={t.features} />
-    <div id="login-section"><LoginSection t={t.login} onLogin={onLogin} /></div>
+    {!user && <div id="login-section"><LoginSection t={t.login} onLogin={onLogin} /></div>}
     <DigitalGrowth t={t.growth} />
     <TrustedClients t={t.clients} />
     <VideoSection t={t.features} />
@@ -54,8 +53,14 @@ const Layout = ({ currentLang, setCurrentLang, t }) => {
     try {
       const saved = localStorage.getItem('user')
       if (!saved || saved === 'undefined') return null
-      return JSON.parse(saved)
-    } catch { return null }
+      const parsed = JSON.parse(saved)
+      // Basic sanity check to prevent poisoned localStorage from crashing the app
+      if (!parsed || typeof parsed !== 'object' || !parsed.id || !parsed.username) return null
+      return parsed
+    } catch { 
+      localStorage.removeItem('user')
+      return null 
+    }
   })
 
   useEffect(() => {
@@ -64,6 +69,32 @@ const Layout = ({ currentLang, setCurrentLang, t }) => {
       if (el) el.scrollIntoView({ behavior: 'smooth' })
     }
   }, [location])
+
+  // Session Heartbeat for ALL Visitors
+  useEffect(() => {
+    let visitorId = localStorage.getItem('visitor_id')
+    if (!visitorId || !/^[a-zA-Z0-9_-]{8,128}$/.test(visitorId)) {
+      // Use crypto.randomUUID if available (more secure than Math.random)
+      visitorId = typeof crypto !== 'undefined' && crypto.randomUUID
+        ? 'g_' + crypto.randomUUID().replace(/-/g, '').slice(0, 20)
+        : 'guest_' + Math.random().toString(36).slice(2, 11)
+      localStorage.setItem('visitor_id', visitorId)
+    }
+
+    const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001'
+    const sendHeartbeat = () => {
+      const username = user ? user.username : 'Anonymous'
+      fetch(`${API_BASE}/api/session/heartbeat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ visitor_id: visitorId, username })
+      }).catch(err => console.error('Heartbeat failed:', err))
+    }
+    
+    sendHeartbeat() // Send immediately on load
+    const interval = setInterval(sendHeartbeat, 60000) // Every 1 minute
+    return () => clearInterval(interval)
+  }, [user])
 
   const login = (userData, token) => {
     setUser(userData)
@@ -77,7 +108,7 @@ const Layout = ({ currentLang, setCurrentLang, t }) => {
     localStorage.removeItem('token')
   }
 
-  const isFullPage = ['/contact', '/projects', '/admin', '/about', '/portfolio', '/policy'].includes(location.pathname)
+  const isFullPage = ['/contact', '/admin', '/about', '/portfolio', '/policy'].includes(location.pathname)
 
   return (
     <main className="w-full min-h-screen bg-[#1e4b8b] text-white overflow-x-hidden font-sans">
@@ -85,14 +116,6 @@ const Layout = ({ currentLang, setCurrentLang, t }) => {
       <Routes>
         <Route path="/" element={<Home t={t} onLogin={login} user={user} />} />
         <Route path="/contact" element={<ContactSection t={t.hero} />} />
-        <Route
-          path="/projects"
-          element={
-            <ProtectedRoute user={user}>
-              <ProjectsPage t={t.hero} onLogout={logout} user={user} />
-            </ProtectedRoute>
-          }
-        />
         <Route
           path="/admin"
           element={

@@ -1,13 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { Mail, Phone, ArrowLeft, ChevronDown, Shield, ArrowRight } from 'lucide-react'
 import Footer from './Footer'
 
+// Client-side sanitizer — strips HTML tags, normalizes whitespace
+const sanitize = (str, maxLen = 500) =>
+  (str || '').toString().trim().replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').slice(0, maxLen)
+
 const ContactSection = ({ t }) => {
   const navigate = useNavigate()
   const [formData, setFormData] = useState({ name: '', email: '', type: '', message: '' })
-  const [status, setStatus] = useState(null) // 'sending' | 'success' | 'error'
+  const [status, setStatus] = useState(null) // 'sending' | 'success' | 'error' | 'bot'
+  const [honeypot, setHoneypot] = useState('')    // Bot trap — must stay empty
+  const formLoadTime = useRef(Date.now())          // Track how long form was on screen
 
   if (!t) return null
 
@@ -15,15 +21,36 @@ const ContactSection = ({ t }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    // ── Bot detection ──────────────────────────────────────────
+    // 1. Honeypot: real users never fill a hidden field
+    if (honeypot !== '') { setStatus('bot'); return }
+    // 2. Timing: bots submit instantly; real users take > 2 seconds
+    const elapsed = Date.now() - formLoadTime.current
+    if (elapsed < 2000) { setStatus('bot'); return }
+
+    // ── Client-side sanitize (defense-in-depth; server also sanitizes) ──
+    const safeData = {
+      name:    sanitize(formData.name, 100),
+      email:   sanitize(formData.email, 100),
+      message: sanitize(formData.message, 2000),
+    }
+
+    // ── Basic validation ───────────────────────────────────────
+    if (!safeData.name || safeData.name.length < 2) { setStatus('error'); return }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(safeData.email)) { setStatus('error'); return }
+    if (!safeData.message || safeData.message.length < 5) { setStatus('error'); return }
+
     setStatus('sending')
     const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001'
     try {
       const res = await fetch(`${API_BASE}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: formData.name, email: formData.email, type: formData.type, message: formData.message })
+        body: JSON.stringify(safeData)
       })
       const data = await res.json()
+      if (res.status === 429) { setStatus('rate_limited'); return }
       setStatus(data.success ? 'success' : 'error')
       if (data.success) setFormData({ name: '', email: '', type: '', message: '' })
     } catch {
@@ -54,106 +81,106 @@ const ContactSection = ({ t }) => {
         <div className="container mx-auto px-6 relative z-10 max-w-7xl">
           <div className="flex flex-col lg:flex-row gap-12 xl:gap-24 items-center">
 
-            <div className="w-full lg:w-5/12 flex flex-col gap-5">
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-                <h1 className="text-gray-900 text-3xl md:text-5xl font-bold font-outfit tracking-tighter leading-none mb-4">Let's Connect.</h1>
-                <p className="text-gray-500 text-[13px] md:text-[14px] font-outfit uppercase tracking-[0.3em]">Excellence in AI Integration</p>
+            <div className="w-full lg:w-5/12 flex flex-col gap-6">
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
+                <h1 className="text-[#0a192f] text-4xl md:text-6xl font-black font-outfit tracking-tight leading-tight mb-4">Let's Connect.</h1>
+                <p className="text-blue-600 text-sm md:text-base font-bold font-outfit uppercase tracking-[0.2em]">Excellence in AI Integration</p>
               </motion.div>
 
-              {[
-                { icon: <Mail size={16} />, label: 'Direct Email', val: 'devnexes.support@gmail.com', desc: 'Response within 2 hours.' },
-                { icon: <Phone size={16} />, label: 'Phone & WhatsApp', val: '+92 303 0111550', desc: 'Mon-Fri 9am to 6pm PKT.' },
-                { icon: <Shield size={16} />, label: 'Security', val: 'AES-256 Encrypted', desc: 'Your data is safe with us.' }
-              ].map((item, i) => (
-                <motion.div
-                  key={i} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.2 + i * 0.1 }}
-                  className="group flex items-start gap-5 p-2 transition-all cursor-default"
-                >
-                  <div className="w-10 h-10 shrink-0 flex items-center justify-center border border-blue-100 bg-white group-hover:bg-blue-50 transition-colors">
-                    {item.icon}
-                  </div>
-                  <div>
-                    <p className="text-gray-400 text-[9px] font-bold uppercase tracking-widest mb-1">{item.label}</p>
-                    <h4 className="text-gray-900 font-bold font-outfit text-[15px]">{item.val}</h4>
-                    <p className="text-gray-400 text-[11px] font-outfit mt-0.5">{item.desc}</p>
-                  </div>
-                </motion.div>
-              ))}
+              <div className="space-y-6">
+                {[
+                  { icon: <Mail size={20} className="text-blue-600" />, label: 'Direct Email', val: 'devnexes.support@gmail.com', desc: 'Response within 2 hours.' },
+                  { icon: <Phone size={20} className="text-blue-600" />, label: 'Phone & WhatsApp', val: '+92 303 0111550', desc: 'Mon-Fri 9am to 6pm PKT.' },
+                  { icon: <Shield size={20} className="text-blue-600" />, label: 'Security', val: 'AES-256 Encrypted', desc: 'Your data is safe with us.' }
+                ].map((item, i) => (
+                  <motion.div
+                    key={i} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 + i * 0.1 }}
+                    className="group flex items-start gap-5 p-4 rounded-2xl hover:bg-white hover:shadow-lg transition-all duration-300 cursor-default border border-transparent hover:border-blue-100"
+                  >
+                    <div className="w-14 h-14 shrink-0 flex items-center justify-center rounded-2xl bg-blue-50 group-hover:bg-blue-100 transition-colors shadow-inner">
+                      {item.icon}
+                    </div>
+                    <div className="flex flex-col justify-center">
+                      <p className="text-blue-500 text-[10px] font-bold uppercase tracking-widest mb-1.5">{item.label}</p>
+                      <h4 className="text-[#0a192f] font-bold font-outfit text-lg leading-none mb-1.5">{item.val}</h4>
+                      <p className="text-slate-500 text-xs font-medium">{item.desc}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </div>
 
             <div className="w-full lg:w-7/12 relative">
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
                 transition={{ type: 'spring', stiffness: 100, delay: 0.3 }}
-                className="bg-white/40 backdrop-blur-lg p-8 md:p-14 shadow-[0_50px_100px_rgba(30,58,138,0.05)] rounded-none relative overflow-hidden"
+                className="bg-white p-8 md:p-14 shadow-2xl shadow-blue-900/10 rounded-[40px] border border-blue-50 relative overflow-hidden"
               >
+                <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full blur-[80px] opacity-50 pointer-events-none" />
+                
                 <div className="relative z-10">
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="mb-14">
-                    <h3 className="text-gray-900 text-3xl font-bold font-outfit mb-3 tracking-tight">Request a Consultation</h3>
-                    <div className="w-12 h-1 bg-[#1e3a8a] mb-4" />
-                    <p className="text-gray-400 text-[13px] md:text-[14px] font-outfit">Fill out the brief below and our architects will reach out.</p>
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="mb-10">
+                    <h3 className="text-[#0a192f] text-3xl md:text-4xl font-bold font-outfit mb-4 tracking-tight">Request a Consultation</h3>
+                    <p className="text-slate-500 text-sm md:text-base font-medium leading-relaxed">Fill out the brief below and our technical architects will reach out to you shortly.</p>
                   </motion.div>
 
                   {status === 'success' ? (
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center py-16">
-                      <div className="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-6 border border-emerald-100">
-                        <ArrowRight className="text-emerald-600 w-8 h-8" />
+                      <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-6 border-4 border-emerald-100 shadow-lg shadow-emerald-100">
+                        <ArrowRight className="text-emerald-500 w-10 h-10" />
                       </div>
-                      <h4 className="text-gray-900 text-2xl font-bold font-outfit mb-3">Request Sent</h4>
-                      <p className="text-gray-400 text-sm font-outfit">We'll respond within 2 hours.</p>
-                      <button onClick={() => setStatus(null)} className="mt-8 text-[#1e3a8a] text-xs font-bold uppercase tracking-widest hover:underline">Send Another</button>
+                      <h4 className="text-[#0a192f] text-3xl font-bold font-outfit mb-4">Request Sent Successfully</h4>
+                      <p className="text-slate-500 text-base font-medium mb-8">We will review your requirements and respond within 2 hours.</p>
+                      <button onClick={() => setStatus(null)} className="text-blue-600 bg-blue-50 px-8 py-3 rounded-full font-bold text-sm uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-colors">Send Another Request</button>
                     </motion.div>
                   ) : (
                     <form onSubmit={handleSubmit} className="space-y-6">
+                      {/* ── Honeypot: hidden from real users, bots fill it ── */}
+                      <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', opacity: 0, pointerEvents: 'none', tabIndex: -1 }}>
+                        <input type="text" name="website" value={honeypot} onChange={e => setHoneypot(e.target.value)} autoComplete="off" tabIndex={-1} />
+                      </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="relative group">
+                        <div className="space-y-2">
+                          <label className="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">Name</label>
                           <input
-                            type="text" name="name" placeholder=" " value={formData.name} onChange={handleChange} required
-                            className="peer w-full bg-white/20 border-b border-gray-200 px-0 py-4 text-gray-900 focus:outline-none focus:border-[#1e3a8a] transition-all font-outfit text-[14px] rounded-none placeholder-transparent"
+                            type="text" name="name" value={formData.name} onChange={handleChange} required
+                            className="w-full bg-slate-50 border border-slate-200 hover:border-blue-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 rounded-2xl px-6 py-4 text-[#0a192f] font-medium text-base outline-none transition-all"
+                            placeholder="username"
                           />
-                          <label className="absolute left-0 top-4 text-gray-400 pointer-events-none transition-all peer-focus:-top-4 peer-focus:text-[10px] peer-focus:text-[#1e3a8a] peer-focus:font-bold not-placeholder-shown:-top-4 not-placeholder-shown:text-[10px]">Your Full Name</label>
                         </div>
-                        <div className="relative group">
+                        <div className="space-y-2">
+                          <label className="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">Email</label>
                           <input
-                            type="email" name="email" placeholder=" " value={formData.email} onChange={handleChange} required
-                            className="peer w-full bg-white/20 border-b border-gray-200 px-0 py-4 text-gray-900 focus:outline-none focus:border-[#1e3a8a] transition-all font-outfit text-[14px] rounded-none placeholder-transparent"
+                            type="email" name="email" value={formData.email} onChange={handleChange} required
+                            className="w-full bg-slate-50 border border-slate-200 hover:border-blue-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 rounded-2xl px-6 py-4 text-[#0a192f] font-medium text-base outline-none transition-all"
+                            placeholder="email"
                           />
-                          <label className="absolute left-0 top-4 text-gray-400 pointer-events-none transition-all peer-focus:-top-4 peer-focus:text-[10px] peer-focus:text-[#1e3a8a] peer-focus:font-bold not-placeholder-shown:-top-4 not-placeholder-shown:text-[10px]">Business Email</label>
                         </div>
                       </div>
 
-                      <div className="relative group">
-                        <select name="type" value={formData.type} onChange={handleChange} className="peer w-full bg-transparent border-b border-gray-200 px-0 py-4 text-gray-900 focus:outline-none focus:border-[#1e3a8a] transition-all font-outfit text-[14px] rounded-none appearance-none cursor-pointer">
-                          <option value="">Project Inquiry Type</option>
-                          <option value="web">Web Development & Design</option>
-                          <option value="ai">AI System Integration</option>
-                          <option value="mobile">Mobile Application</option>
-                          <option value="consult">Strategic Consultation</option>
-                        </select>
-                        <div className="absolute right-0 top-5 pointer-events-none text-gray-400"><ChevronDown size={18} /></div>
-                      </div>
-
-                      <div className="relative group">
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">Message</label>
                         <textarea
-                          name="message" placeholder=" " rows="3" value={formData.message} onChange={handleChange} required
-                          className="peer w-full bg-transparent border-b border-gray-200 px-0 py-4 text-gray-900 focus:outline-none focus:border-[#1e3a8a] transition-all font-outfit text-[14px] rounded-none resize-none placeholder-transparent"
+                          name="message" rows="4" value={formData.message} onChange={handleChange} required
+                          className="w-full bg-slate-50 border border-slate-200 hover:border-blue-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 rounded-2xl px-6 py-4 text-[#0a192f] font-medium text-base outline-none transition-all resize-none"
+                          placeholder="Type your message..."
                         />
-                        <label className="absolute left-0 top-4 text-gray-400 pointer-events-none transition-all peer-focus:-top-4 peer-focus:text-[10px] peer-focus:text-[#1e3a8a] peer-focus:font-bold not-placeholder-shown:-top-4 not-placeholder-shown:text-[10px]">Project Goals</label>
                       </div>
 
-                      {status === 'error' && <p className="text-red-400 text-xs font-bold">Something went wrong. Please try again.</p>}
+                      {status === 'error' && <p className="text-red-500 text-sm font-bold bg-red-50 p-4 rounded-xl">Please check your details and try again.</p>}
+                      {status === 'rate_limited' && <p className="text-amber-600 text-sm font-bold bg-amber-50 p-4 rounded-xl border border-amber-200">⏳ Too many messages. Please wait a few minutes and try again.</p>}
 
                       <motion.button
                         type="submit" disabled={status === 'sending'}
-                        whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }}
-                        className="w-full bg-[#1e3a8a] hover:bg-blue-600 text-white py-5 rounded-none font-bold text-[14px] flex items-center justify-center gap-3 transition-all shadow-xl group tracking-widest uppercase disabled:opacity-60"
+                        whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+                        className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-5 rounded-2xl font-bold text-base flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-600/20 group tracking-widest uppercase disabled:opacity-60 mt-4"
                       >
-                        <span>{status === 'sending' ? 'Sending...' : 'Submit Request'}</span>
-                        <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                        <span>{status === 'sending' ? 'Transmitting...' : 'Submit Request'}</span>
+                        <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                       </motion.button>
 
-                      <p className="text-center text-gray-400 text-[10px] uppercase tracking-widest mt-10">Response time: &lt; 24 Hours</p>
+                      <p className="text-center text-slate-400 text-xs font-bold uppercase tracking-widest mt-6">Expected Response: &lt; 2 Hours</p>
                     </form>
                   )}
                 </div>

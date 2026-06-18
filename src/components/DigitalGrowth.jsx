@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { Eye, Smartphone, Layers } from 'lucide-react'
+import { Cpu, Code2, Briefcase } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 const DigitalGrowth = ({ t }) => {
@@ -8,25 +8,25 @@ const DigitalGrowth = ({ t }) => {
   const shouldReduceMotion = useReducedMotion()
   const cards = [
     {
-      icon: <Eye className="text-[#1a365d] w-7 h-7" />,
+      icon: <Cpu className="text-[#1a365d] w-7 h-7" />,
       iconBg: "bg-red-50",
-      title: "Computer vision",
+      title: "Ai services",
       description: "Gain high-performance AI insights with zero operational overhead.",
-      bullets: ["Accuracy", "Zero Latency", "smart Detection"],
+      bullets: ["Automation", "Computer vision", "Smart Detection"],
       buttonText: "Contact"
     },
     {
-      icon: <Smartphone className="text-yellow-600 w-7 h-7" />,
+      icon: <Code2 className="text-yellow-600 w-7 h-7" />,
       iconBg: "bg-yellow-50",
-      title: "Web & App development",
+      title: "Custom web and app development",
       description: "Dev access upgraded with advanced tools.",
-      bullets: ["Full-stack Development", "All Frameworks", "within 1 week"],
+      bullets: ["Responsive (Android & iOS)", "All Frameworks", "within 1 week"],
       buttonText: "Contact"
     },
     {
-      icon: <Layers className="text-blue-900 w-7 h-7" />,
+      icon: <Briefcase className="text-blue-900 w-7 h-7" />,
       iconBg: "bg-blue-50",
-      title: "custom",
+      title: "B2B solutions services",
       description: "Request custom solutions for every need.",
       bullets: ["Custom Request", "Feel free for contact us", "smart scaling"],
       buttonText: "Apply Now"
@@ -78,7 +78,7 @@ const DigitalGrowth = ({ t }) => {
             >
               <div className="relative z-10">
                 <div className={`${card.iconBg} w-12 h-12 rounded-xl flex items-center justify-center mb-6 shadow-sm`}>
-                  {React.cloneElement(card.icon, { className: "w-6 h-6" })}
+                  {card.icon}
                 </div>
 
                 <h3 className="text-black text-xl md:text-2xl font-bold mb-3 font-outfit">{card.title}</h3>
@@ -105,7 +105,7 @@ const DigitalGrowth = ({ t }) => {
 
               <div className="mt-auto">
                 <Link 
-                  to={card.buttonText === 'Apply Now' ? '/projects' : '/contact'}
+                  to='/contact'
                   className="w-full bg-[#d5d5d5] hover:bg-black hover:text-white text-black py-3 rounded-xl font-bold text-lg font-outfit transition-all flex items-center justify-center"
                 >
                   {card.buttonText}

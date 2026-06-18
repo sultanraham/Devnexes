@@ -1,6 +1,6 @@
 export const translations = {
   EN: {
-    navbar: { home: 'Home', products: 'Products', services: 'Services', projects: 'Projects', contact: 'Contact us' },
+    navbar: { home: 'Home', products: 'Products', services: 'Services', contact: 'Contact us' },
     hero: {
       title: 'Empowering the Future with AI',
       getStarted: 'Get Started',
@@ -61,7 +61,7 @@ export const translations = {
     }
   },
   UR: {
-    navbar: { home: 'ہوم', products: 'مصنوعات', services: 'خدمات', projects: 'منصوبے', contact: 'رابطہ کریں' },
+    navbar: { home: 'ہوم', products: 'مصنوعات', services: 'خدمات', contact: 'رابطہ کریں' },
     hero: {
       title: 'مصنوعی ذہانت کے ساتھ مستقبل کو بااختیار بنانا',
       getStarted: 'شروع کریں',
@@ -122,7 +122,7 @@ export const translations = {
     }
   },
   AR: {
-    navbar: { home: 'الرئيسية', products: 'المنتجات', services: 'الخدمات', projects: 'المشاريع', contact: 'اتصل بنا' },
+    navbar: { home: 'الرئيسية', products: 'المنتجات', services: 'الخدمات', contact: 'اتصل بنا' },
     hero: {
       title: 'تمكين المستقبل باستخدام الذكاء الاصطناعي',
       getStarted: 'ابدأ الآن',

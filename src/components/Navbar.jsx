@@ -40,14 +40,9 @@ const Navbar = ({ currentLang, setCurrentLang, user, onLogout }) => {
   const navLinks = [
     { name: t.home, href: '/', },
     { name: 'About', href: '/about', isRoute: true },
-    { name: t.projects, href: '/projects', isRoute: true },
     { name: 'Portfolio', href: '/portfolio', isRoute: true },
     { name: 'Policy', href: '/policy', isRoute: true },
   ]
-
-  if (user?.role === 'admin') {
-    navLinks.push({ name: 'Admin', href: '/admin', isRoute: true, isAdmin: true })
-  }
 
   const navContent = (
     <>

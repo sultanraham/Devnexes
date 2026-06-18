@@ -1,6 +1,7 @@
 import React from 'react'
 import { motion, AnimatePresence, useInView, useReducedMotion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { supabase } from '../supabaseClient'
 
 const StatCounter = ({ value }) => {
   const [displayValue, setDisplayValue] = React.useState("0")
@@ -45,8 +46,38 @@ const StatCounter = ({ value }) => {
 
 const Hero = ({ t }) => {
   const shouldReduceMotion = useReducedMotion()
+  const [socialData, setSocialData] = React.useState({
+    transaction_volume: '9.9M',
+    split_values: '3.5%',
+    reviewed_by: '100k+'
+  })
+
+  React.useEffect(() => {
+    const fetchSocialData = async () => {
+      try {
+        const { data, error } = await supabase.from('social_data').select('*').eq('id', 1).single()
+        if (data) {
+          setSocialData(data)
+        }
+      } catch (err) {
+        console.log('Using default social data')
+      }
+    }
+    fetchSocialData()
+    
+    const channel = supabase.channel('social_data_changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'social_data', filter: 'id=eq.1' }, (payload) => {
+        setSocialData(payload.new)
+      })
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(channel)
+    }
+  }, [])
+
   const statsData = [
-    { value: "9.9M", label: t.transactionVolume, subValue: "3.5%", subLabel: t.splitValues },
+    { value: socialData.transaction_volume, label: t.transactionVolume, subValue: socialData.split_values, subLabel: t.splitValues },
   ]
 
   return (
@@ -112,6 +143,17 @@ const Hero = ({ t }) => {
             </motion.span>
           ))}
         </motion.h1>
+
+        {/* Subtitle */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="text-white/70 text-center max-w-4xl mx-auto text-lg md:text-2xl font-normal leading-relaxed opacity-100 mt-8 mb-12"
+        >
+          {t.footerDesc}
+        </motion.p>
 
         {/* Buttons */}
         <motion.div
@@ -186,9 +228,9 @@ const Hero = ({ t }) => {
                   ))}
                 </div>
                 <div className="flex flex-col text-center sm:text-left">
-                  <p className="text-[#163c8a] font-bold text-2xl md:text-[28px] font-outfit leading-none mb-2">{t.reviewedBy}</p>
+                  <p className="text-[#163c8a] font-bold text-2xl md:text-[28px] font-outfit leading-none mb-2">{socialData.reviewed_by}</p>
                   <p className="text-white/80 text-sm md:text-[16px] font-medium leading-relaxed opacity-90">
-                    "{t.socialProof}"
+                    "{socialData.social_proof}"
                   </p>
                 </div>
               </div>
@@ -223,18 +265,7 @@ const Hero = ({ t }) => {
               </div>
             </motion.div>
           </div>
-
-          {/* Bottom Descriptive Text */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-[#5b739d] text-center max-w-4xl mx-auto text-lg md:text-xl font-medium leading-relaxed opacity-80 pb-12"
-          >
-            {t.footerDesc}
-          </motion.p>
         </div>
-
       </div>
     </section>
   )

@@ -59,13 +59,6 @@ const CustomerSupport = ({ t, user }) => {
 
   const supportCards = [
     {
-      icon: <MessageCircle className="w-12 h-12 text-[#1e3a8a]" />,
-      title: "Live Chat",
-      desc: "Instant conversation with our technical developers.",
-      btnText: "Chat Now",
-      action: () => setShowChat(true)
-    },
-    {
       icon: <HelpCircle className="w-12 h-12 text-[#1e3a8a]" />,
       title: "View FAQ",
       desc: "Find answers to frequently asked technical questions.",
@@ -100,7 +93,7 @@ const CustomerSupport = ({ t, user }) => {
           <p className="text-slate-400 text-lg max-w-2xl mx-auto font-medium">We're here to ensure your digital evolution is seamless and high-performing.</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {supportCards.map((card, idx) => (
             <motion.div 
               key={idx}

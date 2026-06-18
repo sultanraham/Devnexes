@@ -1,9 +1,52 @@
 import React from 'react'
-import { motion } from 'framer-motion'
-import { Cloud, Shield } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { User, Lock, Mail, ArrowRight, Loader2, ShieldCheck, Zap, Eye, EyeOff } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 
-const LoginSection = ({ t, onLogin, isRedirect }) => {
+const Field = ({ icon: Icon, label, ...props }) => (
+  <div className="relative group">
+    <Icon size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-white/80 transition-colors pointer-events-none z-10" />
+    <input
+      {...props}
+      placeholder=" "
+      className="peer w-full bg-white/10 border border-white/20 hover:border-white/35 focus:border-white/55 rounded-2xl pl-11 pr-4 py-5 text-white text-base outline-none transition-all duration-200"
+    />
+    <label className="absolute left-11 top-1/2 -translate-y-1/2 text-white/45 text-base pointer-events-none transition-all duration-200
+      peer-focus:top-2.5 peer-focus:translate-y-0 peer-focus:text-xs peer-focus:text-white/70
+      peer-[:not(:placeholder-shown)]:top-2.5 peer-[:not(:placeholder-shown)]:translate-y-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-white/70">
+      {label}
+    </label>
+  </div>
+)
+
+const PasswordField = ({ label, ...props }) => {
+  const [show, setShow] = React.useState(false)
+  return (
+    <div className="relative group">
+      <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-white/80 transition-colors pointer-events-none z-10" />
+      <input
+        {...props}
+        type={show ? 'text' : 'password'}
+        placeholder=" "
+        className="peer w-full bg-white/10 border border-white/20 hover:border-white/35 focus:border-white/55 rounded-2xl pl-11 pr-12 py-5 text-white text-base outline-none transition-all duration-200"
+      />
+      <label className="absolute left-11 top-1/2 -translate-y-1/2 text-white/45 text-base pointer-events-none transition-all duration-200
+        peer-focus:top-2.5 peer-focus:translate-y-0 peer-focus:text-xs peer-focus:text-white/70
+        peer-[:not(:placeholder-shown)]:top-2.5 peer-[:not(:placeholder-shown)]:translate-y-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-white/70">
+        {label}
+      </label>
+      <button
+        type="button"
+        onClick={() => setShow(!show)}
+        className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition-colors z-10"
+      >
+        {show ? <EyeOff size={16} /> : <Eye size={16} />}
+      </button>
+    </div>
+  )
+}
+
+const LoginSection = ({ t, onLogin }) => {
   const navigate = useNavigate()
   const [isLogin, setIsLogin] = React.useState(true)
   const [formData, setFormData] = React.useState({ username: '', password: '', email: '' })
@@ -19,8 +62,7 @@ const LoginSection = ({ t, onLogin, isRedirect }) => {
     setError('')
     setLoading(true)
     const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001'
-    const endpoint = isLogin ? '/api/login' : '/api/register'
-    fetch(`${API_BASE}${endpoint}`, {
+    fetch(`${API_BASE}${isLogin ? '/api/login' : '/api/register'}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
@@ -31,7 +73,7 @@ const LoginSection = ({ t, onLogin, isRedirect }) => {
         if (data.success) {
           if (isLogin) {
             onLogin(data.user, data.token)
-            navigate(data.user.role === 'admin' ? '/admin' : '/projects')
+            navigate(data.user.role === 'admin' ? '/admin' : '/')
           } else {
             alert('Registration successful! Please login.')
             setIsLogin(true)
@@ -40,117 +82,121 @@ const LoginSection = ({ t, onLogin, isRedirect }) => {
           setError(data.message || data.error || 'Something went wrong')
         }
       })
-      .catch(() => {
-        setLoading(false)
-        setError('Server connection failed')
-      })
+      .catch(() => { setLoading(false); setError('Server connection failed') })
   }
 
   return (
-    <section id="login-section" className={`py-12 md:py-24 bg-transparent relative overflow-hidden ${isRedirect ? 'min-h-screen flex items-center' : ''}`}>
+    <section id="login-section" className="py-28 px-4 relative overflow-hidden flex items-center justify-center">
+
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-blue-400/8 rounded-full blur-[180px] pointer-events-none" />
+
       <motion.div
-        animate={{ y: [0, -20, 0], opacity: [0.3, 0.5, 0.3] }}
-        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-1/4 left-10 w-32 h-32 bg-white/10 rounded-full blur-3xl -z-10"
-      />
-      <motion.div
-        animate={{ y: [0, 20, 0], opacity: [0.2, 0.4, 0.2] }}
-        transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute bottom-1/4 right-10 w-48 h-48 bg-blue-300/10 rounded-full blur-3xl -z-10"
-      />
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+        className="w-full max-w-lg relative z-10"
+      >
+        {/* Header */}
+        <div className="text-center mb-6">
+          <h2 className="text-white text-3xl font-black font-outfit tracking-tight">
+            {isLogin ? 'Sign In to Your Account' : 'Create a New Account'}
+          </h2>
+        </div>
 
-      <div className="container mx-auto px-4 md:px-6 max-w-7xl flex justify-center relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          whileHover={{ y: -5, boxShadow: '0 30px 60px rgba(0,0,0,0.3)' }}
-          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-          viewport={{ once: true }}
-          className="bg-white/3 backdrop-blur-3xl rounded-[40px] p-6 md:p-12 w-full max-w-5xl border border-white/10"
-        >
-          <div className="flex flex-col lg:flex-row gap-12 md:gap-20">
-            <div className="w-full lg:w-3/5">
-              <div className="mb-10">
-                <h2 className="text-white text-3xl md:text-[56px] font-bold mb-3 font-outfit tracking-tighter leading-none">
-                  {isLogin ? 'Sign In' : 'Register'}
-                </h2>
-                <p className="text-white/40 text-base md:text-lg font-outfit">
-                  {isLogin ? 'Welcome back to your elite portal.' : 'Join the Devnexes network.'}
-                </p>
-              </div>
+        {/* Card */}
+        <div className="relative bg-white/[0.07] backdrop-blur-2xl border border-white/[0.15] rounded-3xl p-10 shadow-[0_32px_80px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.15)]">
 
-              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                {!isLogin && (
-                  <motion.div whileHover={{ x: 5 }} className="relative group">
-                    <input
-                      type="email" id="email" required placeholder=" " onChange={handleChange}
-                      className="peer w-full bg-white/2 border border-white/10 rounded-xl px-5 py-4 text-white focus:border-white/30 focus:bg-white/5 transition-all outline-none placeholder-transparent text-base"
-                    />
-                    <label htmlFor="email" className="absolute left-5 top-4 text-white/30 pointer-events-none transition-all peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-white/60 peer-focus:bg-[#1e4b8b] peer-focus:px-2 not-placeholder-shown:-top-2.5 not-placeholder-shown:text-xs">Email Address</label>
-                  </motion.div>
-                )}
-                <motion.div whileHover={{ x: 5 }} className="relative group">
-                  <input
-                    type="text" id="username" required placeholder=" " onChange={handleChange}
-                    className="peer w-full bg-white/2 border border-white/10 rounded-xl px-5 py-4 text-white focus:border-white/30 focus:bg-white/5 transition-all outline-none placeholder-transparent text-base"
-                  />
-                  <label htmlFor="username" className="absolute left-5 top-4 text-white/30 pointer-events-none transition-all peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-white/60 peer-focus:bg-[#1e4b8b] peer-focus:px-2 not-placeholder-shown:-top-2.5 not-placeholder-shown:text-xs">Username</label>
-                </motion.div>
-                <motion.div whileHover={{ x: 5 }} className="relative group">
-                  <input
-                    type="password" id="password" required placeholder=" " onChange={handleChange}
-                    className="peer w-full bg-white/2 border border-white/10 rounded-xl px-5 py-4 text-white focus:border-white/30 focus:bg-white/5 transition-all outline-none placeholder-transparent text-base"
-                  />
-                  <label htmlFor="password" className="absolute left-5 top-4 text-white/30 pointer-events-none transition-all peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-white/60 peer-focus:bg-[#1e4b8b] peer-focus:px-2 not-placeholder-shown:-top-2.5 not-placeholder-shown:text-xs">Password</label>
-                </motion.div>
+          <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
 
-                {error && <p className="text-red-300 text-xs font-bold bg-red-500/10 p-3 rounded-lg border border-red-500/20">{error}</p>}
+          {/* Tabs */}
+          <div className="flex bg-black/20 rounded-2xl p-1 mb-8 border border-white/10">
+            {['Sign In', 'Register'].map((tab, i) => (
+              <button
+                key={tab}
+                onClick={() => { setIsLogin(i === 0); setError('') }}
+                className={`flex-1 py-3 rounded-xl text-sm font-bold transition-all duration-300 ${
+                  (isLogin ? i === 0 : i === 1)
+                    ? 'bg-white text-[#1e4b8b] shadow-md'
+                    : 'text-white/50 hover:text-white/80'
+                }`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
 
-                <motion.button
-                  type="submit"
-                  disabled={loading}
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="mt-6 bg-white text-[#1e4b8b] py-5 rounded-2xl font-bold text-xl hover:bg-gray-100 transition-all shadow-xl active:scale-95 disabled:opacity-50 uppercase tracking-widest"
+          <AnimatePresence mode="wait">
+            <motion.form
+              key={isLogin ? 'login' : 'register'}
+              initial={{ opacity: 0, x: isLogin ? -10 : 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: isLogin ? 10 : -10 }}
+              transition={{ duration: 0.2 }}
+              onSubmit={handleSubmit}
+              className="flex flex-col gap-4"
+            >
+              {!isLogin && (
+                <Field icon={Mail} label="Email Address" type="email" id="email" required onChange={handleChange} />
+              )}
+
+              <Field icon={User} label="Username" type="text" id="username" required onChange={handleChange} />
+
+              <PasswordField label="Password" id="password" required onChange={handleChange} />
+
+              {isLogin && (
+                <div className="text-right">
+                  <button type="button" className="text-white/50 text-xs hover:text-white transition-colors">
+                    Forgot password?
+                  </button>
+                </div>
+              )}
+
+              {!isLogin && (
+                <label className="flex items-center gap-2.5 cursor-pointer">
+                  <input type="checkbox" required className="w-4 h-4 rounded accent-white shrink-0" />
+                  <span className="text-white/55 text-sm">
+                    I agree to the <span className="text-white font-semibold underline underline-offset-2 cursor-pointer">Terms & Conditions</span>
+                  </span>
+                </label>
+              )}
+
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-red-400/10 border border-red-400/20 rounded-xl px-4 py-3"
                 >
-                  {loading ? 'AUTHENTICATING...' : (isLogin ? 'PROCEED TO PORTAL' : 'REGISTER IDENTITY')}
-                </motion.button>
-              </form>
+                  <p className="text-red-300 text-xs font-medium">{error}</p>
+                </motion.div>
+              )}
 
-              <p className="mt-10 text-white/30 text-base text-center lg:text-left font-outfit">
-                {isLogin ? 'New to Devnexes?' : 'Already a member?'}
-                <motion.button
-                  whileHover={{ scale: 1.05, color: '#fff' }}
-                  onClick={() => setIsLogin(!isLogin)}
-                  className="ml-2 text-white font-bold hover:text-blue-200 transition-colors border-b border-white/10 hover:border-blue-200"
-                >
-                  {isLogin ? 'Register now' : 'Sign in here'}
-                </motion.button>
-              </p>
+              <motion.button
+                type="submit"
+                disabled={loading}
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full bg-white hover:bg-white/90 disabled:opacity-50 text-[#1e4b8b] py-4 rounded-2xl font-bold text-base flex items-center justify-center gap-2 transition-all shadow-[0_8px_24px_rgba(255,255,255,0.12)] mt-2"
+              >
+                {loading
+                  ? <><Loader2 size={16} className="animate-spin" /> Please wait...</>
+                  : <>{isLogin ? 'Sign In' : 'Create Account'} <ArrowRight size={16} /></>
+                }
+              </motion.button>
+            </motion.form>
+          </AnimatePresence>
+
+          <div className="flex items-center justify-center gap-5 mt-6 pt-5 border-t border-white/10">
+            <div className="flex items-center gap-1.5 text-white/40 text-xs">
+              <ShieldCheck size={12} /> SSL Encrypted
             </div>
-
-            <div className="hidden lg:flex w-2/5 flex-col justify-center gap-8 border-l border-white/5 pl-16">
-              {[
-                { icon: <Shield />, title: 'Elite Security', desc: 'JWT-protected sessions.' },
-                { icon: <Cloud />, title: 'Instant Sync', desc: 'Real-time database updates.' }
-              ].map((feat, i) => (
-                <motion.div key={i} whileHover={{ x: 10 }} className="flex items-center gap-6 group cursor-default">
-                  <motion.div
-                    whileHover={{ rotate: 15, scale: 1.1 }}
-                    className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 group-hover:bg-white/10 transition-all"
-                  >
-                    {React.cloneElement(feat.icon, { className: 'text-white w-6 h-6' })}
-                  </motion.div>
-                  <div>
-                    <h4 className="text-white font-bold text-xl font-outfit">{feat.title}</h4>
-                    <p className="text-white/20 text-sm">{feat.desc}</p>
-                  </div>
-                </motion.div>
-              ))}
+            <div className="w-px h-3 bg-white/15" />
+            <div className="flex items-center gap-1.5 text-white/40 text-xs">
+              <Zap size={12} /> Instant Access
             </div>
           </div>
-        </motion.div>
-      </div>
+        </div>
+      </motion.div>
     </section>
   )
 }

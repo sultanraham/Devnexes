@@ -14,14 +14,16 @@ node_modules
 dist
 dist-ssr
 
-# Environment variables (never commit these)
+# Environment variables (never commit these — contain secrets)
 .env
 .env.*
 !.env.example
 
-# Database (contains real user data)
+# Database files (contain real user data)
 database.db
 *.db
+*.sqlite
+*.sqlite3
 
 # Editor
 .vscode/*
@@ -37,5 +39,10 @@ database.db
 # OS
 Thumbs.db
 
-# Temp scripts
+# Temp / one-off scripts
 *.mjs.bak
+readClients.cjs
+setupSupabase.js
+
+# Source maps (should not ship to production)
+*.map

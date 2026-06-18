@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence, useInView, useSpring, useTransform } from 'framer-motion'
+import { supabase } from '../supabaseClient'
 
 const Counter = ({ value }) => {
   const ref = useRef(null)
@@ -92,8 +93,56 @@ const AvatarOrbit = ({ client, radius, isAnyHovered, hoveredId, onHover, isRever
 
 const TrustedClients = ({ t }) => {
   const [hoveredAvatar, setHoveredAvatar] = useState(null)
-  if (!t) return null;
   const [isMobile, setIsMobile] = useState(false)
+  const [clientCount, setClientCount] = useState('1000+k')
+  const [clients, setClients] = useState([
+    { id: 1, name: 'Sara', role: 'Digital Creator', ring: 'outer', angle: 0, text: 'Quick and easy account opening.' },
+    { id: 2, name: 'Jack', role: 'Software Engineer', ring: 'outer', angle: 90, text: 'Best automation tools available.' },
+    { id: 3, name: 'Oliver', role: 'Business Owner', ring: 'outer', angle: 180, text: 'Expert technical guidance.' },
+    { id: 4, name: 'Emma', role: 'Marketing Lead', ring: 'outer', angle: 270, text: 'Secure digital platforms.' },
+    { id: 5, name: 'Sophie', role: 'UX Designer', ring: 'middle', angle: 45, text: 'A game changer for workflow.' },
+    { id: 6, name: 'Charlie', role: 'Product Manager', ring: 'middle', angle: 135, text: 'Real insights within a week.' },
+    { id: 7, name: 'Aneka', role: 'Entrepreneur', ring: 'middle', angle: 225, text: 'Best investment for startups.' },
+  ])
+
+  useEffect(() => {
+    const fetchClients = async () => {
+      try {
+        const { data, error } = await supabase.from('trusted_clients').select('*').order('ring').order('angle')
+        if (data && data.length > 0) {
+          setClients(data)
+        }
+      } catch (err) {
+        console.log('Using default clients')
+      }
+    }
+    fetchClients()
+    
+    const fetchSettings = async () => {
+      try {
+        const { data } = await supabase.from('site_settings').select('value').eq('key', 'trusted_clients_count').single()
+        if (data && data.value) setClientCount(data.value)
+      } catch (err) {}
+    }
+    fetchSettings()
+
+    const channel = supabase.channel('trusted_clients_changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'trusted_clients' }, () => {
+        fetchClients()
+      })
+      .subscribe()
+
+    const channelSettings = supabase.channel('trusted_clients_settings')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'site_settings', filter: "key=eq.trusted_clients_count" }, (payload) => {
+        if (payload.new && payload.new.value) setClientCount(payload.new.value)
+      })
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(channel)
+      supabase.removeChannel(channelSettings)
+    }
+  }, [])
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 1024)
@@ -106,16 +155,7 @@ const TrustedClients = ({ t }) => {
   const middleRadius = isMobile ? 100 : 140
   const diagramSize = isMobile ? 320 : 450
 
-  const clients = [
-    { id: 1, name: 'Sara', role: 'Digital Creator', ring: 'outer', angle: 0, text: 'Quick and easy account opening.' },
-    { id: 2, name: 'Jack', role: 'Software Engineer', ring: 'outer', angle: 90, text: 'Best automation tools available.' },
-    { id: 3, name: 'Oliver', role: 'Business Owner', ring: 'outer', angle: 180, text: 'Expert technical guidance.' },
-    { id: 4, name: 'Emma', role: 'Marketing Lead', ring: 'outer', angle: 270, text: 'Secure digital platforms.' },
-    { id: 5, name: 'Sophie', role: 'UX Designer', ring: 'middle', angle: 45, text: 'A game changer for workflow.' },
-    { id: 6, name: 'Charlie', role: 'Product Manager', ring: 'middle', angle: 135, text: 'Real insights within a week.' },
-    { id: 7, name: 'Aneka', role: 'Entrepreneur', ring: 'middle', angle: 225, text: 'Best investment for startups.' },
-    { id: 8, name: 'Molly', role: 'Tech Architect', ring: 'middle', angle: 315, text: 'Robust infrastructure.' },
-  ]
+  if (!t) return null;
 
   return (
     <section className="py-16 md:py-24 bg-white overflow-visible relative z-20">
@@ -178,10 +218,11 @@ const TrustedClients = ({ t }) => {
           >
             {/* CENTRAL CIRCLE - MOVED TO BACK LAYER (z-0) */}
             <div
-              className="absolute bg-[#0a1e3d] rounded-full shadow-2xl z-0 flex items-center justify-center overflow-hidden"
+              className="absolute bg-gradient-to-br from-[#4a6bb1] to-[#1e4b8b] rounded-full shadow-2xl border border-blue-300/30 z-0 flex items-center justify-center overflow-hidden"
               style={{ width: isMobile ? 100 : 180, height: isMobile ? 100 : 180 }}
             >
-              <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 4, repeat: Infinity }} className="w-full h-full bg-blue-900/20 rounded-full blur-md" />
+              <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 3, repeat: Infinity }} className="absolute inset-0 w-full h-full bg-white/20 rounded-full blur-xl" />
+              <img src="/favicon.png" alt="Devnexes Logo" className="relative z-10 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]" style={{ width: isMobile ? '55px' : '95px', height: isMobile ? '55px' : '95px' }} />
             </div>
 
             <div className="absolute inset-0 pointer-events-none z-10">
@@ -192,15 +233,21 @@ const TrustedClients = ({ t }) => {
             </div>
 
             <div className={`absolute inset-0 flex items-center justify-center pointer-events-none orbit-container z-20 ${hoveredAvatar ? 'paused' : ''}`}>
-              {clients.filter(c => c.ring === 'outer').map((client) => (
-                <AvatarOrbit key={client.id} client={client} radius={outerRadius} hoveredId={hoveredAvatar?.id} onHover={setHoveredAvatar} isAnyHovered={!!hoveredAvatar} isMobile={isMobile} />
-              ))}
+              {clients.filter(c => c.ring === 'outer').map((client, i, arr) => {
+                const dynamicAngle = (360 / arr.length) * i;
+                return (
+                  <AvatarOrbit key={client.id} client={{...client, angle: dynamicAngle}} radius={outerRadius} hoveredId={hoveredAvatar?.id} onHover={setHoveredAvatar} isAnyHovered={!!hoveredAvatar} isMobile={isMobile} />
+                );
+              })}
             </div>
 
             <div className={`absolute inset-0 flex items-center justify-center pointer-events-none orbit-container-reverse z-20 ${hoveredAvatar ? 'paused' : ''}`}>
-              {clients.filter(c => c.ring === 'middle').map((client) => (
-                <AvatarOrbit key={client.id} client={client} radius={middleRadius} hoveredId={hoveredAvatar?.id} onHover={setHoveredAvatar} isAnyHovered={!!hoveredAvatar} isReverse isMobile={isMobile} />
-              ))}
+              {clients.filter(c => c.ring === 'middle').map((client, i, arr) => {
+                const dynamicAngle = (360 / arr.length) * i;
+                return (
+                  <AvatarOrbit key={client.id} client={{...client, angle: dynamicAngle}} radius={middleRadius} hoveredId={hoveredAvatar?.id} onHover={setHoveredAvatar} isAnyHovered={!!hoveredAvatar} isReverse isMobile={isMobile} />
+                );
+              })}
             </div>
           </motion.div>
         </div>
@@ -214,7 +261,7 @@ const TrustedClients = ({ t }) => {
         >
           <p className="text-[#4a6bb1] font-normal text-xl md:text-[22px] mb-1 font-outfit">{t.tag}</p>
           <h2 className="text-[#163c8a] text-6xl md:text-[95px] font-normal leading-none mb-4 font-outfit tracking-tighter">
-            <Counter value="1000+k" />
+            <Counter value={clientCount} />
           </h2>
           <h3 className="text-[#163c8a] text-4xl md:text-[58px] font-bold mb-6 font-outfit leading-tight">{t.title}</h3>
           <p className="text-gray-400 text-base md:text-xl leading-relaxed font-outfit">

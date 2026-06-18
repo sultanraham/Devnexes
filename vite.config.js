@@ -4,7 +4,7 @@ import compression from 'vite-plugin-compression'
 
 export default defineConfig({
   server: {
-    allowedHosts: ['unadorned-crinkle-coach.ngrok-free.dev'],
+    allowedHosts: ['unadorned-crinkle-coach.ngrok-free.dev', 'josphine-prelumbar-relatedly.ngrok-free.dev'],
   },
   plugins: [
     react(),

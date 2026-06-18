@@ -1,41 +1,61 @@
-import React from 'react'
-import { motion } from 'framer-motion'
+import React, { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
-import { ArrowLeft, ArrowRight, Shield, Zap, Globe, Award, Users, Code } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Shield, Zap, Globe, Code } from 'lucide-react'
 import Footer from './Footer'
 
 const team = [
   {
-    name: 'Muhammad Raham',
-    role: 'Founder & Principal Architect',
-    dept: 'Executive',
-    bio: 'Visionary behind Devnexes. Leads product strategy, client relationships, and company direction.',
-    initials: 'MR',
-    color: 'bg-[#1e3a8a]'
-  },
-  {
-    name: 'Muhammad Huzaifa',
-    role: 'Chief Technology Officer',
-    dept: 'Tech Team',
-    bio: 'Oversees all technical architecture, engineering standards, and system infrastructure.',
-    initials: 'MH',
-    color: 'bg-slate-800'
-  },
-  {
     name: 'Muhammad Arham',
     role: 'Chief Operations Officer',
     dept: 'Operations',
-    bio: 'Manages project delivery, client operations, and internal processes to ensure quality output.',
+    bio: 'Manages project delivery, client operations, and internal processes to ensure consistent quality and on-time results.',
+    photo: '/team_arham.png',
+    photoPos: 'center top',
     initials: 'MA',
-    color: 'bg-slate-700'
+    accent: '#0369a1',
+    gradientFrom: '#0c1a2e',
+    gradientTo: '#0369a1',
+    linkedin: 'https://www.linkedin.com/in/muhammad-arham-abdul-qayyum-3771b1356/',
   },
   {
-    name: 'Huzafa Mushtaq',
+    name: 'Huzaifa Ali',
+    role: 'Chief Technology Officer',
+    dept: 'Tech Leadership',
+    bio: 'Oversees all technical architecture, engineering standards, and system infrastructure across every project.',
+    photo: '/team_huzaifa.png',
+    photoPos: 'center center',
+    initials: 'HA',
+    accent: '#1d4ed8',
+    gradientFrom: '#0f172a',
+    gradientTo: '#1d4ed8',
+    linkedin: 'https://linkedin.com/company/devnexes-digital-solutions',
+  },
+  {
+    name: 'Huzaifa Mushtaq',
     role: 'Technical Team Lead',
     dept: 'Engineering',
-    bio: 'Leads the engineering team, code reviews, and hands-on development of client projects.',
+    bio: 'Leads the engineering team, code reviews, and hands-on development of client projects with precision and expertise.',
+    photo: '/team_huzafa.png',
+    photoPos: 'center top',
     initials: 'HM',
-    color: 'bg-blue-700'
+    accent: '#2563eb',
+    gradientFrom: '#0a1628',
+    gradientTo: '#2563eb',
+    linkedin: 'https://linkedin.com/company/devnexes-digital-solutions',
+  },
+  {
+    name: 'Muhammad Raham',
+    role: 'Founder & Principal Architect',
+    dept: 'Executive',
+    bio: 'Visionary behind Devnexes. Leads product strategy, client relationships, and company direction with a bold long-term vision.',
+    photo: '/team_raham.png',
+    photoPos: 'center top',
+    initials: 'MR',
+    accent: '#1e3a8a',
+    gradientFrom: '#061632',
+    gradientTo: '#1e3a8a',
+    linkedin: 'https://linkedin.com/company/devnexes-digital-solutions',
   }
 ]
 
@@ -45,6 +65,102 @@ const values = [
   { icon: <Globe className="w-6 h-6" />, title: 'Global Standards', desc: 'We build to international standards while understanding local Pakistani market needs.' },
   { icon: <Code className="w-6 h-6" />, title: 'Clean Engineering', desc: 'Maintainable, documented, and scalable code that your team can understand and grow.' }
 ]
+
+const TeamCard = ({ member, index }) => {
+  const [hovered, setHovered] = useState(false)
+
+  return (
+    <motion.div
+      key={index}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.12, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      viewport={{ once: true }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className="group relative overflow-hidden cursor-default"
+      style={{ borderRadius: 0 }}
+    >
+      {/* Photo container */}
+      <div className="relative w-full overflow-hidden" style={{ aspectRatio: '3/4', maxHeight: 380 }}>
+        {/* Photo */}
+        <img
+          src={member.photo}
+          alt={member.name}
+          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          style={{ objectPosition: member.photoPos || 'center top' }}
+          onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
+        />
+        {/* Fallback initials */}
+        <div
+          className="absolute inset-0 items-center justify-center text-white text-5xl font-black tracking-tight"
+          style={{ display: 'none', background: `linear-gradient(135deg, ${member.gradientFrom}, ${member.gradientTo})` }}
+        >
+          {member.initials}
+        </div>
+
+        {/* Gradient overlay always visible at bottom */}
+        <div
+          className="absolute inset-0 transition-opacity duration-500"
+          style={{
+            background: `linear-gradient(to top, ${member.gradientFrom}f0 0%, ${member.gradientFrom}80 40%, transparent 70%)`,
+          }}
+        />
+
+        {/* Department badge */}
+        <div className="absolute top-4 left-4">
+          <span
+            className="text-white text-[9px] font-black uppercase tracking-[0.35em] px-3 py-1.5 backdrop-blur-sm"
+            style={{ background: `${member.accent}cc`, letterSpacing: '0.3em' }}
+          >
+            {member.dept}
+          </span>
+        </div>
+
+        {/* Name & Role pinned to bottom of photo */}
+        <div className="absolute bottom-0 left-0 right-0 p-6">
+          <h3 className="text-white text-xl font-bold tracking-tight leading-none mb-1">
+            {member.name}
+          </h3>
+          <p className="text-white/60 text-[10px] font-bold uppercase tracking-widest">
+            {member.role}
+          </p>
+        </div>
+      </div>
+
+      {/* Info panel below photo */}
+      <div
+        className="relative p-6 transition-all duration-500"
+        style={{ background: 'white', borderTop: `3px solid ${member.accent}` }}
+      >
+        <p className="text-gray-500 text-sm leading-relaxed mb-5">
+          {member.bio}
+        </p>
+
+        {/* LinkedIn link */}
+        <a
+          href={member.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest transition-all duration-300 hover:gap-3"
+          style={{ color: member.accent }}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
+          Connect on LinkedIn
+        </a>
+
+        {/* Animated bottom border on hover */}
+        <motion.div
+          className="absolute bottom-0 left-0 h-[2px]"
+          style={{ background: `linear-gradient(to right, ${member.accent}, transparent)` }}
+          initial={{ width: 0 }}
+          animate={{ width: hovered ? '100%' : 0 }}
+          transition={{ duration: 0.4, ease: 'easeOut' }}
+        />
+      </div>
+    </motion.div>
+  )
+}
 
 const AboutPage = () => {
   const navigate = useNavigate()
@@ -151,32 +267,96 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Team */}
-      <section className="py-24 bg-white">
-        <div className="container mx-auto px-6 max-w-7xl">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-            <p className="text-blue-600 text-[11px] font-bold uppercase tracking-[0.4em] mb-3">The People</p>
-            <h2 className="text-[#061632] text-3xl md:text-5xl font-bold tracking-tighter mb-4">Meet the Team</h2>
-            <p className="text-gray-400 text-base max-w-xl mx-auto">A small, focused team with deep technical expertise and a commitment to delivering results.</p>
+      {/* ── PREMIUM TEAM SECTION ─────────────────────────────────── */}
+      <section className="py-28 bg-white relative overflow-hidden">
+        {/* Subtle background decoration */}
+        <div className="absolute inset-0 pointer-events-none" style={{
+          backgroundImage: 'radial-gradient(circle at 10% 50%, rgba(30,58,138,0.04) 0%, transparent 60%), radial-gradient(circle at 90% 20%, rgba(37,99,235,0.03) 0%, transparent 50%)'
+        }} />
+
+        <div className="container mx-auto px-6 max-w-7xl relative z-10">
+
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-20"
+          >
+            <div className="text-center">
+              <p className="text-blue-600 text-[11px] font-bold uppercase tracking-[0.4em] mb-3">The People</p>
+              <h2 className="text-[#061632] text-3xl md:text-5xl font-bold tracking-tighter mb-4">Meet the Team</h2>
+              <p className="text-gray-400 text-base max-w-xl mx-auto">
+                A small, focused team with deep technical expertise and a commitment to delivering results.
+              </p>
+            </div>
+
+            {/* Decorative line */}
+            <div className="mt-10 flex items-center gap-4">
+              <div className="h-px flex-1 bg-slate-100" />
+              <div className="w-2 h-2 bg-[#1e3a8a] rotate-45" />
+              <div className="h-px w-24 bg-[#1e3a8a]" />
+            </div>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Team Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0 border border-slate-100 shadow-2xl shadow-slate-100/80">
             {team.map((member, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} viewport={{ once: true }}
-                className="group relative bg-white border border-slate-100 hover:border-[#1e3a8a]/20 hover:shadow-xl transition-all overflow-hidden">
-                <div className={`${member.color} h-2 w-full`} />
-                <div className="p-8">
-                  <div className={`w-16 h-16 ${member.color} flex items-center justify-center mb-6`}>
-                    <span className="text-white font-bold text-xl tracking-tight">{member.initials}</span>
-                  </div>
-                  <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-blue-400 mb-2">{member.dept}</p>
-                  <h3 className="text-[#061632] font-bold text-xl tracking-tight mb-1">{member.name}</h3>
-                  <p className="text-gray-400 text-[11px] font-bold uppercase tracking-widest mb-4">{member.role}</p>
-                  <p className="text-gray-400 text-sm leading-relaxed">{member.bio}</p>
-                </div>
-              </motion.div>
+              <div
+                key={i}
+                className={`${i < team.length - 1 ? 'border-r border-slate-100' : ''}`}
+              >
+                <TeamCard member={member} index={i} />
+              </div>
             ))}
           </div>
+
+          {/* Bottom CTA strip */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+            className="mt-16 flex flex-col sm:flex-row items-center justify-between gap-6 py-8 border-t border-slate-100"
+          >
+            <div className="flex items-center gap-4">
+              <div className="flex -space-x-2">
+                {team.map((m, i) => {
+                    // Safe fallback: use React state instead of innerHTML
+                    const [imgErr, setImgErr] = React.useState(false)
+                    return (
+                      <div
+                        key={i}
+                        className="w-9 h-9 rounded-full border-2 border-white overflow-hidden flex items-center justify-center text-white text-[10px] font-black"
+                        style={{ background: `linear-gradient(135deg, ${m.gradientFrom}, ${m.accent})`, zIndex: team.length - i }}
+                      >
+                        {imgErr ? (
+                          <span>{m.initials}</span>
+                        ) : (
+                          <img src={m.photo} alt={m.name} className="w-full h-full object-cover object-top"
+                            onError={() => setImgErr(true)} />
+                        )}
+                      </div>
+                    )
+                  })}
+              </div>
+              <p className="text-[#061632] text-sm font-bold tracking-tight">
+                4 experts. One unified mission.
+              </p>
+            </div>
+
+            <a
+              href="https://linkedin.com/company/devnexes-digital-solutions"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-[#0a66c2] text-white px-6 py-3 font-bold text-[12px] uppercase tracking-widest hover:bg-[#0a66c2]/90 transition-all group"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
+              Follow Us on LinkedIn
+              <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+            </a>
+          </motion.div>
         </div>
       </section>
 
