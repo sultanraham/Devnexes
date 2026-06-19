@@ -42,7 +42,7 @@ const ContactSection = ({ t }) => {
     if (!safeData.message || safeData.message.length < 5) { setStatus('error'); return }
 
     setStatus('sending')
-    const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001'
+    const API_BASE = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://127.0.0.1:5001' : '');
     try {
       const res = await fetch(`${API_BASE}/api/contact`, {
         method: 'POST',

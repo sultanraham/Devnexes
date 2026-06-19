@@ -8,7 +8,7 @@ const CustomerSupport = ({ t, user }) => {
   const [showChat, setShowChat] = useState(false)
   const [messages, setMessages] = useState([])
   const [input, setInput] = useState('')
-  const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001';
+  const API_BASE = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://127.0.0.1:5001' : '');
   const chatEndRef = useRef(null)
 
   // Fetch messages every 3 seconds for live feel (only if logged in and chat open)

@@ -45,7 +45,7 @@ const AdminPortal = ({ onLogout }) => {
       ])
     }
 
-    const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001'
+    const API_BASE = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://127.0.0.1:5001' : '');
     try {
       const res = await fetch(`${API_BASE}/api/admin/sessions`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
       if (res.ok) setSessions(await res.json())
@@ -122,7 +122,7 @@ const AdminPortal = ({ onLogout }) => {
   }
 
   const markContactRead = async (id) => {
-    const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001'
+    const API_BASE = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://127.0.0.1:5001' : '');
     await fetch(`${API_BASE}/api/admin/contacts/${id}/read`, { 
       method: 'PUT', 
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } 
