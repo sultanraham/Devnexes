@@ -46,3 +46,7 @@ setupSupabase.js
 
 # Source maps (should not ship to production)
 *.map
+.vercel
+
+*.db-shm
+*.db-wal

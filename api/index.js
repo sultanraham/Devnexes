@@ -19,6 +19,15 @@ if (!supabaseKey || !JWT_SECRET) {
 const supabase = createClient(supabaseUrl, supabaseKey);
 const app  = express();
 
+// Fix for Vercel: Vercel strips the '/api' prefix when mounting api/index.js
+// This middleware ensures our routes starting with '/api' still match.
+app.use((req, res, next) => {
+  if (!req.url.startsWith('/api')) {
+    req.url = '/api' + (req.url === '/' ? '' : req.url);
+  }
+  next();
+});
+
 // ══════════════════════════════════════════════════════════════════════════════
 // SECURITY HEADERS & MIDDLEWARE
 // ══════════════════════════════════════════════════════════════════════════════
