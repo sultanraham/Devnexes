@@ -2,7 +2,7 @@ export const translations = {
   EN: {
     navbar: { home: 'Home', products: 'Products', services: 'Services', contact: 'Contact us' },
     hero: {
-      title: 'We build websites, AI automations and smart digital systems.',
+      title: 'We build smart websites & AI solutions.',
       getStarted: 'Get Started',
       register: 'Register',
       reviewedBy: 'Reviewed by 100k+ happy users',
