@@ -2,20 +2,20 @@ export const translations = {
   EN: {
     navbar: { home: 'Home', products: 'Products', services: 'Services', contact: 'Contact us' },
     hero: {
-      title: 'Empowering the Future with AI',
+      title: 'We build websites, AI automations and smart digital systems.',
       getStarted: 'Get Started',
       register: 'Register',
       reviewedBy: 'Reviewed by 100k+ happy users',
       socialProof: 'With 100,000+ verified reviews, customers praise our secure, user-friendly banking platform built on trust.',
       transactionVolume: 'Daily Transaction Volume',
       splitValues: 'Split into values',
-      footerDesc: 'From flexible development tools and smart automation systems to scalable AI solutions and advanced analytics'
+      footerDesc: 'Devnexes Digital Solutions provides Web Development, AI Automation, SEO, UI/UX Design, Chatbots, and custom Business Websites.'
     },
     features: {
-      tag: 'Why Choose Us',
+      tag: 'Why Devnexes',
       title: 'Intelligent Innovation for Everyday Experiences',
-      desc: 'Combining trusted security with cutting-edge AI technology.',
-      tabs: ['Work', 'Tools', 'Automation']
+      desc: 'Fast delivery, modern UI, secure code, and SEO-ready solutions.',
+      tabs: ['Web', 'AI', 'SEO']
     },
     login: {
       title: 'Secure Digital Intelligence',

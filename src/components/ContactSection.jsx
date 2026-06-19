@@ -144,7 +144,7 @@ const ContactSection = ({ t }) => {
                         <div className="space-y-2">
                           <label className="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">Name</label>
                           <input
-                            type="text" name="name" value={formData.name} onChange={handleChange} required
+                            type="text" name="name" value={formData.name} onChange={handleChange} required maxLength="80"
                             className="w-full bg-slate-50 border border-slate-200 hover:border-blue-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 rounded-2xl px-6 py-4 text-[#0a192f] font-medium text-base outline-none transition-all"
                             placeholder="username"
                           />
@@ -152,7 +152,7 @@ const ContactSection = ({ t }) => {
                         <div className="space-y-2">
                           <label className="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">Email</label>
                           <input
-                            type="email" name="email" value={formData.email} onChange={handleChange} required
+                            type="email" name="email" value={formData.email} onChange={handleChange} required maxLength="100"
                             className="w-full bg-slate-50 border border-slate-200 hover:border-blue-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 rounded-2xl px-6 py-4 text-[#0a192f] font-medium text-base outline-none transition-all"
                             placeholder="email"
                           />
@@ -162,7 +162,7 @@ const ContactSection = ({ t }) => {
                       <div className="space-y-2">
                         <label className="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">Message</label>
                         <textarea
-                          name="message" rows="4" value={formData.message} onChange={handleChange} required
+                          name="message" rows="4" value={formData.message} onChange={handleChange} required maxLength="1000"
                           className="w-full bg-slate-50 border border-slate-200 hover:border-blue-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 rounded-2xl px-6 py-4 text-[#0a192f] font-medium text-base outline-none transition-all resize-none"
                           placeholder="Type your message..."
                         />

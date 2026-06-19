@@ -13,6 +13,7 @@ const projects = [
     category: 'AI Solutions',
     desc: 'AI-powered learning platform with personalised lesson plans, real-time progress tracking, and adaptive quizzes.',
     tags: ['React', 'Python', 'OpenAI'],
+    image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=600',
     icon: <Cpu className="w-6 h-6" />,
     color: 'bg-purple-50',
     accent: 'text-purple-600',
@@ -24,6 +25,7 @@ const projects = [
     category: 'Mobile',
     desc: 'Full-stack tourism platform with interactive maps, booking integration, and multi-language support for Pakistan travel.',
     tags: ['React Native', 'Node.js', 'Maps API'],
+    image: 'https://images.unsplash.com/photo-1524850011238-e3d235c161a7?auto=format&fit=crop&q=80&w=600',
     icon: <Smartphone className="w-6 h-6" />,
     color: 'bg-emerald-50',
     accent: 'text-emerald-600',
@@ -35,6 +37,7 @@ const projects = [
     category: 'Mobile',
     desc: 'Comprehensive Islamic companion app with prayer times, Quran reader, Hadith database, and Qibla direction.',
     tags: ['React Native', 'Firebase', 'API'],
+    image: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&q=80&w=600',
     icon: <Smartphone className="w-6 h-6" />,
     color: 'bg-amber-50',
     accent: 'text-amber-600',
@@ -46,6 +49,7 @@ const projects = [
     category: 'AI Solutions',
     desc: 'Natural language interface for business databases — query your data in plain English, get structured results instantly.',
     tags: ['Python', 'LangChain', 'SQL', 'GPT-4'],
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600',
     icon: <Cpu className="w-6 h-6" />,
     color: 'bg-indigo-50',
     accent: 'text-indigo-600',
@@ -57,6 +61,7 @@ const projects = [
     category: 'Web Dev',
     desc: 'Full-stack SaaS client management portal with real-time project tracking, invoicing, and live developer chat.',
     tags: ['React', 'Node.js', 'SQLite', 'JWT'],
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=600',
     icon: <Code className="w-6 h-6" />,
     color: 'bg-blue-50',
     accent: 'text-blue-600',
@@ -68,6 +73,7 @@ const projects = [
     category: 'E-Commerce',
     desc: 'Custom e-commerce solution with inventory management, payment gateway integration, and admin dashboard.',
     tags: ['React', 'Node.js', 'Stripe', 'MongoDB'],
+    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=600',
     icon: <Globe className="w-6 h-6" />,
     color: 'bg-rose-50',
     accent: 'text-rose-600',
@@ -160,16 +166,19 @@ const PortfolioPage = () => {
             <motion.div key={activeFilter} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filtered.map((project, i) => (
                 <motion.div key={project.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}
-                  className={`group bg-white border ${project.border} hover:shadow-xl transition-all overflow-hidden relative`}>
-                  <div className={`${project.color} p-8 flex items-center justify-between`}>
-                    <div className={`w-12 h-12 bg-white flex items-center justify-center ${project.accent} shadow-sm`}>
+                  className={`group bg-white border ${project.border} hover:shadow-xl transition-all overflow-hidden relative flex flex-col`}>
+                  <div className="h-48 w-full overflow-hidden">
+                    <img src={project.image} alt={project.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  </div>
+                  <div className={`${project.color} p-6 flex items-center justify-between`}>
+                    <div className={`w-10 h-10 bg-white flex items-center justify-center ${project.accent} shadow-sm`}>
                       {project.icon}
                     </div>
                     <span className={`text-[9px] font-bold uppercase tracking-widest ${project.accent} bg-white px-3 py-1`}>{project.category}</span>
                   </div>
-                  <div className="p-8">
+                  <div className="p-8 grow flex flex-col">
                     <h3 className="text-[#061632] font-bold text-xl mb-3 tracking-tight">{project.title}</h3>
-                    <p className="text-gray-400 text-sm leading-relaxed mb-6">{project.desc}</p>
+                    <p className="text-gray-400 text-sm leading-relaxed mb-6 grow">{project.desc}</p>
                     <div className="flex flex-wrap gap-2">
                       {project.tags.map(tag => (
                         <span key={tag} className="text-[9px] font-bold uppercase tracking-widest bg-slate-50 text-slate-400 px-3 py-1 border border-slate-100">{tag}</span>

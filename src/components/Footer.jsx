@@ -38,10 +38,15 @@ const Footer = ({ t }) => {
               <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center border border-white/20 group-hover:border-white/40 transition-all overflow-hidden shadow-lg">
                 <img src="/favicon.png" alt="Devnexes" className="w-7 h-7 relative z-10" />
               </div>
-              <span className="text-3xl font-bold font-outfit text-white tracking-tight group-hover:text-blue-100 transition-colors">Devnexes</span>
+              <span className="text-3xl font-bold font-outfit text-white tracking-tight group-hover:text-blue-100 transition-colors">Devnexes Digital Solutions</span>
             </Link>
             <p className="text-white/60 text-sm md:text-[15px] leading-relaxed max-w-md font-medium mt-2">
+              Web Development | AI Automation | SEO | UI/UX | Chatbots<br/><br/>
               Empowering businesses through innovative digital solutions. We deliver cutting-edge software development, robust engineering, and technical expertise to drive your growth and digital transformation.
+            </p>
+            <p className="text-white/60 text-sm md:text-[15px] leading-relaxed max-w-md font-medium mt-4 flex items-center gap-2">
+              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg>
+              Lahore, Pakistan
             </p>
           </div>
 
