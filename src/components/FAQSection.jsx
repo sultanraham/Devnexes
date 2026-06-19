@@ -84,11 +84,7 @@ const FAQSection = ({ t }) => {
 
   return (
     <section id="faq-section" className="py-16 md:py-24 bg-white overflow-hidden relative">
-      {/* Background Image */}
-      <div 
-        className="absolute inset-0 z-0 bg-no-repeat bg-cover bg-center opacity-5 pointer-events-none"
-        style={{ backgroundImage: 'url("/ask_your_faq.png")' }}
-      />
+      {/* Background Image removed to fix 404 */}
 
       <motion.div 
         initial={{ opacity: 0, y: 50 }}

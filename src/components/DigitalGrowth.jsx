@@ -35,11 +35,7 @@ const DigitalGrowth = ({ t }) => {
 
   return (
     <section className="py-16 md:py-24 bg-white relative overflow-hidden">
-      {/* Background Image */}
-      <div 
-        className="absolute inset-0 z-0 bg-no-repeat bg-cover bg-center opacity-10 pointer-events-none"
-        style={{ backgroundImage: 'url("/digital_growth.png")' }}
-      />
+      {/* Background Image removed to fix 404 */}
       
       <div className="container mx-auto px-4 md:px-6 max-w-7xl relative z-10">
         

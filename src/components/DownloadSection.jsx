@@ -50,8 +50,7 @@ const DownloadSection = ({ t }) => {
         <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] bg-blue-500/10 rounded-full blur-[100px] md:blur-[150px] mix-blend-screen pointer-events-none" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] bg-purple-500/10 rounded-full blur-[100px] md:blur-[150px] mix-blend-screen pointer-events-none" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[500px] bg-emerald-500/5 rounded-[100%] blur-[120px] pointer-events-none" />
-        {/* Subtle grid pattern overlay */}
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.05] pointer-events-none" />
+        {/* Subtle grid pattern overlay removed to fix 404 */}
       </div>
       
       <div className="container mx-auto px-6 max-w-7xl relative z-10">
