@@ -7,15 +7,17 @@ const Footer = ({ t }) => {
   return (
     <footer className="relative w-full overflow-hidden bg-[#0a2351] font-outfit">
       {/* 1. Base Layer: footer.png */}
-      <div 
-        className="absolute inset-0 bg-cover bg-bottom bg-no-repeat z-0"
-        style={{ backgroundImage: "url('/footer.png')" }}
+      <img 
+        src="/images/devnexes-digital-solutions-footer-background.png"
+        alt="Devnexes Digital Solutions website footer background"
+        className="absolute inset-0 w-full h-full object-cover object-bottom z-0 pointer-events-none"
       />
 
       {/* 2. Overlay Layer: footer-cloud.png */}
-      <div 
-        className="absolute inset-0 bg-cover bg-bottom bg-no-repeat opacity-80 z-10 pointer-events-none"
-        style={{ backgroundImage: "url('/footer-cloud.png')" }}
+      <img 
+        src="/images/devnexes-digital-solutions-footer-clouds.png"
+        alt="Devnexes Digital Solutions website footer decorative clouds"
+        className="absolute inset-0 w-full h-full object-cover object-bottom opacity-80 z-10 pointer-events-none"
       />
 
       {/* 3. Top Gradient Blend - Optimized for No Merging */}
@@ -36,7 +38,7 @@ const Footer = ({ t }) => {
           <div className="flex flex-col gap-6 lg:w-2/5 pr-4">
             <Link to="/" className="flex items-center gap-4 group w-fit">
               <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center border border-white/20 group-hover:border-white/40 transition-all overflow-hidden shadow-lg">
-                <img src="/favicon.png" alt="Devnexes" className="w-7 h-7 relative z-10" />
+                <img src="/images/devnexes-logo.png" alt="Devnexes Digital Solutions official company logo" className="w-7 h-7 relative z-10 object-contain" />
               </div>
               <span className="text-3xl font-bold font-outfit text-white tracking-tight group-hover:text-blue-100 transition-colors">Devnexes Digital Solutions</span>
             </Link>

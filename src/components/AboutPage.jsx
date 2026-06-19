@@ -10,7 +10,7 @@ const team = [
     role: 'Chief Operations Officer',
     dept: 'Operations',
     bio: 'Manages project delivery, client operations, and internal processes to ensure consistent quality and on-time results.',
-    photo: '/team_arham.png',
+    photo: '/images/devnexes-team-arham.png',
     photoPos: 'center top',
     initials: 'MA',
     accent: '#0369a1',
@@ -23,7 +23,7 @@ const team = [
     role: 'Chief Technology Officer',
     dept: 'Tech Leadership',
     bio: 'Oversees all technical architecture, engineering standards, and system infrastructure across every project.',
-    photo: '/team_huzaifa.png',
+    photo: '/images/devnexes-team-huzaifa.png',
     photoPos: 'center center',
     initials: 'HA',
     accent: '#1d4ed8',
@@ -36,7 +36,7 @@ const team = [
     role: 'Technical Team Lead',
     dept: 'Engineering',
     bio: 'Leads the engineering team, code reviews, and hands-on development of client projects with precision and expertise.',
-    photo: '/team_huzafa.png',
+    photo: '/images/devnexes-team-huzafa.png',
     photoPos: 'center top',
     initials: 'HM',
     accent: '#2563eb',
@@ -49,7 +49,7 @@ const team = [
     role: 'Founder & Principal Architect',
     dept: 'Executive',
     bio: 'Visionary behind Devnexes. Leads product strategy, client relationships, and company direction with a bold long-term vision.',
-    photo: '/team_raham.png',
+    photo: '/images/devnexes-team-raham.png',
     photoPos: 'center top',
     initials: 'MR',
     accent: '#1e3a8a',
@@ -86,7 +86,7 @@ const TeamCard = ({ member, index }) => {
         {/* Photo */}
         <img
           src={member.photo}
-          alt={member.name}
+          alt={`Devnexes Digital Solutions team member ${member.name} - ${member.role}`}
           className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           style={{ objectPosition: member.photoPos || 'center top' }}
           onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}

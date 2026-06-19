@@ -222,7 +222,7 @@ const TrustedClients = ({ t }) => {
               style={{ width: isMobile ? 100 : 180, height: isMobile ? 100 : 180 }}
             >
               <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 3, repeat: Infinity }} className="absolute inset-0 w-full h-full bg-white/20 rounded-full blur-xl" />
-              <img src="/favicon.png" alt="Devnexes Logo" className="relative z-10 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]" style={{ width: isMobile ? '55px' : '95px', height: isMobile ? '55px' : '95px' }} />
+              <img src="/images/devnexes-logo.png" alt="Devnexes Digital Solutions company logo" className="relative z-10 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]" style={{ width: isMobile ? '55px' : '95px', height: isMobile ? '55px' : '95px' }} />
             </div>
 
             <div className="absolute inset-0 pointer-events-none z-10">

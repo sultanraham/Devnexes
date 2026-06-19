@@ -40,7 +40,7 @@ const DownloadSection = ({ t }) => {
     subtitle: settings?.download_subtitle || t?.subtitle || 'Master your project flow.',
     desc: settings?.download_desc || t?.desc || 'Manage your digital operations anytime, anywhere.',
     qr: settings?.qr_url || 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://devnexes.site',
-    wallpaper: '/eduai_app.png'
+    wallpaper: '/images/devnexes-eduai-application.png'
   }
 
   return (
@@ -154,7 +154,7 @@ const DownloadSection = ({ t }) => {
                 <div className="bg-[#050505] rounded-[3rem] overflow-hidden relative aspect-[9/19.5] border border-white/5">
                   <img 
                     src={content.wallpaper} 
-                    alt="App Preview" 
+                    alt="Devnexes EduAI educational application mobile preview" 
                     className="w-full h-full object-cover scale-[1.01]"
                   />
                   {/* Premium Screen Glare */}

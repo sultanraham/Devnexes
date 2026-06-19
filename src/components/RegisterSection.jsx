@@ -45,7 +45,7 @@ const RegisterSection = ({ t }) => {
             animate={{ scale: 1, opacity: 1 }}
             className="inline-flex items-center gap-2 mb-4"
           >
-            <img src="/favicon.png" alt="Devnexes Logo" className="w-7 h-7 md:w-8 md:h-8 object-contain" />
+            <img src="/images/devnexes-logo.png" alt="Devnexes Digital Solutions company logo" className="w-7 h-7 md:w-8 md:h-8 object-contain" />
             <span className="text-gray-900 text-lg md:text-xl font-bold tracking-tighter font-outfit uppercase italic">
               Devnexes
             </span>

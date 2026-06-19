@@ -84,33 +84,31 @@ const Hero = ({ t }) => {
     <section className="relative min-h-screen w-full flex flex-col bg-[#061632] overflow-hidden">
 
       {/* Background Layers */}
-      <div
-        className="absolute inset-0 z-0 bg-no-repeat bg-cover bg-center pointer-events-none"
-        style={{ backgroundImage: 'url("/hero-bg.png")' }}
+      <img
+        src="/images/devnexes-digital-solutions-hero-background.png"
+        alt="Devnexes Digital Solutions creative hero background design"
+        className="absolute inset-0 w-full h-full object-cover object-center z-0 pointer-events-none"
       />
 
       {/* Cloud Overlay (Top) */}
-      <motion.div
+      <motion.img
+        src="/images/devnexes-digital-solutions-hero-clouds.png"
+        alt="Devnexes Digital Solutions decorative hero clouds layer"
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.9 }}
         transition={{ duration: 2 }}
-        className="absolute -top-10 left-0 w-full h-[60%] mix-blend-screen z-10 pointer-events-none bg-no-repeat bg-cover"
-        style={{
-          backgroundImage: 'url("/hero-bg-clouds.png")',
-          backgroundPosition: 'top center'
-        }}
+        className="absolute -top-10 left-0 w-full h-[60%] object-cover object-top mix-blend-screen z-10 pointer-events-none"
       />
 
       {/* Blocks Grid Overlay (Bottom) */}
-      <motion.div
+      <motion.img
+        src="/images/devnexes-digital-solutions-hero-boxes.png"
+        alt="Devnexes Digital Solutions decorative hero boxes grid pattern"
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.5 }}
         transition={{ duration: 2, delay: 0.5 }}
-        className="absolute -bottom-20 left-0 w-full h-[70%] z-20 pointer-events-none"
+        className="absolute -bottom-20 left-0 w-full h-[70%] object-cover object-bottom z-20 pointer-events-none"
         style={{
-          backgroundImage: 'url("/hero-bg-boxes.png")',
-          backgroundSize: 'cover',
-          backgroundPosition: 'bottom center',
           maskImage: 'linear-gradient(to bottom, transparent, black 15%)',
           WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 15%)'
         }}

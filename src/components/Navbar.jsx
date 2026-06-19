@@ -46,13 +46,14 @@ const Navbar = ({ currentLang, setCurrentLang, user, onLogout }) => {
 
   const navContent = (
     <>
-      <div 
-        className={`absolute inset-0 z-0 pointer-events-none bg-cover bg-center transition-opacity duration-700 ${isScrolled ? 'opacity-0' : 'opacity-100'}`}
-        style={{ backgroundImage: 'url("/navbg.png")' }}
+      <img 
+        src="/images/devnexes-digital-solutions-navbar-background.png"
+        alt="Devnexes Digital Solutions website navigation background"
+        className={`absolute inset-0 z-0 pointer-events-none object-cover object-center w-full h-full transition-opacity duration-700 ${isScrolled ? 'opacity-0' : 'opacity-100'}`}
       />
 
       <div className="flex items-center gap-3 relative z-40 pl-6 md:pl-12">
-        <img src="/favicon.png" alt="Devnexes Logo" className="w-8 h-8 object-contain" />
+        <img src="/images/devnexes-logo.png" alt="Devnexes Digital Solutions company logo" className="w-8 h-8 object-contain" />
         <div className="text-xl md:text-2xl font-black text-white tracking-tighter font-outfit">
           Devnexes
         </div>

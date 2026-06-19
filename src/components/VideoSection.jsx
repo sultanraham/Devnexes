@@ -88,8 +88,8 @@ const VideoSection = () => {
           <div className="w-full lg:w-1/2 relative min-h-[300px] md:min-h-[500px] group overflow-hidden">
             <motion.img 
               whileHover={{ scale: 1.05 }}
-              src="/video_thumbnail_devnexes.png" 
-              alt="Devnexes video thumbnail — how our AI services work" 
+              src="/images/devnexes-video-thumbnail.png" 
+              alt="Devnexes Digital Solutions video presentation thumbnail" 
               loading="lazy"
               decoding="async"
               width="800"
