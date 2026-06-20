@@ -1,63 +1,9 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, Shield, Zap, Globe, Code } from 'lucide-react'
 import Footer from './Footer'
-
-const team = [
-  {
-    name: 'Muhammad Raham',
-    role: 'CEO & Founder',
-    dept: 'Executive',
-    bio: 'Muhammad Raham leads the vision and business strategy of Devnexes Digital Solutions. He focuses on building modern digital products, AI-powered solutions, and long-term client partnerships.',
-    photo: '/images/devnexes-team-raham.png',
-    photoPos: 'center top',
-    initials: 'MR',
-    accent: '#1e3a8a',
-    gradientFrom: '#061632',
-    gradientTo: '#1e3a8a',
-    linkedin: 'https://www.linkedin.com/in/muhammad-raham-abdul-qayyum-850a41396/',
-  },
-  {
-    name: 'Muhammad Arham',
-    role: 'Chief Operations Officer — COO',
-    dept: 'Operations',
-    bio: 'Muhammad Arham manages operations, client communication, and project delivery. He ensures that every project is completed with proper planning, quality, and timeline control.',
-    photo: '/images/devnexes-team-arham.png',
-    photoPos: 'center top',
-    initials: 'MA',
-    accent: '#0369a1',
-    gradientFrom: '#0c1a2e',
-    gradientTo: '#0369a1',
-    linkedin: 'https://www.linkedin.com/in/muhammad-arham-abdul-qayyum-3771b1356/',
-  },
-  {
-    name: 'Huzaifa Ali',
-    role: 'Chief Technology Officer — CTO',
-    dept: 'Tech Leadership',
-    bio: 'Huzaifa Ali leads the technical direction of Devnexes. He manages technology decisions, system architecture, development standards, and innovation in AI and web solutions.',
-    photo: '/images/devnexes-team-huzaifa.png',
-    photoPos: 'center center',
-    initials: 'HA',
-    accent: '#1d4ed8',
-    gradientFrom: '#0f172a',
-    gradientTo: '#1d4ed8',
-    linkedin: 'https://www.linkedin.com/in/huzaifa-fullstack/',
-  },
-  {
-    name: 'Huzaifa Mushtaq',
-    role: 'Technical Team Lead',
-    dept: 'Engineering',
-    bio: 'Huzaifa Mushtaq supervises the technical team, assigns development tasks, reviews work, and supports smooth execution of client projects.',
-    photo: '/images/devnexes-team-huzafa.png',
-    photoPos: 'center top',
-    initials: 'HM',
-    accent: '#2563eb',
-    gradientFrom: '#0a1628',
-    gradientTo: '#2563eb',
-    linkedin: 'https://www.linkedin.com/in/huzaifa-mushtaq-5a18bb414/',
-  }
-]
+import { team } from '../data/team'
 
 const values = [
   { icon: <Shield className="w-6 h-6" />, title: 'Security First', desc: 'Every system we build is designed with security as a foundation, not an afterthought.' },
@@ -76,10 +22,12 @@ const TeamCard = ({ member, index }) => {
       className="group flex flex-col sm:flex-row bg-white border border-slate-100 rounded-[2rem] p-6 sm:p-8 hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-500 gap-8 items-center sm:items-start"
     >
       {/* Photo */}
-      <div className="w-40 h-40 sm:w-48 sm:h-48 shrink-0 rounded-3xl overflow-hidden relative border border-slate-100 shadow-sm group-hover:shadow-lg transition-all duration-500">
+      <Link to={`/team/${member.slug}`} className="w-40 h-40 sm:w-48 sm:h-48 shrink-0 rounded-3xl overflow-hidden relative border border-slate-100 shadow-sm group-hover:shadow-lg transition-all duration-500 block">
         <img
           src={member.photo}
-          alt={member.name}
+          alt={`${member.name} - ${member.role} at Devnexes`}
+          title={`${member.name} - Devnexes ${member.role}`}
+          loading="lazy"
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           style={{ objectPosition: member.photoPos || 'center top' }}
           onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
@@ -91,13 +39,22 @@ const TeamCard = ({ member, index }) => {
         >
           {member.initials}
         </div>
-        <div className="absolute inset-0 bg-[#061632]/0 group-hover:bg-[#061632]/5 transition-colors duration-500" />
-      </div>
+        <div className="absolute inset-0 bg-[#061632]/0 group-hover:bg-[#061632]/10 transition-colors duration-500" />
+        
+        {/* Role Badge on Image */}
+        <div className="absolute bottom-3 left-0 right-0 flex justify-center opacity-90 group-hover:opacity-100 transition-opacity">
+          <span className="bg-[#061632]/80 backdrop-blur-md text-white text-[9px] font-bold uppercase tracking-[0.2em] px-3 py-1.5 rounded-full shadow-lg border border-white/20">
+            Devnexes {member.role.includes('—') ? member.role.split('—')[1].trim() : (member.role.includes('CEO') ? 'CEO' : (member.role.includes('Lead') ? 'Lead' : member.role))}
+          </span>
+        </div>
+      </Link>
 
       {/* Info */}
       <div className="flex flex-col flex-1 h-full justify-center w-full sm:w-auto text-center sm:text-left">
         <span className="text-blue-600 text-[10px] font-bold uppercase tracking-[0.3em] mb-2 block">{member.dept}</span>
-        <h3 className="text-[#061632] text-2xl sm:text-3xl font-bold tracking-tighter mb-1">{member.name}</h3>
+        <Link to={`/team/${member.slug}`} className="hover:text-blue-600 transition-colors">
+          <h3 className="text-[#061632] text-2xl sm:text-3xl font-bold tracking-tighter mb-1 hover:text-blue-600 transition-colors">{member.name}</h3>
+        </Link>
         <p className="text-gray-400 font-bold uppercase tracking-wider text-[11px] mb-4">{member.role}</p>
 
         <p className="text-gray-500 text-sm leading-relaxed mb-6">
@@ -178,8 +135,36 @@ const OrganizationChart = () => {
 const AboutPage = ({ t = {} }) => {
   const navigate = useNavigate()
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Devnexes Digital Solutions",
+    "url": "https://www.devnexes.site/",
+    "logo": "https://www.devnexes.site/images/devnexes-logo.png",
+    "founder": {
+      "@type": "Person",
+      "name": "Muhammad Raham Abdul Qayyum",
+      "jobTitle": "Founder & CEO",
+      "image": "https://www.devnexes.site/images/team/muhammad-raham-abdul-qayyum-founder-ceo-devnexes.png",
+      "url": "https://www.devnexes.site/team/muhammad-raham-abdul-qayyum",
+      "sameAs": [
+        "https://www.linkedin.com/in/muhammad-raham-abdul-qayyum-850a41396/"
+      ]
+    },
+    "employee": team.filter(m => m.slug !== 'muhammad-raham-abdul-qayyum').map(member => ({
+      "@type": "Person",
+      "name": member.name,
+      "jobTitle": member.role,
+      "image": `https://www.devnexes.site${member.photo}`,
+      "url": `https://www.devnexes.site/team/${member.slug}`,
+      "sameAs": [member.linkedin]
+    }))
+  };
+
   return (
     <div className="w-full bg-white font-outfit">
+      {/* SEO Structured Data for Google Images */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
 
       {/* Back nav */}
       <div className="fixed top-8 left-8 z-50">

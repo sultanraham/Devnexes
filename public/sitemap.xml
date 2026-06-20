@@ -52,16 +52,45 @@
     <loc>https://www.devnexes.site/about</loc>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://www.devnexes.site/images/devnexes-team-arham.png</image:loc>
+      <image:loc>https://www.devnexes.site/images/team/muhammad-arham-coo-devnexes-digital-solutions.png</image:loc>
     </image:image>
     <image:image>
-      <image:loc>https://www.devnexes.site/images/devnexes-team-huzaifa.png</image:loc>
+      <image:loc>https://www.devnexes.site/images/team/huzaifa-ali-cto-devnexes-digital-solutions.png</image:loc>
     </image:image>
     <image:image>
-      <image:loc>https://www.devnexes.site/images/devnexes-team-huzafa.png</image:loc>
+      <image:loc>https://www.devnexes.site/images/team/huzaifa-mushtaq-technical-team-lead-devnexes.png</image:loc>
     </image:image>
     <image:image>
-      <image:loc>https://www.devnexes.site/images/devnexes-team-raham.png</image:loc>
+      <image:loc>https://www.devnexes.site/images/team/muhammad-raham-abdul-qayyum-founder-ceo-devnexes.png</image:loc>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://www.devnexes.site/team/muhammad-raham-abdul-qayyum</loc>
+    <image:image>
+      <image:loc>https://www.devnexes.site/images/team/muhammad-raham-abdul-qayyum-founder-ceo-devnexes.png</image:loc>
+      <image:title>Muhammad Raham Abdul Qayyum - Founder &amp; CEO of Devnexes Digital Solutions</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.devnexes.site/team/muhammad-arham</loc>
+    <image:image>
+      <image:loc>https://www.devnexes.site/images/team/muhammad-arham-coo-devnexes-digital-solutions.png</image:loc>
+      <image:title>Muhammad Arham - Chief Operations Officer at Devnexes Digital Solutions</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.devnexes.site/team/huzaifa-ali</loc>
+    <image:image>
+      <image:loc>https://www.devnexes.site/images/team/huzaifa-ali-cto-devnexes-digital-solutions.png</image:loc>
+      <image:title>Huzaifa Ali - Chief Technology Officer at Devnexes Digital Solutions</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.devnexes.site/team/huzaifa-mushtaq</loc>
+    <image:image>
+      <image:loc>https://www.devnexes.site/images/team/huzaifa-mushtaq-technical-team-lead-devnexes.png</image:loc>
+      <image:title>Huzaifa Mushtaq - Technical Team Lead at Devnexes Digital Solutions</image:title>
     </image:image>
   </url>
 

@@ -15,6 +15,7 @@ import AdminPortal from './components/AdminPortal'
 import AboutPage from './components/AboutPage'
 import PortfolioPage from './components/PortfolioPage'
 import PolicyPage from './components/PolicyPage'
+import TeamMemberPage from './components/TeamMemberPage'
 import Footer from './components/Footer'
 import { translations } from './translations'
 
@@ -108,7 +109,7 @@ const Layout = ({ currentLang, setCurrentLang, t }) => {
     localStorage.removeItem('token')
   }
 
-  const isFullPage = ['/contact', '/admin', '/about', '/portfolio', '/policy'].includes(location.pathname)
+  const isFullPage = ['/contact', '/admin', '/about', '/portfolio', '/policy'].includes(location.pathname) || location.pathname.startsWith('/team/')
 
   return (
     <main className="w-full min-h-screen bg-[#1e4b8b] text-white overflow-x-hidden font-sans">
@@ -125,6 +126,7 @@ const Layout = ({ currentLang, setCurrentLang, t }) => {
           }
         />
         <Route path="/about" element={<AboutPage t={t?.about || {}} />} />
+        <Route path="/team/:slug" element={<TeamMemberPage />} />
         <Route path="/portfolio" element={<PortfolioPage />} />
         <Route path="/policy" element={<PolicyPage />} />
         <Route path="/login" element={<Navigate to="/#login-section" replace />} />
