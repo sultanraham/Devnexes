@@ -27,6 +27,7 @@ const Counter = ({ value }) => {
 }
 
 const VideoSection = () => {
+  const [isPlaying, setIsPlaying] = useState(false)
   const [siteStats, setSiteStats] = useState({
     stat_1_value: '150K', stat_1_label: 'AI Solutions',
     stat_2_value: '500K', stat_2_label: 'Vision AI',
@@ -85,30 +86,47 @@ const VideoSection = () => {
         >
           
           {/* Left Side: Video Thumbnail */}
-          <div className="w-full lg:w-1/2 relative min-h-[300px] md:min-h-[500px] group overflow-hidden">
-            <motion.img 
-              whileHover={{ scale: 1.05 }}
-              src="/images/devnexes-video-thumbnail.png" 
-              alt="Devnexes Digital Solutions video presentation thumbnail" 
-              loading="lazy"
-              decoding="async"
-              width="800"
-              height="500"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative">
-                <motion.div 
-                  animate={{ scale: [1, 1.4, 1], opacity: [0.3, 0, 0.3] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  className="absolute inset-0 bg-white rounded-full"
+          <div className="w-full lg:w-1/2 relative min-h-[300px] md:min-h-[500px] group overflow-hidden bg-black">
+            {!isPlaying ? (
+              <>
+                <motion.img 
+                  whileHover={{ scale: 1.05 }}
+                  src="/images/devnexes-video-thumbnail.png" 
+                  alt="Devnexes Digital Solutions video presentation thumbnail" 
+                  loading="lazy"
+                  decoding="async"
+                  width="800"
+                  height="500"
+                  className="absolute inset-0 w-full h-full object-cover cursor-pointer transition-transform duration-700"
+                  onClick={() => setIsPlaying(true)}
                 />
-                <div className="w-16 h-16 md:w-20 md:h-20 bg-white rounded-full flex items-center justify-center shadow-2xl cursor-pointer relative z-10">
-                  <div className="w-0 h-0 border-t-8 md:border-t-10 border-t-transparent border-l-12 md:border-l-16 border-l-[#0f172a] border-b-8 md:border-b-10 border-b-transparent ml-2" />
+                
+                <div 
+                  className="absolute inset-0 flex items-center justify-center cursor-pointer"
+                  onClick={() => setIsPlaying(true)}
+                >
+                  <div className="relative">
+                    <motion.div 
+                      animate={{ scale: [1, 1.4, 1], opacity: [0.3, 0, 0.3] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                      className="absolute inset-0 bg-white rounded-full"
+                    />
+                    <div className="w-16 h-16 md:w-20 md:h-20 bg-white rounded-full flex items-center justify-center shadow-2xl relative z-10 hover:scale-110 transition-transform duration-300">
+                      <div className="w-0 h-0 border-t-8 md:border-t-10 border-t-transparent border-l-12 md:border-l-16 border-l-[#0f172a] border-b-8 md:border-b-10 border-b-transparent ml-2" />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              </>
+            ) : (
+              <iframe 
+                className="absolute inset-0 w-full h-full"
+                src="https://www.youtube.com/embed/bNvxXl4I7J0?autoplay=1&mute=0" 
+                title="Devnexes Digital Solutions Presentation" 
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowFullScreen
+              />
+            )}
           </div>
 
           {/* Right Side: Gold Content Box */}
