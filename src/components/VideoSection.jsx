@@ -118,11 +118,13 @@ const VideoSection = () => {
                 </div>
               </>
             ) : (
-              <video 
-                className="absolute inset-0 w-full h-full object-cover"
-                autoPlay 
-                controls 
-                src="https://www.w3schools.com/html/mov_bbb.mp4"
+              <iframe 
+                className="absolute inset-0 w-full h-full"
+                src="https://www.youtube.com/embed/ad79nYk2keg?autoplay=1&mute=0" 
+                title="Devnexes AI Presentation" 
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowFullScreen
               />
             )}
           </div>

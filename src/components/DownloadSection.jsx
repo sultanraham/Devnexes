@@ -148,11 +148,11 @@ const DownloadSection = ({ t }) => {
                 </div>
                 
                 {/* Screen Content */}
-                <div className="bg-white rounded-[2.5rem] overflow-hidden relative w-full h-full flex flex-col">
+                <div className="bg-white rounded-[2.5rem] overflow-hidden relative aspect-[9/19.5] w-full">
                   <img 
                     src={content.wallpaper} 
                     alt="Devnexes mobile application interface" 
-                    className="w-full h-auto object-contain"
+                    className="w-full h-full object-cover object-top"
                   />
                 </div>
               </div>
