@@ -29,7 +29,7 @@ const team = [
     accent: '#1d4ed8',
     gradientFrom: '#0f172a',
     gradientTo: '#1d4ed8',
-    linkedin: 'https://linkedin.com/company/devnexes-digital-solutions',
+    linkedin: 'https://www.linkedin.com/in/huzaifa-ali/',
   },
   {
     name: 'Huzaifa Mushtaq',
@@ -42,7 +42,7 @@ const team = [
     accent: '#2563eb',
     gradientFrom: '#0a1628',
     gradientTo: '#2563eb',
-    linkedin: 'https://linkedin.com/company/devnexes-digital-solutions',
+    linkedin: 'https://www.linkedin.com/in/huzaifa-mushtaq/',
   },
   {
     name: 'Muhammad Raham',
@@ -55,7 +55,7 @@ const team = [
     accent: '#1e3a8a',
     gradientFrom: '#061632',
     gradientTo: '#1e3a8a',
-    linkedin: 'https://linkedin.com/company/devnexes-digital-solutions',
+    linkedin: 'https://www.linkedin.com/in/muhammad-raham/',
   }
 ]
 
@@ -153,8 +153,8 @@ const AboutPage = ({ t = {} }) => {
 
         <div className="absolute inset-0 opacity-[0.03] z-0" style={{ backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px] z-0" />
-        <div className="container mx-auto px-6 max-w-7xl relative z-10 py-32 md:py-40">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+        <div className="container mx-auto px-6 max-w-7xl relative z-10 py-32 md:py-40 flex flex-col items-center text-center">
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="flex flex-col items-center">
             <p className="text-blue-400 text-[11px] font-bold uppercase tracking-[0.4em] mb-4">About Devnexes</p>
             <h1 className="text-white text-4xl md:text-7xl font-bold tracking-tighter leading-none mb-6 max-w-4xl">
               We Build Digital Products That Work.
