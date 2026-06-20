@@ -4,80 +4,73 @@ import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, Globe, Cpu, Smartphone, Code, ExternalLink } from 'lucide-react'
 import Footer from './Footer'
 
-const categories = ['All', 'Web Dev', 'AI Solutions', 'Mobile', 'E-Commerce']
+const categories = ['All', 'AI Agents', 'Developer Tools', 'Productivity']
 
 const projects = [
   {
     id: 1,
-    title: 'Edu AI Platform',
-    category: 'AI Solutions',
-    desc: 'AI-powered learning platform with personalised lesson plans, real-time progress tracking, and adaptive quizzes.',
-    tags: ['React', 'Python', 'OpenAI'],
-    image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=600',
+    title: 'Get Things Done (GTD)',
+    category: 'Productivity',
+    desc: 'An AI-powered productivity assistant designed to help you organize tasks, manage time, and execute goals efficiently.',
+    tags: ['AI', 'Productivity', 'Task Management'],
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600',
     icon: <Cpu className="w-6 h-6" />,
     color: 'bg-purple-50',
     accent: 'text-purple-600',
-    border: 'border-purple-100'
+    border: 'border-purple-100',
+    link: 'https://gtdai.vercel.app/'
   },
   {
     id: 2,
-    title: 'Tourism Discovery App',
-    category: 'Mobile',
-    desc: 'Full-stack tourism platform with interactive maps, booking integration, and multi-language support for Pakistan travel.',
-    tags: ['React Native', 'Node.js', 'Maps API'],
-    image: 'https://images.unsplash.com/photo-1524850011238-e3d235c161a7?auto=format&fit=crop&q=80&w=600',
-    icon: <Smartphone className="w-6 h-6" />,
-    color: 'bg-emerald-50',
-    accent: 'text-emerald-600',
-    border: 'border-emerald-100'
-  },
-  {
-    id: 3,
-    title: 'Islamic Master App',
-    category: 'Mobile',
-    desc: 'Comprehensive Islamic companion app with prayer times, Quran reader, Hadith database, and Qibla direction.',
-    tags: ['React Native', 'Firebase', 'API'],
-    image: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&q=80&w=600',
-    icon: <Smartphone className="w-6 h-6" />,
-    color: 'bg-amber-50',
-    accent: 'text-amber-600',
-    border: 'border-amber-100'
-  },
-  {
-    id: 4,
-    title: 'Database AI Chatbot',
-    category: 'AI Solutions',
-    desc: 'Natural language interface for business databases — query your data in plain English, get structured results instantly.',
-    tags: ['Python', 'LangChain', 'SQL', 'GPT-4'],
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600',
-    icon: <Cpu className="w-6 h-6" />,
-    color: 'bg-indigo-50',
-    accent: 'text-indigo-600',
-    border: 'border-indigo-100'
-  },
-  {
-    id: 5,
-    title: 'Devnexes Client Portal',
-    category: 'Web Dev',
-    desc: 'Full-stack SaaS client management portal with real-time project tracking, invoicing, and live developer chat.',
-    tags: ['React', 'Node.js', 'SQLite', 'JWT'],
+    title: 'Cortex IDE',
+    category: 'Developer Tools',
+    desc: 'A next-generation integrated development environment built for seamless coding, AI-assisted debugging, and team collaboration.',
+    tags: ['Electron', 'React', 'Code Editor'],
     image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=600',
     icon: <Code className="w-6 h-6" />,
     color: 'bg-blue-50',
     accent: 'text-blue-600',
-    border: 'border-blue-100'
+    border: 'border-blue-100',
+    link: 'https://github.com/arhamsolution-me/IDE/'
   },
   {
-    id: 6,
-    title: 'E-Commerce Platform',
-    category: 'E-Commerce',
-    desc: 'Custom e-commerce solution with inventory management, payment gateway integration, and admin dashboard.',
-    tags: ['React', 'Node.js', 'Stripe', 'MongoDB'],
-    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=600',
+    id: 3,
+    title: 'Interview Cracker',
+    category: 'AI Agents',
+    desc: 'An intelligent background agent that helps you practice, prepare, and ace technical and behavioral interviews.',
+    tags: ['AI Agent', 'Career', 'LLM'],
+    image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=600',
     icon: <Globe className="w-6 h-6" />,
-    color: 'bg-rose-50',
-    accent: 'text-rose-600',
-    border: 'border-rose-100'
+    color: 'bg-emerald-50',
+    accent: 'text-emerald-600',
+    border: 'border-emerald-100',
+    link: 'https://github.com/arhamsolution-me/bg-agent/'
+  },
+  {
+    id: 4,
+    title: 'Grey Matter',
+    category: 'AI Agents',
+    desc: 'A powerful local AI agent running entirely on your machine for maximum privacy, low latency, and secure data handling.',
+    tags: ['Local AI', 'Privacy', 'Offline'],
+    image: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&q=80&w=600',
+    icon: <Cpu className="w-6 h-6" />,
+    color: 'bg-slate-50',
+    accent: 'text-slate-600',
+    border: 'border-slate-200',
+    link: '#'
+  },
+  {
+    id: 5,
+    title: 'Lexibase',
+    category: 'Developer Tools',
+    desc: 'Chat directly with your database using natural language. Instantly query, visualize, and extract insights without writing SQL.',
+    tags: ['Database', 'SQL', 'NLP'],
+    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=600',
+    icon: <Code className="w-6 h-6" />,
+    color: 'bg-indigo-50',
+    accent: 'text-indigo-600',
+    border: 'border-indigo-100',
+    link: 'https://github.com/arhamsolution-me/LexiBase/'
   }
 ]
 
@@ -137,27 +130,6 @@ const PortfolioPage = () => {
         </div>
       </section>
 
-      {/* Client Logos */}
-      <section className="py-16 bg-slate-50 border-b border-slate-100">
-        <div className="container mx-auto px-6 max-w-7xl">
-          <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
-            className="text-sm font-bold uppercase tracking-[0.4em] text-slate-400 text-center mb-12">
-            Trusted by Growing Businesses
-          </motion.p>
-          <div className="flex flex-wrap items-center justify-center gap-10 md:gap-20">
-            {clientLogos.map((logo, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }} viewport={{ once: true }}
-                className="flex items-center gap-4 group">
-                <div className="w-16 h-16 bg-white border border-slate-200 rounded-xl shadow-sm flex items-center justify-center group-hover:border-[#1e3a8a]/30 group-hover:shadow-md transition-all">
-                  <span className="text-lg md:text-xl font-black text-slate-400 tracking-tighter group-hover:text-[#1e3a8a] transition-all">{logo.initials}</span>
-                </div>
-                <span className="text-slate-500 font-bold text-lg md:text-xl tracking-tight group-hover:text-[#1e3a8a] transition-all">{logo.name}</span>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Projects */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-6 max-w-7xl">
@@ -190,11 +162,20 @@ const PortfolioPage = () => {
                   <div className="p-8 grow flex flex-col">
                     <h3 className="text-[#061632] font-bold text-xl mb-3 tracking-tight">{project.title}</h3>
                     <p className="text-gray-400 text-sm leading-relaxed mb-6 grow">{project.desc}</p>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2 mb-6">
                       {project.tags.map(tag => (
                         <span key={tag} className="text-[9px] font-bold uppercase tracking-widest bg-slate-50 text-slate-400 px-3 py-1 border border-slate-100">{tag}</span>
                       ))}
                     </div>
+                    {project.link !== '#' ? (
+                      <a href={project.link} target="_blank" rel="noopener noreferrer" className={`inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest ${project.accent} hover:opacity-80 transition-opacity mt-auto`}>
+                        View Project <ExternalLink size={14} />
+                      </a>
+                    ) : (
+                      <span className={`inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-auto`}>
+                        Coming Soon
+                      </span>
+                    )}
                   </div>
                 </motion.div>
               ))}
@@ -217,10 +198,10 @@ const PortfolioPage = () => {
             </motion.div>
             <div className="grid grid-cols-2 gap-4">
               {[
-                { icon: <Code className="w-5 h-5" />, title: 'Web Development', items: ['React / Next.js', 'Node.js backends', 'REST & GraphQL APIs'] },
-                { icon: <Cpu className="w-5 h-5" />, title: 'AI Integration', items: ['GPT-4 / Claude', 'Custom ML models', 'Chatbots & agents'] },
-                { icon: <Smartphone className="w-5 h-5" />, title: 'Mobile Apps', items: ['React Native', 'iOS & Android', 'App Store publishing'] },
-                { icon: <Globe className="w-5 h-5" />, title: 'Cloud & DevOps', items: ['AWS / VPS hosting', 'CI/CD pipelines', 'Domain & SSL setup'] }
+                { icon: <Globe className="w-5 h-5" />, title: '3D Websites', items: ['Three.js & WebGL', 'Interactive Experiences', 'High-end animations'] },
+                { icon: <Code className="w-5 h-5" />, title: 'Custom Web Dev', items: ['React / Next.js', 'Node.js & Python', 'Scalable Architecture'] },
+                { icon: <Cpu className="w-5 h-5" />, title: 'Automation', items: ['Workflow automation', 'Scripting & bots', 'API integrations'] },
+                { icon: <Smartphone className="w-5 h-5" />, title: 'AI Services', items: ['Custom LLM integration', 'AI Agents', 'Chatbots & NLP'] }
               ].map((s, i) => (
                 <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} viewport={{ once: true }}
                   className="bg-white border border-slate-100 p-6 hover:border-[#1e3a8a]/20 hover:shadow-md transition-all">
