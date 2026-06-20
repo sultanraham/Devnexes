@@ -184,11 +184,11 @@ const AboutPage = () => {
       <section className="min-h-[60vh] bg-[#061632] flex items-center relative overflow-hidden">
         
         {/* Background Logo with Low Opacity */}
-        <div className="absolute inset-0 flex items-center justify-center lg:justify-end opacity-[0.05] pointer-events-none z-0">
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden">
           <img 
             src="/images/devnexes-logo.png" 
             alt="" 
-            className="w-full max-w-[800px] h-[800px] object-contain lg:translate-x-1/4 scale-150 lg:scale-100"
+            className="w-[120%] md:w-[80%] max-w-[1000px] opacity-[0.15] object-contain"
           />
         </div>
 
