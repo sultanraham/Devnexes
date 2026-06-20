@@ -29,7 +29,7 @@ const team = [
     accent: '#1d4ed8',
     gradientFrom: '#0f172a',
     gradientTo: '#1d4ed8',
-    linkedin: 'https://www.linkedin.com/in/huzaifa-ali/',
+    linkedin: 'https://www.linkedin.com/in/huzaifa-fullstack/',
   },
   {
     name: 'Huzaifa Mushtaq',
@@ -42,7 +42,7 @@ const team = [
     accent: '#2563eb',
     gradientFrom: '#0a1628',
     gradientTo: '#2563eb',
-    linkedin: 'https://www.linkedin.com/in/huzaifa-mushtaq/',
+    linkedin: 'https://www.linkedin.com/in/huzaifa-mushtaq-5a18bb414/',
   },
   {
     name: 'Muhammad Raham',
@@ -55,7 +55,7 @@ const team = [
     accent: '#1e3a8a',
     gradientFrom: '#061632',
     gradientTo: '#1e3a8a',
-    linkedin: 'https://www.linkedin.com/in/muhammad-raham/',
+    linkedin: 'https://www.linkedin.com/in/muhammad-raham-abdul-qayyum-850a41396/',
   }
 ]
 
