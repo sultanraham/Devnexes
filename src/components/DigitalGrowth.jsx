@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { Cpu, Code2, Briefcase } from 'lucide-react'
+import { BrainCircuit, Code2, Briefcase } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 const DigitalGrowth = ({ t }) => {
@@ -8,9 +8,9 @@ const DigitalGrowth = ({ t }) => {
   const shouldReduceMotion = useReducedMotion()
   const cards = [
     {
-      icon: <Cpu className="text-[#1a365d] w-7 h-7" />,
+      icon: <BrainCircuit className="text-[#1a365d] w-7 h-7" />,
       iconBg: "bg-red-50",
-      title: "Ai services",
+      title: "AI services",
       description: "Gain high-performance AI insights with zero operational overhead.",
       bullets: ["Automation", "Computer vision", "Smart Detection"],
       buttonText: "Contact"
