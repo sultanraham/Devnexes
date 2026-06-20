@@ -11,7 +11,7 @@ const Field = ({ icon: Icon, label, ...props }) => (
       placeholder=" "
       className="peer w-full bg-white/10 border border-white/20 hover:border-white/35 focus:border-white/55 rounded-2xl pl-11 pr-4 py-5 text-white text-base outline-none transition-all duration-200"
     />
-    <label className="absolute left-11 top-1/2 -translate-y-1/2 text-white/45 text-base pointer-events-none transition-all duration-200
+    <label htmlFor={props.id} className="absolute left-11 top-1/2 -translate-y-1/2 text-white/45 text-base pointer-events-none transition-all duration-200
       peer-focus:top-2.5 peer-focus:translate-y-0 peer-focus:text-xs peer-focus:text-white/70
       peer-[:not(:placeholder-shown)]:top-2.5 peer-[:not(:placeholder-shown)]:translate-y-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-white/70">
       {label}
@@ -30,7 +30,7 @@ const PasswordField = ({ label, ...props }) => {
         placeholder=" "
         className="peer w-full bg-white/10 border border-white/20 hover:border-white/35 focus:border-white/55 rounded-2xl pl-11 pr-12 py-5 text-white text-base outline-none transition-all duration-200"
       />
-      <label className="absolute left-11 top-1/2 -translate-y-1/2 text-white/45 text-base pointer-events-none transition-all duration-200
+      <label htmlFor={props.id} className="absolute left-11 top-1/2 -translate-y-1/2 text-white/45 text-base pointer-events-none transition-all duration-200
         peer-focus:top-2.5 peer-focus:translate-y-0 peer-focus:text-xs peer-focus:text-white/70
         peer-[:not(:placeholder-shown)]:top-2.5 peer-[:not(:placeholder-shown)]:translate-y-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-white/70">
         {label}
@@ -137,12 +137,12 @@ const LoginSection = ({ t, onLogin }) => {
               className="flex flex-col gap-4"
             >
               {!isLogin && (
-                <Field icon={Mail} label="Email Address" type="email" id="email" required onChange={handleChange} />
+                <Field icon={Mail} label="Email Address" type="email" id="email" autoComplete="email" required onChange={handleChange} />
               )}
 
-              <Field icon={User} label="Username" type="text" id="username" required onChange={handleChange} />
+              <Field icon={User} label="Username" type="text" id="username" autoComplete="username" required onChange={handleChange} />
 
-              <PasswordField label="Password" id="password" required onChange={handleChange} />
+              <PasswordField label="Password" id="password" autoComplete={isLogin ? "current-password" : "new-password"} required onChange={handleChange} />
 
               {isLogin && (
                 <div className="text-right">
@@ -153,8 +153,8 @@ const LoginSection = ({ t, onLogin }) => {
               )}
 
               {!isLogin && (
-                <label className="flex items-center gap-2.5 cursor-pointer">
-                  <input type="checkbox" required className="w-4 h-4 rounded accent-white shrink-0" />
+                <label htmlFor="termsCheckbox" className="flex items-center gap-2.5 cursor-pointer">
+                  <input id="termsCheckbox" type="checkbox" required className="w-4 h-4 rounded accent-white shrink-0" />
                   <span className="text-white/55 text-sm">
                     I agree to the <span className="text-white font-semibold underline underline-offset-2 cursor-pointer">Terms & Conditions</span>
                   </span>

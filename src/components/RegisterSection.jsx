@@ -108,6 +108,7 @@ const RegisterSection = ({ t }) => {
                     type="text"
                     placeholder=" "
                     id="fullName"
+                    autoComplete="name"
                     className="peer w-full bg-white/50 border border-blue-100/50 rounded-none px-4 py-3 text-gray-900 font-outfit focus:outline-none focus:border-[#1e3a8a] transition-all text-[13px] placeholder-transparent"
                   />
                   <label 
@@ -138,6 +139,7 @@ const RegisterSection = ({ t }) => {
                     type="email"
                     placeholder=" "
                     id="email"
+                    autoComplete="email"
                     className="peer w-full bg-white/50 border border-blue-100/50 rounded-none px-4 py-3 text-gray-900 font-outfit focus:outline-none focus:border-[#1e3a8a] transition-all text-[13px] placeholder-transparent"
                   />
                   <label 
@@ -169,6 +171,7 @@ const RegisterSection = ({ t }) => {
                   type="password"
                   placeholder=" "
                   id="password"
+                  autoComplete="new-password"
                   className="peer w-full bg-white/50 border border-blue-100/50 rounded-none px-4 py-3 text-gray-900 font-outfit focus:outline-none focus:border-[#1e3a8a] transition-all text-[13px] placeholder-transparent"
                 />
                 <label 
@@ -199,6 +202,7 @@ const RegisterSection = ({ t }) => {
                   type="password"
                   placeholder=" "
                   id="confirmPassword"
+                  autoComplete="new-password"
                   className="peer w-full bg-white/50 border border-blue-100/50 rounded-none px-4 py-3 text-gray-900 font-outfit focus:outline-none focus:border-[#1e3a8a] transition-all text-[13px] placeholder-transparent"
                 />
                 <label 

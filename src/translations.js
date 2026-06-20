@@ -6,10 +6,10 @@ export const translations = {
       getStarted: 'Get Started',
       register: 'Register',
       reviewedBy: 'Reviewed by 100k+ happy users',
-      socialProof: 'With 100,000+ verified reviews, customers praise our secure, user-friendly banking platform built on trust.',
+      socialProof: 'With 1k+ verified reviews, customers praise our secure, user-friendly banking platform built on trust.',
       transactionVolume: 'Daily Transaction Volume',
       splitValues: 'Split into values',
-      footerDesc: 'Devnexes Digital Solutions provides Web Development, AI Automation, SEO, UI/UX Design, Chatbots, and custom Business Websites.'
+      footerDesc: 'Devnexes Digital Solutions provides Web Development, AI Automation, SEO, UI/UX Design, Chatbots, and Custom Business Websites.'
     },
     features: {
       tag: 'Why Devnexes',
