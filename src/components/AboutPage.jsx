@@ -123,62 +123,54 @@ const TeamCard = ({ member, index }) => {
 
 const OrganizationChart = () => {
   return (
-    <div className="w-full flex flex-col items-center justify-center py-10 mb-20 relative">
-      
-      {/* CEO */}
-      <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} className="bg-gradient-to-br from-[#061632] via-[#0f2756] to-[#1e3a8a] text-white px-8 py-5 rounded-2xl shadow-xl shadow-blue-900/20 border border-white/10 text-center z-10 w-64 md:w-72 relative overflow-hidden group">
-        <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-blue-300 mb-2">CEO & Founder</p>
-        <h4 className="font-bold text-xl tracking-tight">Muhammad Raham</h4>
-      </motion.div>
-      
-      {/* Vertical Line from CEO */}
-      <div className="w-[2px] h-8 bg-gradient-to-b from-blue-300 to-blue-200" />
-      
-      {/* Horizontal Line for branching */}
-      <div className="hidden md:block w-[320px] h-[2px] bg-blue-200" />
-      
-      {/* Branching Lines Down */}
-      <div className="hidden md:flex w-[320px] justify-between">
-        <div className="w-[2px] h-8 bg-gradient-to-b from-blue-200 to-blue-100" />
-        <div className="w-[2px] h-8 bg-gradient-to-b from-blue-200 to-blue-100" />
-      </div>
-
-      {/* COO & CTO Container */}
-      <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8 justify-center z-10">
-        {/* COO */}
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="bg-white px-8 py-5 rounded-2xl shadow-lg shadow-blue-900/5 border border-blue-50 hover:border-blue-200 transition-colors text-center w-64 md:w-72">
-          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#0369a1] mb-2">COO</p>
-          <h4 className="font-bold text-[#061632] text-lg tracking-tight">Muhammad Arham</h4>
-        </motion.div>
-
-        {/* Vertical Line for Mobile */}
-        <div className="md:hidden w-[2px] h-6 bg-blue-100" />
-
-        {/* CTO */}
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="bg-white px-8 py-5 rounded-2xl shadow-lg shadow-blue-900/5 border border-blue-50 hover:border-blue-200 transition-colors text-center w-64 md:w-72 relative">
-          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#1d4ed8] mb-2">CTO</p>
-          <h4 className="font-bold text-[#061632] text-lg tracking-tight">Huzaifa Ali</h4>
-          {/* Vertical line going down from CTO to Tech Lead on Desktop */}
-          <div className="hidden md:block absolute -bottom-8 left-1/2 -translate-x-1/2 w-[2px] h-8 bg-gradient-to-b from-blue-100 to-blue-200" />
-        </motion.div>
-      </div>
-
-      {/* Vertical Line for Mobile */}
-      <div className="md:hidden w-[2px] h-6 bg-blue-200" />
-      
-      {/* Spacer for desktop */}
-      <div className="hidden md:block h-8" />
-
-      {/* Technical Team Lead */}
-      <div className="flex flex-col md:flex-row items-start gap-6 md:gap-8 justify-center z-10">
-          <div className="w-64 md:w-72 hidden md:block"></div> {/* Spacer to push Tech Lead under CTO */}
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }} className="bg-blue-50/50 backdrop-blur-sm px-8 py-5 rounded-2xl shadow-md shadow-blue-900/5 border border-blue-100 hover:border-blue-300 transition-colors text-center w-64 md:w-72 relative">
-            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#2563eb] mb-2">Technical Team Lead</p>
-            <h4 className="font-bold text-[#061632] text-lg tracking-tight">Huzaifa Mushtaq</h4>
+    <div className="w-full flex justify-center py-10 mb-20 overflow-x-auto hide-scrollbar">
+      <div className="min-w-[700px] flex flex-col items-center px-4">
+        
+        {/* CEO Level */}
+        <div className="flex flex-col items-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-gradient-to-br from-[#061632] via-[#0f2756] to-[#1e3a8a] text-white px-8 py-5 rounded-2xl shadow-xl shadow-blue-900/20 border border-white/10 text-center z-10 w-72 relative overflow-hidden group">
+            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-blue-300 mb-2">CEO & Founder</p>
+            <h4 className="font-bold text-xl tracking-tight">Muhammad Raham</h4>
           </motion.div>
-      </div>
+          {/* Vertical line down from CEO */}
+          <div className="w-[2px] h-10 bg-slate-200" />
+        </div>
 
+        {/* Second Level Container */}
+        <div className="relative flex justify-center gap-12 w-full">
+          {/* Horizontal connection line */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[336px] h-[2px] bg-slate-200" />
+
+          {/* COO Branch */}
+          <div className="flex flex-col items-center w-72">
+            <div className="w-[2px] h-8 bg-slate-200" />
+            <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="bg-white px-8 py-5 rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-100 hover:border-blue-200 transition-colors text-center w-full z-10 relative group">
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#0369a1] mb-2 group-hover:text-blue-600 transition-colors">COO</p>
+              <h4 className="font-bold text-[#061632] text-lg tracking-tight">Muhammad Arham</h4>
+            </motion.div>
+          </div>
+
+          {/* CTO Branch */}
+          <div className="flex flex-col items-center w-72">
+            <div className="w-[2px] h-8 bg-slate-200" />
+            <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="bg-white px-8 py-5 rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-100 hover:border-blue-200 transition-colors text-center w-full z-10 relative group">
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#1d4ed8] mb-2 group-hover:text-blue-600 transition-colors">CTO</p>
+              <h4 className="font-bold text-[#061632] text-lg tracking-tight">Huzaifa Ali</h4>
+            </motion.div>
+            
+            {/* Line down to Tech Lead */}
+            <div className="w-[2px] h-10 bg-slate-200" />
+            
+            {/* Tech Lead */}
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="bg-slate-50/80 backdrop-blur-sm px-8 py-5 rounded-2xl shadow-md shadow-slate-200/50 border border-slate-200 hover:border-blue-300 transition-colors text-center w-full z-10 relative group">
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#2563eb] mb-2 group-hover:text-blue-600 transition-colors">Technical Team Lead</p>
+              <h4 className="font-bold text-[#061632] text-lg tracking-tight">Huzaifa Mushtaq</h4>
+            </motion.div>
+          </div>
+        </div>
+
+      </div>
     </div>
   )
 }
