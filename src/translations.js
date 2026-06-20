@@ -58,6 +58,15 @@ export const translations = {
       title: 'Download',
       subtitle: 'Our Latest Application',
       desc: 'Manage your digital operations anytime, anywhere. Tracking performance and insights—everything you need is just a tap away.'
+    },
+    about: {
+      storyTag: 'Our Story',
+      storyTitle: 'Built in Pakistan.\nBuilt for the World.',
+      story1: 'Devnexes was founded with a single conviction: that businesses in Pakistan — and globally — deserve access to world-class digital solutions without the inflated agency pricing.',
+      story2: 'We specialise in AI integration, full-stack web development, and mobile applications. Every project we take on is treated as a long-term partnership, not a transaction.',
+      story3: 'Our team is fully remote, technically rigorous, and obsessed with delivery quality. We back every project with a 1-week post-launch guarantee — if anything goes wrong after we deliver, we fix it free.',
+      startProject: 'Start a Project',
+      viewWork: 'View Our Work'
     }
   },
   UR: {
@@ -119,6 +128,15 @@ export const translations = {
       title: 'ڈاؤن لوڈ کریں',
       subtitle: 'ہماری تازہ ترین ایپلی کیشن',
       desc: 'کسی بھی وقت، کہیں بھی اپنے ڈیجیٹل آپریشنز کا انتظام کریں۔ کارکردگی اور بصیرت کو ٹریک کرنا—آپ کی ضرورت کی ہر چیز بس ایک ٹیپ کے فاصلے پر ہے۔'
+    },
+    about: {
+      storyTag: 'ہماری کہانی',
+      storyTitle: 'پاکستان میں بنایا گیا۔\nدنیا کے لیے بنایا گیا۔',
+      story1: 'Devnexes کی بنیاد ایک ہی یقین کے ساتھ رکھی گئی تھی: کہ پاکستان اور عالمی سطح پر کاروبار مہنگی ایجنسی کی قیمتوں کے بغیر عالمی معیار کے ڈیجیٹل حل کے مستحق ہیں۔',
+      story2: 'ہم مصنوعی ذہانت کے انضمام، فل اسٹیک ویب ڈیولپمنٹ اور موبائل ایپلیکیشنز میں مہارت رکھتے ہیں۔ ہم ہر پروجیکٹ کو ایک طویل مدتی شراکت داری کے طور پر لیتے ہیں، نہ کہ صرف ایک لین دین کے طور پر۔',
+      story3: 'ہماری ٹیم مکمل طور پر ریموٹ ہے، تکنیکی طور پر سخت ہے، اور معیار کی فراہمی کا جنون رکھتی ہے۔ ہم ہر پروجیکٹ کے ساتھ لانچ کے بعد 1 ہفتے کی گارنٹی دیتے ہیں — اگر ہم ڈیلیور کرنے کے بعد کچھ بھی غلط ہو جاتا ہے تو ہم اسے مفت ٹھیک کرتے ہیں۔',
+      startProject: 'پروجیکٹ شروع کریں',
+      viewWork: 'ہمارا کام دیکھیں'
     }
   },
   AR: {
@@ -180,6 +198,15 @@ export const translations = {
       title: 'تحميل',
       subtitle: 'أحدث تطبيقاتنا',
       desc: 'إدارة عملياتك الرقمية في أي وقت وفي أي مكان. تتبع الأداء والرؤى - كل ما تحتاجه هو مجرد نقرة واحدة.'
+    },
+    about: {
+      storyTag: 'قصتنا',
+      storyTitle: 'صنع في باكستان.\nصنع للعالم.',
+      story1: 'تأسست Devnexes بقناعة واحدة: أن الشركات في باكستان - وعلى مستوى العالم - تستحق الوصول إلى حلول رقمية عالمية المستوى دون أسعار الوكالات المتضخمة.',
+      story2: 'نحن متخصصون في تكامل الذكاء الاصطناعي وتطوير الويب الكامل وتطبيقات الهاتف المحمول. يتم التعامل مع كل مشروع نتولاه كشراكة طويلة الأجل، وليس معاملة.',
+      story3: 'فريقنا يعمل عن بُعد بالكامل، وصارم من الناحية الفنية، ومهووس بجودة التسليم. نحن ندعم كل مشروع بضمان لمدة أسبوع واحد بعد الإطلاق - إذا حدث أي خطأ بعد التسليم، نقوم بإصلاحه مجانًا.',
+      startProject: 'ابدأ مشروعًا',
+      viewWork: 'شاهد عملنا'
     }
   }
 };

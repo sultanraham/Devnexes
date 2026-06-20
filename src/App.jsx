@@ -124,7 +124,7 @@ const Layout = ({ currentLang, setCurrentLang, t }) => {
             </ProtectedRoute>
           }
         />
-        <Route path="/about" element={<AboutPage />} />
+        <Route path="/about" element={<AboutPage t={t?.about || {}} />} />
         <Route path="/portfolio" element={<PortfolioPage />} />
         <Route path="/policy" element={<PolicyPage />} />
         <Route path="/login" element={<Navigate to="/#login-section" replace />} />

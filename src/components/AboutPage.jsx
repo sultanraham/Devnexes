@@ -162,7 +162,7 @@ const TeamCard = ({ member, index }) => {
   )
 }
 
-const AboutPage = () => {
+const AboutPage = ({ t = {} }) => {
   const navigate = useNavigate()
 
   return (
@@ -212,27 +212,21 @@ const AboutPage = () => {
         <div className="container mx-auto px-6 max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-              <p className="text-blue-600 text-[11px] font-bold uppercase tracking-[0.4em] mb-4">Our Story</p>
-              <h2 className="text-[#061632] text-3xl md:text-5xl font-bold tracking-tighter mb-6 leading-tight">
-                Built in Pakistan.<br />Built for the World.
+              <p className="text-blue-600 text-[11px] font-bold uppercase tracking-[0.4em] mb-4">{t.storyTag || 'Our Story'}</p>
+              <h2 className="text-[#061632] text-3xl md:text-5xl font-bold tracking-tighter mb-6 leading-tight whitespace-pre-line">
+                {t.storyTitle || 'Built in Pakistan.\nBuilt for the World.'}
               </h2>
               <div className="space-y-4 text-gray-500 text-base leading-relaxed">
-                <p>
-                  Devnexes was founded with a single conviction: that businesses in Pakistan — and globally — deserve access to world-class digital solutions without the inflated agency pricing.
-                </p>
-                <p>
-                  We specialise in AI integration, full-stack web development, and mobile applications. Every project we take on is treated as a long-term partnership, not a transaction.
-                </p>
-                <p>
-                  Our team is fully remote, technically rigorous, and obsessed with delivery quality. We back every project with a <strong className="text-[#1e3a8a]">1-week post-launch guarantee</strong> — if anything goes wrong after we deliver, we fix it free.
-                </p>
+                <p>{t.story1 || 'Devnexes was founded with a single conviction: that businesses in Pakistan — and globally — deserve access to world-class digital solutions without the inflated agency pricing.'}</p>
+                <p>{t.story2 || 'We specialise in AI integration, full-stack web development, and mobile applications. Every project we take on is treated as a long-term partnership, not a transaction.'}</p>
+                <p dangerouslySetInnerHTML={{ __html: (t.story3 || 'Our team is fully remote, technically rigorous, and obsessed with delivery quality. We back every project with a 1-week post-launch guarantee — if anything goes wrong after we deliver, we fix it free.').replace('1-week post-launch guarantee', '<strong class="text-[#1e3a8a]">1-week post-launch guarantee</strong>').replace('1 ہفتے کی گارنٹی', '<strong class="text-[#1e3a8a]">1 ہفتے کی گارنٹی</strong>').replace('بضمان لمدة أسبوع واحد بعد الإطلاق', '<strong class="text-[#1e3a8a]">بضمان لمدة أسبوع واحد بعد الإطلاق</strong>') }} />
               </div>
               <div className="mt-10 flex flex-col sm:flex-row gap-4">
                 <button onClick={() => navigate('/contact')} className="flex items-center justify-center gap-2 bg-[#1e3a8a] text-white px-8 py-4 rounded-none font-bold text-[13px] uppercase tracking-widest hover:bg-blue-700 transition-all group">
-                  Start a Project <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                  {t.startProject || 'Start a Project'} <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </button>
                 <button onClick={() => navigate('/portfolio')} className="flex items-center justify-center gap-2 border border-slate-200 text-[#1e3a8a] px-8 py-4 rounded-none font-bold text-[13px] uppercase tracking-widest hover:bg-slate-50 transition-all">
-                  View Our Work
+                  {t.viewWork || 'View Our Work'}
                 </button>
               </div>
             </motion.div>
