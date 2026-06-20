@@ -8,28 +8,28 @@ const FAQSection = ({ t }) => {
 
   const faqs = [
     {
-      title: "Log in to your account using your existing credentials.",
-      description: "Log in to your account, go to Profile > Edit Profile, and update your email under the General section. Save your changes to confirm."
+      title: "What services does Devnexes Digital Solutions provide?",
+      description: "We specialize in Custom Web Development, AI Automation, SEO optimization, UI/UX Design, and intelligent Chatbot integrations tailored to your business needs."
     },
     {
-      title: "How can I contact support?",
-      description: "Visit Contact Us and reach out to our support team via email. You will receive a response within 24 hours on business days."
+      title: "How long does it typically take to build a custom website?",
+      description: "The timeline depends on the project's complexity. A standard corporate website usually takes 2 to 4 weeks, while complex web applications or AI-integrated platforms may take a few months."
     },
     {
-      title: "How can I edit my ongoing project during development?",
-      description: "Log in using your credentials, then go to the Edit Recent / Current Project section where your ongoing work is listed. From there, you can make changes or add new functionality to your project. After updating, save and test the changes before finalizing."
+      title: "Do you provide ongoing support and maintenance after launch?",
+      description: "Yes! We offer continuous support, maintenance, and regular updates to ensure your website and AI systems remain secure, fast, and up-to-date."
     },
     {
-      title: "How can I check the status of my Project?",
-      description: "Log in with your credentials, then go to My Status to view the detailed progress of your ongoing projects."
+      title: "Can you integrate AI features into my existing website?",
+      description: "Absolutely. We can integrate smart AI solutions like intelligent chatbots, automated customer support, and predictive analytics into your current digital infrastructure."
     },
     {
-      title: "How is the payment method done?",
-      description: "Payments are completed by selecting a secure method, entering your details, and confirming the transaction securely through our encrypted gateway."
+      title: "How does the payment process work for projects?",
+      description: "We typically work with a milestone-based payment structure. An initial deposit is required to kick off the project, followed by payments upon completion of key development phases."
     },
     {
-      title: "How much time will it take to complete a project?",
-      description: "Based on your request, the estimated completion time is around 1 week for standard functionality. Complex features may take longer."
+      title: "How can I track the progress of my ongoing project?",
+      description: "You can easily track your project's status by logging into your Devnexes account and visiting the 'My Status' dashboard, where we post regular updates and milestones."
     }
   ]
 
