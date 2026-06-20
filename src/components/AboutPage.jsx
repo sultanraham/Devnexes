@@ -182,8 +182,18 @@ const AboutPage = () => {
 
       {/* Hero */}
       <section className="min-h-[60vh] bg-[#061632] flex items-center relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px]" />
+        
+        {/* Background Logo with Low Opacity */}
+        <div className="absolute inset-0 flex items-center justify-center lg:justify-end opacity-[0.05] pointer-events-none z-0">
+          <img 
+            src="/images/devnexes-logo.png" 
+            alt="" 
+            className="w-full max-w-[800px] h-[800px] object-contain lg:translate-x-1/4 scale-150 lg:scale-100"
+          />
+        </div>
+
+        <div className="absolute inset-0 opacity-[0.03] z-0" style={{ backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px] z-0" />
         <div className="container mx-auto px-6 max-w-7xl relative z-10 py-32 md:py-40">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <p className="text-blue-400 text-[11px] font-bold uppercase tracking-[0.4em] mb-4">About Devnexes</p>
