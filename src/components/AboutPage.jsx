@@ -46,7 +46,7 @@ const team = [
   },
   {
     name: 'Muhammad Raham',
-    role: 'Founder & Principal Architect',
+    role: 'Founder & CEO',
     dept: 'Executive',
     bio: 'Visionary behind Devnexes. Leads product strategy, client relationships, and company direction with a bold long-term vision.',
     photo: '/images/devnexes-team-raham.png',
@@ -67,27 +67,20 @@ const values = [
 ]
 
 const TeamCard = ({ member, index }) => {
-  const [hovered, setHovered] = useState(false)
-
   return (
     <motion.div
-      key={index}
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.12, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ delay: index * 0.1, duration: 0.5 }}
       viewport={{ once: true }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      className="group relative overflow-hidden cursor-default"
-      style={{ borderRadius: 0 }}
+      className="group flex flex-col sm:flex-row bg-white border border-slate-100 rounded-[2rem] p-6 sm:p-8 hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-500 gap-8 items-center sm:items-start"
     >
-      {/* Photo container */}
-      <div className="relative w-full overflow-hidden" style={{ aspectRatio: '3/4', maxHeight: 380 }}>
-        {/* Photo */}
+      {/* Photo */}
+      <div className="w-40 h-40 sm:w-48 sm:h-48 shrink-0 rounded-3xl overflow-hidden relative border border-slate-100 shadow-sm group-hover:shadow-lg transition-all duration-500">
         <img
           src={member.photo}
-          alt={`Devnexes Digital Solutions team member ${member.name} - ${member.role}`}
-          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          alt={member.name}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           style={{ objectPosition: member.photoPos || 'center top' }}
           onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
         />
@@ -98,65 +91,31 @@ const TeamCard = ({ member, index }) => {
         >
           {member.initials}
         </div>
-
-        {/* Gradient overlay always visible at bottom */}
-        <div
-          className="absolute inset-0 transition-opacity duration-500"
-          style={{
-            background: `linear-gradient(to top, ${member.gradientFrom}f0 0%, ${member.gradientFrom}80 40%, transparent 70%)`,
-          }}
-        />
-
-        {/* Department badge */}
-        <div className="absolute top-4 left-4">
-          <span
-            className="text-white text-[9px] font-black uppercase tracking-[0.35em] px-3 py-1.5 backdrop-blur-sm"
-            style={{ background: `${member.accent}cc`, letterSpacing: '0.3em' }}
-          >
-            {member.dept}
-          </span>
-        </div>
-
-        {/* Name & Role pinned to bottom of photo */}
-        <div className="absolute bottom-0 left-0 right-0 p-6">
-          <h3 className="text-white text-xl font-bold tracking-tight leading-none mb-1">
-            {member.name}
-          </h3>
-          <p className="text-white/60 text-[10px] font-bold uppercase tracking-widest">
-            {member.role}
-          </p>
-        </div>
+        <div className="absolute inset-0 bg-[#061632]/0 group-hover:bg-[#061632]/5 transition-colors duration-500" />
       </div>
 
-      {/* Info panel below photo */}
-      <div
-        className="relative p-6 transition-all duration-500"
-        style={{ background: 'white', borderTop: `3px solid ${member.accent}` }}
-      >
-        <p className="text-gray-500 text-sm leading-relaxed mb-5">
+      {/* Info */}
+      <div className="flex flex-col flex-1 h-full justify-center w-full sm:w-auto text-center sm:text-left">
+        <span className="text-blue-600 text-[10px] font-bold uppercase tracking-[0.3em] mb-2 block">{member.dept}</span>
+        <h3 className="text-[#061632] text-2xl sm:text-3xl font-bold tracking-tighter mb-1">{member.name}</h3>
+        <p className="text-gray-400 font-bold uppercase tracking-wider text-[11px] mb-4">{member.role}</p>
+        
+        <p className="text-gray-500 text-sm leading-relaxed mb-6">
           {member.bio}
         </p>
 
-        {/* LinkedIn link */}
-        <a
-          href={member.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest transition-all duration-300 hover:gap-3"
-          style={{ color: member.accent }}
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
-          Connect on LinkedIn
-        </a>
-
-        {/* Animated bottom border on hover */}
-        <motion.div
-          className="absolute bottom-0 left-0 h-[2px]"
-          style={{ background: `linear-gradient(to right, ${member.accent}, transparent)` }}
-          initial={{ width: 0 }}
-          animate={{ width: hovered ? '100%' : 0 }}
-          transition={{ duration: 0.4, ease: 'easeOut' }}
-        />
+        <div className="mt-auto flex justify-center sm:justify-start">
+          <a
+            href={member.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-[#0a66c2] text-white px-6 py-3 rounded-full font-bold text-[11px] uppercase tracking-widest hover:bg-[#0a66c2]/90 hover:shadow-lg hover:shadow-[#0a66c2]/30 transition-all group/btn"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
+            Connect on LinkedIn
+            <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
+          </a>
+        </div>
       </div>
     </motion.div>
   )
@@ -182,12 +141,12 @@ const AboutPage = ({ t = {} }) => {
 
       {/* Hero */}
       <section className="min-h-[60vh] bg-[#061632] flex items-center relative overflow-hidden">
-        
+
         {/* Background Logo with Low Opacity */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden">
-          <img 
-            src="/images/devnexes-logo.png" 
-            alt="" 
+          <img
+            src="/images/devnexes-logo.png"
+            alt=""
             className="w-[120%] md:w-[80%] max-w-[1000px] opacity-[0.15] object-contain"
           />
         </div>
@@ -236,20 +195,20 @@ const AboutPage = ({ t = {} }) => {
 
       {/* Values */}
       <section className="py-24 bg-slate-50">
-        <div className="container mx-auto px-6 max-w-7xl">
+        <div className="container mx-auto px-6 max-w-5xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-            <p className="text-blue-600 text-[11px] font-bold uppercase tracking-[0.4em] mb-3">What We Stand For</p>
+            <p className="text-blue-600 text-[11px] font-bold uppercase tracking-[0.4em] mb-4">What We Stand For</p>
             <h2 className="text-[#061632] text-3xl md:text-5xl font-bold tracking-tighter">Our Core Values</h2>
           </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {values.map((v, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} viewport={{ once: true }}
-                className="bg-white border border-slate-100 p-8 group hover:border-[#1e3a8a]/20 hover:shadow-lg transition-all">
-                <div className="w-12 h-12 bg-blue-50 flex items-center justify-center text-[#1e3a8a] mb-6 group-hover:bg-[#1e3a8a] group-hover:text-white transition-all">
+                className="bg-white p-10 rounded-3xl border border-slate-100 hover:shadow-xl hover:shadow-[#1e3a8a]/5 hover:-translate-y-1 transition-all duration-300">
+                <div className="w-14 h-14 bg-blue-50/80 rounded-2xl flex items-center justify-center text-blue-600 mb-6">
                   {v.icon}
                 </div>
-                <h3 className="text-[#061632] font-bold text-lg mb-3 tracking-tight">{v.title}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed">{v.desc}</p>
+                <h3 className="text-[#061632] font-bold text-xl mb-3 tracking-tight">{v.title}</h3>
+                <p className="text-gray-500 text-base leading-relaxed">{v.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -290,14 +249,9 @@ const AboutPage = ({ t = {} }) => {
           </motion.div>
 
           {/* Team Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0 border border-slate-100 shadow-2xl shadow-slate-100/80">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {team.map((member, i) => (
-              <div
-                key={i}
-                className={`${i < team.length - 1 ? 'border-r border-slate-100' : ''}`}
-              >
-                <TeamCard member={member} index={i} />
-              </div>
+              <TeamCard key={i} member={member} index={i} />
             ))}
           </div>
 
@@ -312,23 +266,23 @@ const AboutPage = ({ t = {} }) => {
             <div className="flex items-center gap-4">
               <div className="flex -space-x-2">
                 {team.map((m, i) => {
-                    // Safe fallback: use React state instead of innerHTML
-                    const [imgErr, setImgErr] = React.useState(false)
-                    return (
-                      <div
-                        key={i}
-                        className="w-9 h-9 rounded-full border-2 border-white overflow-hidden flex items-center justify-center text-white text-[10px] font-black"
-                        style={{ background: `linear-gradient(135deg, ${m.gradientFrom}, ${m.accent})`, zIndex: team.length - i }}
-                      >
-                        {imgErr ? (
-                          <span>{m.initials}</span>
-                        ) : (
-                          <img src={m.photo} alt={m.name} className="w-full h-full object-cover object-top"
-                            onError={() => setImgErr(true)} />
-                        )}
-                      </div>
-                    )
-                  })}
+                  // Safe fallback: use React state instead of innerHTML
+                  const [imgErr, setImgErr] = React.useState(false)
+                  return (
+                    <div
+                      key={i}
+                      className="w-9 h-9 rounded-full border-2 border-white overflow-hidden flex items-center justify-center text-white text-[10px] font-black"
+                      style={{ background: `linear-gradient(135deg, ${m.gradientFrom}, ${m.accent})`, zIndex: team.length - i }}
+                    >
+                      {imgErr ? (
+                        <span>{m.initials}</span>
+                      ) : (
+                        <img src={m.photo} alt={m.name} className="w-full h-full object-cover object-top"
+                          onError={() => setImgErr(true)} />
+                      )}
+                    </div>
+                  )
+                })}
               </div>
               <p className="text-[#061632] text-sm font-bold tracking-tight">
                 4 experts. One unified mission.
