@@ -6,10 +6,23 @@ import Footer from './Footer'
 
 const team = [
   {
+    name: 'Muhammad Raham',
+    role: 'CEO & Founder',
+    dept: 'Executive',
+    bio: 'Muhammad Raham leads the vision and business strategy of Devnexes Digital Solutions. He focuses on building modern digital products, AI-powered solutions, and long-term client partnerships.',
+    photo: '/images/devnexes-team-raham.png',
+    photoPos: 'center top',
+    initials: 'MR',
+    accent: '#1e3a8a',
+    gradientFrom: '#061632',
+    gradientTo: '#1e3a8a',
+    linkedin: 'https://www.linkedin.com/in/muhammad-raham-abdul-qayyum-850a41396/',
+  },
+  {
     name: 'Muhammad Arham',
-    role: 'Chief Operations Officer',
+    role: 'Chief Operations Officer — COO',
     dept: 'Operations',
-    bio: 'Manages project delivery, client operations, and internal processes to ensure consistent quality and on-time results.',
+    bio: 'Muhammad Arham manages operations, client communication, and project delivery. He ensures that every project is completed with proper planning, quality, and timeline control.',
     photo: '/images/devnexes-team-arham.png',
     photoPos: 'center top',
     initials: 'MA',
@@ -20,9 +33,9 @@ const team = [
   },
   {
     name: 'Huzaifa Ali',
-    role: 'Chief Technology Officer',
+    role: 'Chief Technology Officer — CTO',
     dept: 'Tech Leadership',
-    bio: 'Oversees all technical architecture, engineering standards, and system infrastructure across every project.',
+    bio: 'Huzaifa Ali leads the technical direction of Devnexes. He manages technology decisions, system architecture, development standards, and innovation in AI and web solutions.',
     photo: '/images/devnexes-team-huzaifa.png',
     photoPos: 'center center',
     initials: 'HA',
@@ -35,7 +48,7 @@ const team = [
     name: 'Huzaifa Mushtaq',
     role: 'Technical Team Lead',
     dept: 'Engineering',
-    bio: 'Leads the engineering team, code reviews, and hands-on development of client projects with precision and expertise.',
+    bio: 'Huzaifa Mushtaq supervises the technical team, assigns development tasks, reviews work, and supports smooth execution of client projects.',
     photo: '/images/devnexes-team-huzafa.png',
     photoPos: 'center top',
     initials: 'HM',
@@ -43,19 +56,6 @@ const team = [
     gradientFrom: '#0a1628',
     gradientTo: '#2563eb',
     linkedin: 'https://www.linkedin.com/in/huzaifa-mushtaq-5a18bb414/',
-  },
-  {
-    name: 'Muhammad Raham',
-    role: 'Founder & CEO',
-    dept: 'Executive',
-    bio: 'Visionary behind Devnexes. Leads product strategy, client relationships, and company direction with a bold long-term vision.',
-    photo: '/images/devnexes-team-raham.png',
-    photoPos: 'center top',
-    initials: 'MR',
-    accent: '#1e3a8a',
-    gradientFrom: '#061632',
-    gradientTo: '#1e3a8a',
-    linkedin: 'https://www.linkedin.com/in/muhammad-raham-abdul-qayyum-850a41396/',
   }
 ]
 
@@ -99,7 +99,7 @@ const TeamCard = ({ member, index }) => {
         <span className="text-blue-600 text-[10px] font-bold uppercase tracking-[0.3em] mb-2 block">{member.dept}</span>
         <h3 className="text-[#061632] text-2xl sm:text-3xl font-bold tracking-tighter mb-1">{member.name}</h3>
         <p className="text-gray-400 font-bold uppercase tracking-wider text-[11px] mb-4">{member.role}</p>
-        
+
         <p className="text-gray-500 text-sm leading-relaxed mb-6">
           {member.bio}
         </p>
@@ -118,6 +118,67 @@ const TeamCard = ({ member, index }) => {
         </div>
       </div>
     </motion.div>
+  )
+}
+
+const OrganizationChart = () => {
+  return (
+    <div className="w-full flex flex-col items-center justify-center py-4 mb-20 relative">
+      
+      {/* CEO */}
+      <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-[#061632] text-white px-8 py-4 rounded-xl shadow-lg border border-slate-800 text-center z-10 w-64 md:w-72 relative">
+        <p className="text-[10px] font-bold uppercase tracking-widest text-blue-400 mb-1">CEO & Founder</p>
+        <h4 className="font-bold text-lg tracking-tight">Muhammad Raham</h4>
+      </motion.div>
+      
+      {/* Vertical Line from CEO */}
+      <div className="w-px h-8 bg-slate-300" />
+      
+      {/* Horizontal Line for branching */}
+      <div className="hidden md:block w-72 h-px bg-slate-300" />
+      
+      {/* Branching Lines Down */}
+      <div className="hidden md:flex w-72 justify-between">
+        <div className="w-px h-6 bg-slate-300" />
+        <div className="w-px h-6 bg-slate-300" />
+      </div>
+
+      {/* COO & CTO Container */}
+      <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8 justify-center z-10">
+        {/* COO */}
+        <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="bg-white px-8 py-4 rounded-xl shadow-sm border border-slate-200 text-center w-64 md:w-72">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-[#0369a1] mb-1">COO</p>
+          <h4 className="font-bold text-[#061632] text-lg tracking-tight">Muhammad Arham</h4>
+        </motion.div>
+
+        {/* Vertical Line for Mobile */}
+        <div className="md:hidden w-px h-6 bg-slate-300" />
+
+        {/* CTO */}
+        <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="bg-white px-8 py-4 rounded-xl shadow-sm border border-slate-200 text-center w-64 md:w-72 relative">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-[#1d4ed8] mb-1">CTO</p>
+          <h4 className="font-bold text-[#061632] text-lg tracking-tight">Huzaifa Ali</h4>
+          {/* Vertical line going down from CTO to Tech Lead on Desktop */}
+          <div className="hidden md:block absolute -bottom-8 left-1/2 -translate-x-1/2 w-px h-8 bg-slate-300" />
+        </motion.div>
+      </div>
+
+      {/* Vertical Line for Mobile */}
+      <div className="md:hidden w-px h-6 bg-slate-300" />
+      {/* Spacer for desktop */}
+      <div className="hidden md:block h-8" />
+
+      {/* Technical Team Lead */}
+      <div className="flex flex-col md:flex-row items-start gap-6 md:gap-8 justify-center z-10">
+          <div className="w-64 md:w-72 hidden md:block"></div> {/* Spacer to push Tech Lead under CTO */}
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="bg-slate-50 px-8 py-4 rounded-xl shadow-sm border border-slate-200 text-center w-64 md:w-72 relative">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-[#2563eb] mb-1">Technical Team Lead</p>
+            <h4 className="font-bold text-[#061632] text-lg tracking-tight">Huzaifa Mushtaq</h4>
+            {/* Optional connecting line back up for mobile? Already have one above */}
+          </motion.div>
+      </div>
+
+    </div>
   )
 }
 
@@ -197,7 +258,6 @@ const AboutPage = ({ t = {} }) => {
       <section className="py-24 bg-slate-50">
         <div className="container mx-auto px-6 max-w-5xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-            <p className="text-blue-600 text-[11px] font-bold uppercase tracking-[0.4em] mb-4">What We Stand For</p>
             <h2 className="text-[#061632] text-3xl md:text-5xl font-bold tracking-tighter">Our Core Values</h2>
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -234,9 +294,9 @@ const AboutPage = ({ t = {} }) => {
           >
             <div className="text-center">
               <p className="text-blue-600 text-[11px] font-bold uppercase tracking-[0.4em] mb-3">The People</p>
-              <h2 className="text-[#061632] text-3xl md:text-5xl font-bold tracking-tighter mb-4">Meet the Team</h2>
+              <h2 className="text-[#061632] text-3xl md:text-5xl font-bold tracking-tighter mb-4">Leadership Team</h2>
               <p className="text-gray-400 text-base max-w-xl mx-auto">
-                A small, focused team with deep technical expertise and a commitment to delivering results.
+                Meet the people leading Devnexes Digital Solutions with strategy, technology, operations, and project execution.
               </p>
             </div>
 
@@ -247,6 +307,8 @@ const AboutPage = ({ t = {} }) => {
               <div className="h-px w-24 bg-[#1e3a8a]" />
             </div>
           </motion.div>
+
+          <OrganizationChart />
 
           {/* Team Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
