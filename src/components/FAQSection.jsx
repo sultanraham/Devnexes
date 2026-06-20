@@ -135,20 +135,19 @@ const FAQSection = ({ t }) => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-16 bg-gradient-to-r from-blue-600 to-indigo-700 rounded-3xl p-8 md:p-12 text-center text-white relative overflow-hidden shadow-2xl shadow-blue-900/20"
+          className="mt-16 bg-gradient-to-r from-[#061632] to-[#1e3a8a] rounded-[20px] py-12 px-8 md:px-14 text-center text-white relative overflow-hidden shadow-[0_15px_40px_-10px_rgba(6,22,50,0.3)]"
         >
-          {/* Decorative graphic inside banner */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2 pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-48 h-48 bg-indigo-400/20 rounded-full blur-2xl transform -translate-x-1/2 translate-y-1/2 pointer-events-none" />
+          {/* Subtle soft light effect, not too overdone */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
           
-          <div className="relative z-10">
-            <h4 className="text-2xl md:text-3xl font-bold mb-4">Ready to Transform Your Business?</h4>
-            <p className="text-blue-100 mb-8 max-w-lg mx-auto font-medium">
+          <div className="relative z-10 flex flex-col items-center">
+            <h4 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">Ready to Transform Your Business?</h4>
+            <p className="text-white/80 mb-8 max-w-2xl text-base md:text-[17px] font-medium leading-relaxed">
               Have a unique project in mind or need expert advice? Let's discuss how our custom Web and AI solutions can drive your digital growth.
             </p>
             <a 
               href="mailto:support@devnexes.com"
-              className="inline-flex items-center justify-center bg-white text-blue-600 px-8 py-4 rounded-xl font-bold hover:bg-blue-50 hover:scale-105 active:scale-95 transition-all shadow-[0_10px_25px_rgba(0,0,0,0.1)]"
+              className="inline-flex items-center justify-center bg-white text-[#061632] px-9 py-3.5 rounded-lg font-bold text-[14px] hover:bg-blue-50 hover:scale-[1.02] active:scale-95 transition-all shadow-sm"
             >
               Discuss Your Project
             </a>

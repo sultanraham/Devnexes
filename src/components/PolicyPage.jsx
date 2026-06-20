@@ -37,13 +37,25 @@ const PolicyPage = () => {
       </div>
 
       {/* Hero */}
-      <section className="bg-[#061632] py-32 md:py-40 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-        <div className="container mx-auto px-6 max-w-7xl relative z-10">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}>
+      <section className="min-h-[60vh] bg-[#061632] flex items-center relative overflow-hidden">
+
+        {/* Background Logo with Low Opacity */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden">
+          <img
+            src="/images/devnexes-logo.png"
+            alt=""
+            className="w-[120%] md:w-[80%] max-w-[1000px] opacity-[0.15] object-contain"
+          />
+        </div>
+
+        <div className="absolute inset-0 opacity-[0.03] z-0" style={{ backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px] z-0" />
+        
+        <div className="container mx-auto px-6 max-w-7xl relative z-10 py-32 md:py-40 flex flex-col items-center text-center">
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="flex flex-col items-center">
             <p className="text-blue-400 text-[11px] font-bold uppercase tracking-[0.4em] mb-4">Legal & Policies</p>
-            <h1 className="text-white text-4xl md:text-6xl font-bold tracking-tighter leading-none mb-4">Transparency First.</h1>
-            <p className="text-white/40 text-base">Last updated: {updated} — Devnexes Digital Solutions</p>
+            <h1 className="text-white text-4xl md:text-7xl font-bold tracking-tighter leading-none mb-6">Transparency First.</h1>
+            <p className="text-white/50 text-base md:text-xl max-w-2xl leading-relaxed">Last updated: {updated} — Devnexes Digital Solutions</p>
           </motion.div>
         </div>
       </section>
