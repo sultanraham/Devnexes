@@ -142,15 +142,15 @@ const FAQSection = ({ t }) => {
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-indigo-400/20 rounded-full blur-2xl transform -translate-x-1/2 translate-y-1/2 pointer-events-none" />
           
           <div className="relative z-10">
-            <h4 className="text-2xl md:text-3xl font-bold mb-4">Still have questions?</h4>
+            <h4 className="text-2xl md:text-3xl font-bold mb-4">Ready to Transform Your Business?</h4>
             <p className="text-blue-100 mb-8 max-w-lg mx-auto font-medium">
-              Our support team is available 24/7 to help you with any issues or queries. Don't hesitate to reach out!
+              Have a unique project in mind or need expert advice? Let's discuss how our custom Web and AI solutions can drive your digital growth.
             </p>
             <a 
               href="mailto:support@devnexes.com"
               className="inline-flex items-center justify-center bg-white text-blue-600 px-8 py-4 rounded-xl font-bold hover:bg-blue-50 hover:scale-105 active:scale-95 transition-all shadow-[0_10px_25px_rgba(0,0,0,0.1)]"
             >
-              Contact Support Team
+              Discuss Your Project
             </a>
           </div>
         </motion.div>
