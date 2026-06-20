@@ -112,9 +112,20 @@ const PortfolioPage = () => {
 
       {/* Hero */}
       <section className="min-h-[50vh] bg-[#061632] flex items-center relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-        <div className="container mx-auto px-6 max-w-7xl relative z-10 py-32 md:py-40">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}>
+
+        {/* Background Logo with Low Opacity */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden">
+          <img
+            src="/images/devnexes-logo.png"
+            alt=""
+            className="w-[120%] md:w-[80%] max-w-[1000px] opacity-[0.15] object-contain"
+          />
+        </div>
+
+        <div className="absolute inset-0 opacity-[0.03] z-0" style={{ backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px] z-0" />
+        <div className="container mx-auto px-6 max-w-7xl relative z-10 py-32 md:py-40 flex flex-col items-center text-center">
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="flex flex-col items-center">
             <p className="text-blue-400 text-[11px] font-bold uppercase tracking-[0.4em] mb-4">Our Work</p>
             <h1 className="text-white text-4xl md:text-7xl font-bold tracking-tighter leading-none mb-6 max-w-4xl">
               Projects We're Proud Of.
@@ -130,17 +141,17 @@ const PortfolioPage = () => {
       <section className="py-16 bg-slate-50 border-b border-slate-100">
         <div className="container mx-auto px-6 max-w-7xl">
           <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
-            className="text-[10px] font-bold uppercase tracking-[0.4em] text-slate-300 text-center mb-10">
+            className="text-sm font-bold uppercase tracking-[0.4em] text-slate-400 text-center mb-12">
             Trusted by Growing Businesses
           </motion.p>
-          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16">
+          <div className="flex flex-wrap items-center justify-center gap-10 md:gap-20">
             {clientLogos.map((logo, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }} viewport={{ once: true }}
-                className="flex items-center gap-3 group">
-                <div className="w-10 h-10 bg-white border border-slate-200 flex items-center justify-center group-hover:border-[#1e3a8a]/30 transition-all">
-                  <span className="text-[10px] font-black text-slate-400 tracking-tighter">{logo.initials}</span>
+                className="flex items-center gap-4 group">
+                <div className="w-16 h-16 bg-white border border-slate-200 rounded-xl shadow-sm flex items-center justify-center group-hover:border-[#1e3a8a]/30 group-hover:shadow-md transition-all">
+                  <span className="text-lg md:text-xl font-black text-slate-400 tracking-tighter group-hover:text-[#1e3a8a] transition-all">{logo.initials}</span>
                 </div>
-                <span className="text-slate-400 font-bold text-sm tracking-tight group-hover:text-[#1e3a8a] transition-all">{logo.name}</span>
+                <span className="text-slate-500 font-bold text-lg md:text-xl tracking-tight group-hover:text-[#1e3a8a] transition-all">{logo.name}</span>
               </motion.div>
             ))}
           </div>
