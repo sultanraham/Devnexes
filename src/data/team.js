@@ -14,10 +14,10 @@ export const team = [
     slug: 'muhammad-raham-abdul-qayyum'
   },
   {
-    name: 'Muhammad Arham',
+    name: 'Muhammad Arham Abdul Qayyum',
     role: 'Chief Operations Officer',
     dept: 'Operations',
-    bio: 'Muhammad Arham manages operations, client communication, and project delivery. He ensures that every project is completed with proper planning, quality, and timeline control.',
+    bio: 'Muhammad Arham Abdul Qayyum manages operations, client communication, and project delivery. He ensures that every project is completed with proper planning, quality, and timeline control.',
     photo: '/images/team/muhammad-arham-coo-devnexes-digital-solutions.png',
     photoPos: 'center top',
     initials: 'MA',
@@ -25,7 +25,7 @@ export const team = [
     gradientFrom: '#0c1a2e',
     gradientTo: '#0369a1',
     linkedin: 'https://www.linkedin.com/in/muhammad-arham-abdul-qayyum-3771b1356/',
-    slug: 'muhammad-arham'
+    slug: 'muhammad-arham-abdul-qayyum'
   },
   {
     name: 'Huzaifa Ali',

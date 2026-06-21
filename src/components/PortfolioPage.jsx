@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, Globe, Cpu, Smartphone, Code, ExternalLink } from 'lucide-react'
 import Footer from './Footer'
+import SEO from './SEO'
 
 const categories = ['All', 'AI Agents', 'Developer Tools', 'Productivity']
 
@@ -91,7 +92,10 @@ const PortfolioPage = () => {
 
   return (
     <div className="w-full bg-white font-outfit">
-
+      <SEO 
+        title="Portfolio & Case Studies" 
+        description="Explore our portfolio of cutting-edge AI agents, developer tools, and productivity solutions built by Devnexes Digital Solutions." 
+      />
       <div className="fixed top-8 left-8 z-50">
         <motion.button
           initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} whileHover={{ x: -4 }}

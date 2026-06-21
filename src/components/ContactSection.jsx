@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { Mail, Phone, ArrowLeft, ChevronDown, Shield, ArrowRight } from 'lucide-react'
 import Footer from './Footer'
+import SEO from './SEO'
 
 // Client-side sanitizer — strips HTML tags, normalizes whitespace
 const sanitize = (str, maxLen = 500) =>
@@ -60,6 +61,10 @@ const ContactSection = ({ t }) => {
 
   return (
     <div className="w-full bg-[#f8faff]">
+      <SEO 
+        title="Contact Us" 
+        description="Get in touch with Devnexes Digital Solutions. Request a consultation for custom web, mobile, and AI solutions. Expected response time under 2 hours." 
+      />
       <section className="min-h-[90vh] w-full relative overflow-x-hidden selection:bg-blue-100 flex flex-col justify-center py-20 md:py-32">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-[-20%] right-[-10%] w-[1000px] h-[1000px] bg-[#1e3a8a]/8 rounded-full blur-[140px] mix-blend-multiply" />

@@ -1,0 +1,111 @@
+import fs from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import express from 'express';
+import puppeteer from 'puppeteer';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const distPath = path.resolve(__dirname, '../dist');
+
+const routes = [
+  '/',
+  '/about',
+  '/contact',
+  '/portfolio',
+  '/policy',
+  '/team/muhammad-raham-abdul-qayyum',
+  '/team/muhammad-arham',
+  '/team/huzaifa-ali',
+  '/team/huzaifa-mushtaq'
+];
+
+async function startServer() {
+  const app = express();
+  // Serve static files from dist
+  app.use(express.static(distPath));
+  
+  // Catch-all to serve index.html for CSR navigation (so Puppeteer can load the route)
+  app.use(async (req, res) => {
+    try {
+      const html = await fs.readFile(path.join(distPath, 'index.html'), 'utf-8');
+      res.send(html);
+    } catch (err) {
+      res.status(404).send('Not found');
+    }
+  });
+
+  return new Promise((resolve) => {
+    const server = app.listen(5050, () => {
+      resolve(server);
+    });
+  });
+}
+
+async function runPrerender() {
+  console.log('Starting prerender process...');
+  const server = await startServer();
+  const browser = await puppeteer.launch({ headless: 'new', channel: 'chrome' });
+  
+  try {
+    const sitemapUrls = [];
+    const date = new Date().toISOString();
+
+    for (const route of routes) {
+      console.log(`Prerendering route: ${route}`);
+      const page = await browser.newPage();
+      
+      // Navigate to the local server
+      await page.goto(`http://localhost:5050${route}`, { waitUntil: 'networkidle0' });
+      
+      // Wait for React to render inside the root div
+      await page.waitForSelector('#root > *');
+
+      // Get the full HTML
+      const html = await page.evaluate(() => '<!DOCTYPE html>\n' + document.documentElement.outerHTML);
+      
+      // If the route is '/', it's index.html. Otherwise, we create a folder and an index.html inside it
+      let outputPath = path.join(distPath, 'index.html');
+      if (route !== '/') {
+        const routeDir = path.join(distPath, route);
+        await fs.mkdir(routeDir, { recursive: true });
+        outputPath = path.join(routeDir, 'index.html');
+      }
+
+      await fs.writeFile(outputPath, html);
+      console.log(`Saved: ${outputPath}`);
+
+      // Add to sitemap
+      const priority = route === '/' ? '1.0' : '0.8';
+      sitemapUrls.push(`
+  <url>
+    <loc>https://www.devnexes.site${route}</loc>
+    <lastmod>${date}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>${priority}</priority>
+  </url>`);
+      
+      await page.close();
+    }
+
+    // Generate Sitemap
+    console.log('Generating sitemap.xml...');
+    const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${sitemapUrls.join('')}
+</urlset>`;
+    
+    await fs.writeFile(path.join(distPath, 'sitemap.xml'), sitemapXml);
+    console.log('Sitemap generated.');
+
+  } catch (err) {
+    console.error('Error during prerendering:', err);
+    process.exit(1);
+  } finally {
+    await browser.close();
+    server.close();
+    console.log('Prerendering complete!');
+  }
+}
+
+runPrerender();

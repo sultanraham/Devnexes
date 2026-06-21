@@ -17,10 +17,12 @@ import PortfolioPage from './components/PortfolioPage'
 import PolicyPage from './components/PolicyPage'
 import TeamMemberPage from './components/TeamMemberPage'
 import Footer from './components/Footer'
+import SEO from './components/SEO'
 import { translations } from './translations'
 
 const Home = ({ t, onLogin, user }) => (
   <>
+    <SEO />
     <Hero t={t.hero} />
     <Features t={t.features} />
     {!user && <div id="login-section"><LoginSection t={t.login} onLogin={onLogin} /></div>}

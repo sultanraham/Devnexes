@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { team } from '../data/team'
 import Footer from './Footer'
+import SEO from './SEO'
 
 const TeamMemberPage = () => {
   const { slug } = useParams()
@@ -48,6 +49,11 @@ const TeamMemberPage = () => {
 
   return (
     <div className="w-full bg-white font-outfit min-h-screen flex flex-col">
+      <SEO 
+        title={member.name} 
+        description={member.bio} 
+        image={`https://www.devnexes.site${member.photo}`} 
+      />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
 
       {/* Back nav */}

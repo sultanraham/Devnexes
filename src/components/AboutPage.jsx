@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate, Link } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, Shield, Zap, Globe, Code } from 'lucide-react'
 import Footer from './Footer'
+import SEO from './SEO'
 import { team } from '../data/team'
 
 const values = [
@@ -198,7 +199,11 @@ const AboutPage = ({ t = {} }) => {
   };
 
   return (
-    <div className="w-full bg-white font-outfit">
+    <div className="w-full bg-slate-50 font-outfit relative">
+      <SEO 
+        title="About Us" 
+        description="Learn about Devnexes Digital Solutions, our mission, values, and the leadership team driving innovation in custom web and AI solutions." 
+      />
       {/* SEO Structured Data for Google Images */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
 

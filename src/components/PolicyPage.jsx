@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, Shield, FileText, RefreshCw } from 'lucide-react'
 import Footer from './Footer'
+import SEO from './SEO'
 
 const tabs = [
   { id: 'privacy', label: 'Privacy Policy', icon: <Shield className="w-4 h-4" /> },
@@ -23,8 +24,11 @@ const PolicyPage = () => {
   const updated = 'June 2025'
 
   return (
-    <div className="w-full bg-white font-outfit">
-
+    <div className="w-full bg-slate-50 font-outfit">
+      <SEO 
+        title="Privacy & Policies" 
+        description="Review Devnexes Digital Solutions' privacy policy, terms & conditions, and service & refund policies." 
+      />
       <div className="fixed top-8 left-8 z-50">
         <motion.button
           initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} whileHover={{ x: -4 }}
