@@ -43,6 +43,11 @@ async function startServer() {
 }
 
 async function runPrerender() {
+  if (process.env.VERCEL || process.env.CI) {
+    console.log('Skipping Puppeteer prerendering in CI/Vercel environment to prevent build errors.');
+    process.exit(0);
+  }
+
   console.log('Starting prerender process...');
   const server = await startServer();
   const browser = await puppeteer.launch({ headless: 'new', channel: 'chrome' });
