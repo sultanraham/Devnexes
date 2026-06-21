@@ -15,7 +15,7 @@ export const team = [
   },
   {
     name: 'Muhammad Arham Abdul Qayyum',
-    role: 'Chief Operations Officer',
+    role: 'Co-Founder & Chief Operations Officer',
     dept: 'Operations',
     bio: 'Muhammad Arham Abdul Qayyum manages operations, client communication, and project delivery. He ensures that every project is completed with proper planning, quality, and timeline control.',
     photo: '/images/team/muhammad-arham-coo-devnexes-digital-solutions.png',
@@ -29,7 +29,7 @@ export const team = [
   },
   {
     name: 'Huzaifa Ali',
-    role: 'Chief Technology Officer',
+    role: 'Co-Founder & Chief Technology Officer',
     dept: 'Tech Leadership',
     bio: 'Huzaifa Ali leads the technical direction of Devnexes. He manages technology decisions, system architecture, development standards, and innovation in AI and web solutions.',
     photo: '/images/team/huzaifa-ali-cto-devnexes-digital-solutions.png',
