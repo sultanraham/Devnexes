@@ -43,7 +43,7 @@ export const team = [
   },
   {
     name: 'Huzaifa Mushtaq',
-    role: 'Technical Team Lead',
+    role: 'Co-Founder & Technical Team Lead',
     dept: 'Engineering',
     bio: 'Huzaifa Mushtaq supervises the technical team, assigns development tasks, reviews work, and supports smooth execution of client projects.',
     photo: '/images/team/huzaifa-mushtaq-technical-team-lead-devnexes.png',
