@@ -17,24 +17,39 @@ const StatCounter = ({ value }) => {
     const numericPart = parseFloat(value.replace(/[^0-9.]/g, ''))
     const suffix = value.replace(/[0-9.]/g, '')
 
+    let actualValue = numericPart
+    if (suffix.toLowerCase() === 'k') actualValue *= 1000
+    else if (suffix.toLowerCase() === 'm') actualValue *= 1000000
+
     let start = 0
-    const duration = 1500
+    const duration = 2000
     const startTime = performance.now()
 
     const update = (now) => {
       const elapsed = now - startTime
       const progress = Math.min(elapsed / duration, 1)
+      // Ease out cubic
       const easedProgress = 1 - Math.pow(1 - progress, 3)
-      const current = start + (numericPart - start) * easedProgress
-
-      const formatted = value.includes('.')
-        ? current.toFixed(1)
-        : Math.floor(current).toString()
-
-      setDisplayValue(formatted + suffix)
 
       if (progress < 1) {
+        if (suffix.toLowerCase() === 'k' || suffix.toLowerCase() === 'm') {
+          const raw = start + (actualValue - start) * easedProgress
+          let formatted = Math.floor(raw).toString()
+          if (raw >= 1000000) {
+            formatted = (raw / 1000000).toFixed(1) + suffix
+          } else if (raw >= 1000) {
+            formatted = (raw / 1000).toFixed(1) + suffix
+          }
+          setDisplayValue(formatted)
+        } else {
+          const current = start + (numericPart - start) * easedProgress
+          const formatted = value.includes('.') ? current.toFixed(1) : Math.floor(current).toString()
+          setDisplayValue(formatted + suffix)
+        }
         requestAnimationFrame(update)
+      } else {
+        // Ensure final state exactly matches the database value
+        setDisplayValue(value)
       }
     }
 

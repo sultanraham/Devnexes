@@ -23,7 +23,7 @@ const TeamCard = ({ member, index }) => {
       className="group flex flex-col sm:flex-row bg-white border border-slate-100 rounded-[2rem] p-6 sm:p-8 hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-500 gap-8 items-center sm:items-start"
     >
       {/* Photo */}
-      <Link to={`/team/${member.slug}`} className="w-40 h-40 sm:w-48 sm:h-48 shrink-0 rounded-3xl overflow-hidden relative border border-slate-100 shadow-sm group-hover:shadow-lg transition-all duration-500 block">
+      <Link to={`/team/${member.slug}`} className="w-40 h-40 sm:w-48 sm:h-48 shrink-0 rounded-full overflow-hidden relative border border-slate-100 shadow-sm group-hover:shadow-lg transition-all duration-500 block">
         <img
           src={member.photo}
           alt={`${member.name} - ${member.role} at Devnexes`}
@@ -44,8 +44,13 @@ const TeamCard = ({ member, index }) => {
         
         {/* Role Badge on Image */}
         <div className="absolute bottom-3 left-0 right-0 flex justify-center opacity-90 group-hover:opacity-100 transition-opacity">
-          <span className="bg-[#061632]/80 backdrop-blur-md text-white text-[9px] font-bold uppercase tracking-[0.2em] px-3 py-1.5 rounded-full shadow-lg border border-white/20">
-            Devnexes {member.role.includes('—') ? member.role.split('—')[1].trim() : (member.role.includes('CEO') ? 'CEO' : (member.role.includes('Lead') ? 'Lead' : member.role))}
+          <span className="bg-[#061632]/80 backdrop-blur-md text-white text-[9px] font-bold uppercase tracking-[0.2em] px-4 py-1.5 rounded-full shadow-lg border border-white/20 whitespace-nowrap">
+            Devnexes {
+              member.role.includes('CEO') ? 'CEO' : 
+              member.role.includes('Operations') ? 'COO' : 
+              member.role.includes('Technology') ? 'CTO' : 
+              member.role.includes('Lead') ? 'Lead' : member.role
+            }
           </span>
         </div>
       </Link>
@@ -81,7 +86,7 @@ const TeamCard = ({ member, index }) => {
 
 const OrganizationChart = () => {
   const ceo = team.find(m => m.slug === 'muhammad-raham-abdul-qayyum')
-  const coo = team.find(m => m.slug === 'muhammad-arham')
+  const coo = team.find(m => m.slug === 'muhammad-arham-abdul-qayyum')
   const cto = team.find(m => m.slug === 'huzaifa-ali')
   const lead = team.find(m => m.slug === 'huzaifa-mushtaq')
 

@@ -169,27 +169,7 @@ const VideoSection = () => {
           </motion.div>
         </motion.div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
-          {stats.map((stat, index) => (
-            <motion.div 
-              key={index} 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false }}
-              transition={{ delay: index * 0.05 }}
-              className="flex flex-col items-center text-center group"
-            >
-              <div className={`text-4xl md:text-5xl lg:text-[54px] font-bold mb-1 font-outfit tracking-tighter ${stat.color}`}>
-                <Counter value={stat.value} />
-              </div>
-              <div className="h-0.5 w-6 bg-gray-100 mb-2 transition-all group-hover:w-10 group-hover:bg-[#1e3a8a]" />
-              <span className="text-gray-400 text-[11px] md:text-[13px] font-semibold font-outfit uppercase tracking-widest">
-                {stat.label}
-              </span>
-            </motion.div>
-          ))}
-        </div>
+        {/* Stats Grid Removed */}
 
       </div>
     </section>
