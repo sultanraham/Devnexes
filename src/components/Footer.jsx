@@ -130,7 +130,7 @@ const Footer = ({ t }) => {
           className="w-full max-w-7xl mt-auto pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6"
         >
           <div className="text-white/40 text-sm font-medium tracking-wide text-center md:text-left order-2 md:order-1">
-            © {new Date().getFullYear()} Devnexes Digital Solutions. All rights reserved.
+            © {new Date().getFullYear()} Devnexes Digital Solutions (Private) Limited. All rights reserved.
           </div>
 
           {/* Social Icons */}

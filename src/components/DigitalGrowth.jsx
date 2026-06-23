@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { BrainCircuit, Code2, Briefcase } from 'lucide-react'
+import { Cpu, Code2, Briefcase } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 const DigitalGrowth = ({ t }) => {
@@ -8,9 +8,9 @@ const DigitalGrowth = ({ t }) => {
   const shouldReduceMotion = useReducedMotion()
   const cards = [
     {
-      icon: <BrainCircuit className="text-[#1a365d] w-7 h-7" />,
+      icon: <Cpu className="text-[#1a365d] w-7 h-7" />,
       iconBg: "bg-red-50",
-      title: "AI services",
+      title: "Ai services",
       description: "Gain high-performance AI insights with zero operational overhead.",
       bullets: ["Automation", "Computer vision", "Smart Detection"],
       buttonText: "Contact"
@@ -20,7 +20,7 @@ const DigitalGrowth = ({ t }) => {
       iconBg: "bg-yellow-50",
       title: "Custom web and app development",
       description: "Dev access upgraded with advanced tools.",
-      bullets: ["Responsive (Android & iOS)", "All Frameworks", "within 1 week"],
+      bullets: ["Responsive (Android & iOS)", "All Frameworks", "Best Design"],
       buttonText: "Contact"
     },
     {
@@ -36,11 +36,11 @@ const DigitalGrowth = ({ t }) => {
   return (
     <section className="py-16 md:py-24 bg-white relative overflow-hidden">
       {/* Background Image removed to fix 404 */}
-      
+
       <div className="container mx-auto px-4 md:px-6 max-w-7xl relative z-10">
-        
+
         {/* Header Section */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           className="mb-12 md:mb-20 text-center lg:text-left"
@@ -54,19 +54,19 @@ const DigitalGrowth = ({ t }) => {
         {/* Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {cards.map((card, index) => (
-            <motion.div 
+            <motion.div
               key={index}
-              initial={{ 
-                opacity: 0, 
+              initial={{
+                opacity: 0,
                 x: shouldReduceMotion ? 0 : (index === 0 ? -100 : index === 2 ? 100 : 0),
                 y: shouldReduceMotion ? 0 : (index === 1 ? 100 : 0),
               }}
               whileInView={{ opacity: 1, x: 0, y: 0 }}
               viewport={{ once: false, amount: 0.2 }}
-              transition={{ 
-                type: "spring", 
-                stiffness: 180, 
-                damping: 20, 
+              transition={{
+                type: "spring",
+                stiffness: 180,
+                damping: 20,
                 delay: index * 0.05,
                 filter: { type: "tween", duration: 0.6, ease: "easeOut" }
               }}
@@ -84,8 +84,8 @@ const DigitalGrowth = ({ t }) => {
 
                 <ul className="flex flex-col gap-3 mb-8">
                   {card.bullets.map((bullet, idx) => (
-                    <motion.li 
-                      key={idx} 
+                    <motion.li
+                      key={idx}
                       initial={{ opacity: 0, x: -10 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: false }}
@@ -100,7 +100,7 @@ const DigitalGrowth = ({ t }) => {
               </div>
 
               <div className="mt-auto">
-                <Link 
+                <Link
                   to='/contact'
                   className="w-full bg-[#d5d5d5] hover:bg-black hover:text-white text-black py-3 rounded-xl font-bold text-lg font-outfit transition-all flex items-center justify-center"
                 >

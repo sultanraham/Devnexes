@@ -59,7 +59,7 @@ const PolicyPage = () => {
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="flex flex-col items-center">
             <p className="text-blue-400 text-[11px] font-bold uppercase tracking-[0.4em] mb-4">Legal & Policies</p>
             <h1 className="text-white text-4xl md:text-7xl font-bold tracking-tighter leading-none mb-6">Transparency First.</h1>
-            <p className="text-white/50 text-base md:text-xl max-w-2xl leading-relaxed">Last updated: {updated} — Devnexes Digital Solutions</p>
+            <p className="text-white/50 text-base md:text-xl max-w-2xl leading-relaxed">Last updated: {updated} — Devnexes Digital Solutions (Private) Limited</p>
           </motion.div>
         </div>
       </section>
@@ -85,7 +85,7 @@ const PolicyPage = () => {
           {active === 'privacy' && (
             <>
               <Section title="1. Who We Are">
-                <p>Devnexes Digital Solutions ("Devnexes", "we", "us", "our") is a web and AI development company operating from Pakistan. We build digital products and services for clients globally.</p>
+                <p>Devnexes Digital Solutions (Private) Limited ("Devnexes", "we", "us", "our") is a web and AI development company operating from Pakistan. We build digital products and services for clients globally.</p>
                 <p>Contact: <a href="mailto:devnexes.support@gmail.com" className="text-[#1e3a8a] hover:underline">devnexes.support@gmail.com</a> | Phone: <a href="tel:+923030111550" className="text-[#1e3a8a] hover:underline">+92 303 0111550</a></p>
               </Section>
               <Section title="2. Information We Collect">
