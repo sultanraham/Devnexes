@@ -183,6 +183,10 @@ const AboutPage = ({ t = {} }) => {
     "name": "Devnexes Digital Solutions (Private) Limited",
     "url": "https://www.devnexes.site/",
     "logo": "https://www.devnexes.site/images/devnexes-logo.png",
+    "sameAs": [
+      "https://www.linkedin.com/company/devnexes-digital-solutions",
+      "https://www.instagram.com/devnexes.digital.solutions/"
+    ],
     "founder": {
       "@type": "Person",
       "name": "Muhammad Raham Abdul Qayyum",
