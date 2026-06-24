@@ -27,7 +27,7 @@ const PolicyPage = () => {
     <div className="w-full bg-slate-50 font-outfit">
       <SEO 
         title="Privacy & Policies" 
-        description="Review Devnexes Digital Solutions' privacy policy, terms & conditions, and service & refund policies." 
+        description="Review Devnexes Digital Solutions (Private) Limited's privacy policy, terms & conditions, and service & refund policies." 
       />
       <div className="fixed top-8 left-8 z-50">
         <motion.button

@@ -39,7 +39,7 @@ const TeamMemberPage = () => {
     "jobTitle": member.role,
     "worksFor": {
       "@type": "Organization",
-      "name": "Devnexes Digital Solutions",
+      "name": "Devnexes Digital Solutions (Private) Limited",
       "url": "https://www.devnexes.site/"
     },
     "image": `https://www.devnexes.site${member.photo}`,

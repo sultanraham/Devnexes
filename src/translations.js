@@ -9,7 +9,7 @@ export const translations = {
       socialProof: 'With 1k+ verified reviews, customers praise our secure, user-friendly banking platform built on trust.',
       transactionVolume: 'Daily Transaction Volume',
       splitValues: 'Split into values',
-      footerDesc: 'Devnexes Digital Solutions provides Web Development, AI Automation, SEO, UI/UX Design, Chatbots, and Custom Business Websites.'
+      footerDesc: 'Devnexes Digital Solutions (Private) Limited provides Web Development, AI Automation, SEO, UI/UX Design, Chatbots, and Custom Business Websites.'
     },
     features: {
       tag: 'Why Devnexes',

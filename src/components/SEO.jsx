@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 const SEO = ({ title, description, url, image }) => {
   const siteName = 'Devnexes Digital Solutions';
   const defaultTitle = 'Devnexes | Custom Web & AI Solutions';
-  const defaultDescription = 'Devnexes Digital Solutions provides cutting-edge web development, mobile app development, and AI-powered automation to drive business growth.';
+  const defaultDescription = 'Devnexes Digital Solutions (Private) Limited provides cutting-edge web development, mobile app development, and AI-powered automation to drive business growth.';
   const defaultImage = 'https://www.devnexes.site/images/og-image.jpg';
   const defaultUrl = 'https://www.devnexes.site';
 
