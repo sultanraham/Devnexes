@@ -89,6 +89,7 @@ const OrganizationChart = () => {
   const coo = team.find(m => m.slug === 'muhammad-arham-abdul-qayyum')
   const cto = team.find(m => m.slug === 'huzaifa-ali')
   const lead = team.find(m => m.slug === 'huzaifa-mushtaq')
+  const caio = team.find(m => m.slug === 'muhammad-habeel')
 
   const NodeCard = ({ member, gradient = false }) => {
     if (!member) return null;
@@ -120,7 +121,7 @@ const OrganizationChart = () => {
 
   return (
     <div className="w-full flex justify-center py-16 mb-10 overflow-x-auto hide-scrollbar">
-      <div className="min-w-[800px] flex flex-col items-center px-4 relative">
+      <div className="min-w-[1100px] flex flex-col items-center px-4 relative">
         
         {/* CEO Level */}
         <div className="flex flex-col items-center relative z-20">
@@ -135,11 +136,12 @@ const OrganizationChart = () => {
         </div>
 
         {/* Second Level Container */}
-        <div className="relative flex justify-center gap-20 w-full z-10">
+        <div className="relative flex justify-center gap-12 w-full z-10">
           {/* Horizontal connection line */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[368px] h-[2px] bg-blue-200">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[672px] h-[2px] bg-blue-200">
             <div className="absolute top-1/2 left-0 -translate-y-1/2 w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_8px_#60a5fa]" />
             <div className="absolute top-1/2 right-0 -translate-y-1/2 w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_8px_#60a5fa]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_8px_#60a5fa]" />
           </div>
 
           {/* COO Branch */}
@@ -147,6 +149,14 @@ const OrganizationChart = () => {
             <div className="w-[2px] h-8 bg-blue-200" />
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <NodeCard member={coo} />
+            </motion.div>
+          </div>
+
+          {/* CAIO Branch */}
+          <div className="flex flex-col items-center w-72">
+            <div className="w-[2px] h-8 bg-blue-200" />
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+              <NodeCard member={caio} />
             </motion.div>
           </div>
 
@@ -375,7 +385,7 @@ const AboutPage = ({ t = {} }) => {
                 })}
               </div>
               <p className="text-[#061632] text-sm font-bold tracking-tight">
-                4 experts. One unified mission.
+                5 experts. One unified mission.
               </p>
             </div>
 
