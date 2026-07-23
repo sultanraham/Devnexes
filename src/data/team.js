@@ -57,9 +57,9 @@ export const team = [
   },
   {
     name: 'Muhammad Habeel',
-    role: 'Chief Artificial Intelligence Officer',
+    role: 'Chief Intelligence Officer',
     dept: 'Executive',
-    bio: 'Muhammad Habeel leads the artificial intelligence vision at Devnexes. He specializes in designing cutting-edge AI models, implementing intelligent systems, and driving innovation to solve complex business challenges.',
+    bio: 'Muhammad Habeel leads the artificial intelligence and data intelligence vision at Devnexes. He specializes in designing cutting-edge AI models, implementing intelligent systems, and driving innovation to solve complex business challenges.',
     photo: '/images/team/habeel.jpeg',
     photoPos: 'center center',
     initials: 'MH',

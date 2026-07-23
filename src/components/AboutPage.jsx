@@ -50,7 +50,7 @@ const TeamCard = ({ member, index }) => {
               member.role.includes('Operations') ? 'COO' : 
               member.role.includes('Technology') ? 'CTO' : 
               member.role.includes('Product') ? 'CPO' : 
-              member.role.includes('Artificial Intelligence') ? 'CAIO' : member.role
+              member.role.includes('Intelligence') ? 'CIO' : member.role
             }
           </span>
         </div>
