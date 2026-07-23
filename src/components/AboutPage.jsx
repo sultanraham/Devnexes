@@ -49,7 +49,7 @@ const TeamCard = ({ member, index }) => {
               member.role.includes('CEO') ? 'CEO' : 
               member.role.includes('Operations') ? 'COO' : 
               member.role.includes('Technology') ? 'CTO' : 
-              member.role.includes('Product') ? 'TPO' : 
+              member.role.includes('Product') ? 'CPO' : 
               member.role.includes('Artificial Intelligence') ? 'CAIO' : member.role
             }
           </span>
