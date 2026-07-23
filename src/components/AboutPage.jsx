@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate, Link } from 'react-router-dom'
-import { ArrowLeft, ArrowRight, Shield, Zap, Globe, Code, Monitor, Cpu, PenTool, Users } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Shield, Zap, Globe, Code } from 'lucide-react'
 import Footer from './Footer'
 import SEO from './SEO'
 import { team } from '../data/team'
@@ -20,7 +20,7 @@ const TeamCard = ({ member, index }) => {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1, duration: 0.5 }}
       viewport={{ once: true }}
-      className="group flex flex-col sm:flex-row bg-white border border-slate-100 rounded-[2rem] p-6 sm:p-8 hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-500 gap-8 items-center sm:items-start h-full"
+      className="group flex flex-col sm:flex-row bg-white border border-slate-100 rounded-[2rem] p-6 sm:p-8 hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-500 gap-8 items-center sm:items-start"
     >
       {/* Photo */}
       <Link to={`/team/${member.slug}`} className="w-40 h-40 sm:w-48 sm:h-48 shrink-0 rounded-full overflow-hidden relative border border-slate-100 shadow-sm group-hover:shadow-lg transition-all duration-500 block">
@@ -56,7 +56,7 @@ const TeamCard = ({ member, index }) => {
       </Link>
 
       {/* Info */}
-      <div className="flex flex-col flex-1 h-full justify-start w-full sm:w-auto text-center sm:text-left">
+      <div className="flex flex-col flex-1 h-full justify-center w-full sm:w-auto text-center sm:text-left">
         <span className="text-blue-600 text-[10px] font-bold uppercase tracking-[0.3em] mb-2 block">{member.dept}</span>
         <Link to={`/team/${member.slug}`} className="hover:text-blue-600 transition-colors">
           <h3 className="text-[#061632] text-2xl sm:text-3xl font-bold tracking-tighter mb-1 hover:text-blue-600 transition-colors">{member.name}</h3>
@@ -85,8 +85,8 @@ const TeamCard = ({ member, index }) => {
 }
 
 const OrganizationChart = () => {
-  const ceo = team.find(m => m.slug === 'muhammad-arham-abdul-qayyum')
-  const coo = team.find(m => m.slug === 'muhammad-raham-abdul-qayyum')
+  const ceo = team.find(m => m.slug === 'muhammad-raham-abdul-qayyum')
+  const coo = team.find(m => m.slug === 'muhammad-arham-abdul-qayyum')
   const cto = team.find(m => m.slug === 'huzaifa-ali')
   const lead = team.find(m => m.slug === 'huzaifa-mushtaq')
   const caio = team.find(m => m.slug === 'muhammad-habeel')
@@ -292,36 +292,8 @@ const AboutPage = ({ t = {} }) => {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section className="py-24 bg-slate-50">
-        <div className="container mx-auto px-6 max-w-6xl">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-            <p className="text-blue-600 text-[11px] font-bold uppercase tracking-[0.4em] mb-4">What We Do</p>
-            <h2 className="text-[#061632] text-3xl md:text-5xl font-bold tracking-tighter mb-4">{t.servicesTitle || 'Our Services'}</h2>
-            <p className="text-gray-500 text-base max-w-2xl mx-auto">{t.servicesDesc || 'We provide comprehensive digital solutions tailored to your business needs.'}</p>
-          </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { icon: <Monitor className="w-6 h-6" />, title: t.service1Title || 'Custom Web Applications', desc: t.service1Desc || 'Building scalable, secure, and modern web applications tailored to your business needs.' },
-              { icon: <Cpu className="w-6 h-6" />, title: t.service2Title || 'AI-Powered Solutions', desc: t.service2Desc || 'Intelligent chatbots and automation tools to streamline your operations.' },
-              { icon: <PenTool className="w-6 h-6" />, title: t.service3Title || 'UI/UX Design', desc: t.service3Desc || 'Crafting intuitive and engaging user experiences that drive conversion.' },
-              { icon: <Users className="w-6 h-6" />, title: t.service4Title || 'Dedicated Development Teams', desc: t.service4Desc || 'Providing skilled professionals to augment your existing capabilities.' }
-            ].map((s, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} viewport={{ once: true }}
-                className="bg-white p-8 rounded-3xl border border-slate-100 hover:shadow-xl hover:shadow-[#1e3a8a]/5 hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center">
-                <div className="w-16 h-16 bg-blue-50/80 rounded-full flex items-center justify-center text-blue-600 mb-6 border border-blue-100">
-                  {s.icon}
-                </div>
-                <h3 className="text-[#061632] font-bold text-lg mb-3 tracking-tight">{s.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{s.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Values */}
-      <section className="py-24 bg-white border-t border-slate-100">
+      <section className="py-24 bg-slate-50">
         <div className="container mx-auto px-6 max-w-5xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
             <h2 className="text-[#061632] text-3xl md:text-5xl font-bold tracking-tighter">Our Core Values</h2>

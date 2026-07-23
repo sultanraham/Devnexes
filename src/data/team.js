@@ -1,22 +1,8 @@
 export const team = [
   {
-    name: 'Muhammad Arham Abdul Qayyum',
-    role: 'Founder & Chief Executive Officer',
-    dept: 'Executive',
-    bio: 'Muhammad Arham Abdul Qayyum manages operations, client communication, and project delivery. He ensures that every project is completed with proper planning, quality, and timeline control.',
-    photo: '/images/team/muhammad-arham-coo-devnexes-digital-solutions.png',
-    photoPos: 'center top',
-    initials: 'MA',
-    accent: '#0369a1',
-    gradientFrom: '#0c1a2e',
-    gradientTo: '#0369a1',
-    linkedin: 'https://www.linkedin.com/in/muhammad-arham-abdul-qayyum-3771b1356/',
-    slug: 'muhammad-arham-abdul-qayyum'
-  },
-  {
     name: 'Muhammad Raham Abdul Qayyum',
-    role: 'Founder & Chief Operating Officer',
-    dept: 'Operations',
+    role: 'Founder & CEO',
+    dept: 'Executive',
     bio: 'Muhammad Raham leads the vision and business strategy of Devnexes Digital Solutions. He focuses on building modern digital products, AI-powered solutions, and long-term client partnerships.',
     photo: '/images/team/muhammad-raham-abdul-qayyum-founder-ceo-devnexes.png',
     photoPos: 'center top',
@@ -28,8 +14,22 @@ export const team = [
     slug: 'muhammad-raham-abdul-qayyum'
   },
   {
+    name: 'Muhammad Arham Abdul Qayyum',
+    role: 'Co-Founder, Chief Operations Officer & Board of Director',
+    dept: 'Operations',
+    bio: 'Muhammad Arham Abdul Qayyum manages operations, client communication, and project delivery. He ensures that every project is completed with proper planning, quality, and timeline control.',
+    photo: '/images/team/muhammad-arham-coo-devnexes-digital-solutions.png',
+    photoPos: 'center top',
+    initials: 'MA',
+    accent: '#0369a1',
+    gradientFrom: '#0c1a2e',
+    gradientTo: '#0369a1',
+    linkedin: 'https://www.linkedin.com/in/muhammad-arham-abdul-qayyum-3771b1356/',
+    slug: 'muhammad-arham-abdul-qayyum'
+  },
+  {
     name: 'Huzaifa Ali',
-    role: 'Founder & Chief Technology Officer',
+    role: 'Co-Founder & Chief Technology Officer',
     dept: 'Tech Leadership',
     bio: 'Huzaifa Ali leads the technical direction of Devnexes. He manages technology decisions, system architecture, development standards, and innovation in AI and web solutions.',
     photo: '/images/team/huzaifa-ali-cto-devnexes-digital-solutions.png',
@@ -43,7 +43,7 @@ export const team = [
   },
   {
     name: 'Huzaifa Mushtaq',
-    role: 'Chief Product Officer',
+    role: 'Technical Team Lead',
     dept: 'Engineering',
     bio: 'Huzaifa Mushtaq supervises the technical team, assigns development tasks, reviews work, and supports smooth execution of client projects.',
     photo: '/images/team/huzaifa-mushtaq-technical-team-lead-devnexes.png',
@@ -57,7 +57,7 @@ export const team = [
   },
   {
     name: 'Muhammad Habeel',
-    role: 'Chief Artificial Intelligence Officer',
+    role: 'Chief AI Officer',
     dept: 'Executive',
     bio: 'Muhammad Habeel leads the artificial intelligence vision at Devnexes. He specializes in designing cutting-edge AI models, implementing intelligent systems, and driving innovation to solve complex business challenges.',
     photo: '/images/team/habeel.jpeg',

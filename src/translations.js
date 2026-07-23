@@ -66,17 +66,7 @@ export const translations = {
       story2: 'We specialise in AI integration, full-stack web development, and mobile applications. Every project we take on is treated as a long-term partnership, not a transaction.',
       story3: 'Our team is fully remote, technically rigorous, and obsessed with delivery quality. We back every project with a 1-week post-launch guarantee. If anything goes wrong after we deliver, we fix it free.',
       startProject: 'Start a Project',
-      viewWork: 'View Our Work',
-      servicesTitle: 'Our Services',
-      servicesDesc: 'We provide comprehensive digital solutions tailored to your business needs.',
-      service1Title: 'Custom Web Applications',
-      service1Desc: 'Building scalable, secure, and modern web applications tailored to your business needs.',
-      service2Title: 'AI-Powered Solutions (Chatbots, Automation)',
-      service2Desc: 'Intelligent chatbots and automation tools to streamline your operations.',
-      service3Title: 'UI/UX Design',
-      service3Desc: 'Crafting intuitive and engaging user experiences that drive conversion.',
-      service4Title: 'Dedicated Development Teams',
-      service4Desc: 'Providing skilled professionals to augment your existing capabilities.'
+      viewWork: 'View Our Work'
     }
   },
   UR: {
@@ -146,17 +136,7 @@ export const translations = {
       story2: 'ہم مصنوعی ذہانت کے انضمام، فل اسٹیک ویب ڈیولپمنٹ اور موبائل ایپلیکیشنز میں مہارت رکھتے ہیں۔ ہم ہر پروجیکٹ کو ایک طویل مدتی شراکت داری کے طور پر لیتے ہیں، نہ کہ صرف ایک لین دین کے طور پر۔',
       story3: 'ہماری ٹیم مکمل طور پر ریموٹ ہے، تکنیکی طور پر سخت ہے، اور معیار کی فراہمی کا جنون رکھتی ہے۔ ہم ہر پروجیکٹ کے ساتھ لانچ کے بعد 1 ہفتے کی گارنٹی دیتے ہیں۔ اگر ہم ڈیلیور کرنے کے بعد کچھ بھی غلط ہو جاتا ہے تو ہم اسے مفت ٹھیک کرتے ہیں۔',
       startProject: 'پروجیکٹ شروع کریں',
-      viewWork: 'ہمارا کام دیکھیں',
-      servicesTitle: 'ہماری خدمات',
-      servicesDesc: 'ہم آپ کی کاروباری ضروریات کے مطابق جامع ڈیجیٹل حل فراہم کرتے ہیں۔',
-      service1Title: 'کسٹم ویب ایپلیکیشنز',
-      service1Desc: 'آپ کی کاروباری ضروریات کے مطابق اسکیل ایبل، محفوظ، اور جدید ویب ایپلیکیشنز بنانا۔',
-      service2Title: 'مصنوعی ذہانت سے چلنے والے حل (چیٹ بوٹس، آٹومیشن)',
-      service2Desc: 'آپ کے کاموں کو ہموار کرنے کے لیے ذہین چیٹ بوٹس اور آٹومیشن ٹولز۔',
-      service3Title: 'UI/UX ڈیزائن',
-      service3Desc: 'ایسے بدیہی اور دلکش صارف تجربات تیار کرنا جو تبادلوں کو فروغ دیتے ہیں۔',
-      service4Title: 'سرشار ترقیاتی ٹیمیں',
-      service4Desc: 'آپ کی موجودہ صلاحیتوں کو بڑھانے کے لیے ہنر مند پیشہ ور افراد فراہم کرنا۔'
+      viewWork: 'ہمارا کام دیکھیں'
     }
   },
   AR: {
@@ -226,17 +206,7 @@ export const translations = {
       story2: 'نحن متخصصون في تكامل الذكاء الاصطناعي وتطوير الويب الكامل وتطبيقات الهاتف المحمول. يتم التعامل مع كل مشروع نتولاه كشراكة طويلة الأجل، وليس معاملة.',
       story3: 'فريقنا يعمل عن بُعد بالكامل، وصارم من الناحية الفنية، ومهووس بجودة التسليم. نحن ندعم كل مشروع بضمان لمدة أسبوع واحد بعد الإطلاق. إذا حدث أي خطأ بعد التسليم، نقوم بإصلاحه مجانًا.',
       startProject: 'ابدأ مشروعًا',
-      viewWork: 'شاهد عملنا',
-      servicesTitle: 'خدماتنا',
-      servicesDesc: 'نحن نقدم حلول رقمية شاملة مصممة خصيصا لتلبية احتياجات عملك.',
-      service1Title: 'تطبيقات الويب المخصصة',
-      service1Desc: 'بناء تطبيقات ويب حديثة وآمنة وقابلة للتطوير مصممة لتلبية احتياجات عملك.',
-      service2Title: 'الحلول المدعومة بالذكاء الاصطناعي (روبوتات المحادثة ، الأتمتة)',
-      service2Desc: 'روبوتات المحادثة وأدوات الأتمتة الذكية لتبسيط عملياتك.',
-      service3Title: 'تصميم UI/UX',
-      service3Desc: 'صياغة تجارب مستخدم بديهية وجذابة تدفع التحويل.',
-      service4Title: 'فرق تطوير مخصصة',
-      service4Desc: 'توفير محترفين ماهرين لتعزيز قدراتك الحالية.'
+      viewWork: 'شاهد عملنا'
     }
   }
 };
