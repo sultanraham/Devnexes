@@ -20,7 +20,7 @@ const TeamCard = ({ member, index }) => {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1, duration: 0.5 }}
       viewport={{ once: true }}
-      className="group flex flex-col sm:flex-row bg-white border border-slate-100 rounded-[2rem] p-6 sm:p-8 hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-500 gap-8 items-center sm:items-start"
+      className="group flex flex-col sm:flex-row bg-white border border-slate-100 rounded-[2rem] p-6 sm:p-8 hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-500 gap-8 items-center sm:items-start h-full"
     >
       {/* Photo */}
       <Link to={`/team/${member.slug}`} className="w-40 h-40 sm:w-48 sm:h-48 shrink-0 rounded-full overflow-hidden relative border border-slate-100 shadow-sm group-hover:shadow-lg transition-all duration-500 block">
@@ -56,7 +56,7 @@ const TeamCard = ({ member, index }) => {
       </Link>
 
       {/* Info */}
-      <div className="flex flex-col flex-1 h-full justify-center w-full sm:w-auto text-center sm:text-left">
+      <div className="flex flex-col flex-1 h-full justify-start w-full sm:w-auto text-center sm:text-left">
         <span className="text-blue-600 text-[10px] font-bold uppercase tracking-[0.3em] mb-2 block">{member.dept}</span>
         <Link to={`/team/${member.slug}`} className="hover:text-blue-600 transition-colors">
           <h3 className="text-[#061632] text-2xl sm:text-3xl font-bold tracking-tighter mb-1 hover:text-blue-600 transition-colors">{member.name}</h3>
