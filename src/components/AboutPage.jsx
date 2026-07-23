@@ -49,8 +49,8 @@ const TeamCard = ({ member, index }) => {
               member.role.includes('CEO') ? 'CEO' : 
               member.role.includes('Operations') ? 'COO' : 
               member.role.includes('Technology') ? 'CTO' : 
-              member.role.includes('Product') ? 'CPO' : 
-              member.role.includes('Intelligence') ? 'CIO' : member.role
+              member.role.includes('VP') ? 'VP' : 
+              member.role.includes('AI') ? 'CAIO' : member.role
             }
           </span>
         </div>

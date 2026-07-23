@@ -43,7 +43,7 @@ export const team = [
   },
   {
     name: 'Huzaifa Mushtaq',
-    role: 'Chief Product Officer',
+    role: 'VP of Engineering',
     dept: 'Engineering',
     bio: 'Huzaifa Mushtaq supervises the technical team, assigns development tasks, reviews work, and supports smooth execution of client projects.',
     photo: '/images/team/huzaifa-mushtaq-technical-team-lead-devnexes.png',
@@ -57,7 +57,7 @@ export const team = [
   },
   {
     name: 'Muhammad Habeel',
-    role: 'Chief Intelligence Officer',
+    role: 'Chief AI Officer',
     dept: 'Executive',
     bio: 'Muhammad Habeel leads the artificial intelligence and data intelligence vision at Devnexes. He specializes in designing cutting-edge AI models, implementing intelligent systems, and driving innovation to solve complex business challenges.',
     photo: '/images/team/habeel.jpeg',
