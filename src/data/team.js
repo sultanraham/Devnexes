@@ -1,22 +1,8 @@
 export const team = [
   {
-    name: 'Muhammad Raham Abdul Qayyum',
-    role: 'Founder & Chief Operating Officer',
-    dept: 'Executive',
-    bio: 'Muhammad Raham leads the vision and business strategy of Devnexes Digital Solutions. He focuses on building modern digital products, AI-powered solutions, and long-term client partnerships.',
-    photo: '/images/team/muhammad-raham-abdul-qayyum-founder-ceo-devnexes.png',
-    photoPos: 'center top',
-    initials: 'MR',
-    accent: '#1e3a8a',
-    gradientFrom: '#061632',
-    gradientTo: '#1e3a8a',
-    linkedin: 'https://www.linkedin.com/in/muhammad-raham-abdul-qayyum-850a41396/',
-    slug: 'muhammad-raham-abdul-qayyum'
-  },
-  {
     name: 'Muhammad Arham Abdul Qayyum',
     role: 'Founder & Chief Executive Officer',
-    dept: 'Operations',
+    dept: 'Executive',
     bio: 'Muhammad Arham Abdul Qayyum manages operations, client communication, and project delivery. He ensures that every project is completed with proper planning, quality, and timeline control.',
     photo: '/images/team/muhammad-arham-coo-devnexes-digital-solutions.png',
     photoPos: 'center top',
@@ -26,6 +12,20 @@ export const team = [
     gradientTo: '#0369a1',
     linkedin: 'https://www.linkedin.com/in/muhammad-arham-abdul-qayyum-3771b1356/',
     slug: 'muhammad-arham-abdul-qayyum'
+  },
+  {
+    name: 'Muhammad Raham Abdul Qayyum',
+    role: 'Founder & Chief Operating Officer',
+    dept: 'Operations',
+    bio: 'Muhammad Raham leads the vision and business strategy of Devnexes Digital Solutions. He focuses on building modern digital products, AI-powered solutions, and long-term client partnerships.',
+    photo: '/images/team/muhammad-raham-abdul-qayyum-founder-ceo-devnexes.png',
+    photoPos: 'center top',
+    initials: 'MR',
+    accent: '#1e3a8a',
+    gradientFrom: '#061632',
+    gradientTo: '#1e3a8a',
+    linkedin: 'https://www.linkedin.com/in/muhammad-raham-abdul-qayyum-850a41396/',
+    slug: 'muhammad-raham-abdul-qayyum'
   },
   {
     name: 'Huzaifa Ali',
