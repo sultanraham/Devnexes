@@ -15,7 +15,7 @@ export const team = [
   },
   {
     name: 'Muhammad Arham Abdul Qayyum',
-    role: 'Co-Founder, Chief Operations Officer & Board of Director',
+    role: 'Founder & Chief Operations Officer',
     dept: 'Operations',
     bio: 'Muhammad Arham Abdul Qayyum manages operations, client communication, and project delivery. He ensures that every project is completed with proper planning, quality, and timeline control.',
     photo: '/images/team/muhammad-arham-coo-devnexes-digital-solutions.png',
@@ -29,7 +29,7 @@ export const team = [
   },
   {
     name: 'Huzaifa Ali',
-    role: 'Co-Founder & Chief Technology Officer',
+    role: 'Founder & Chief Technology Officer',
     dept: 'Tech Leadership',
     bio: 'Huzaifa Ali leads the technical direction of Devnexes. He manages technology decisions, system architecture, development standards, and innovation in AI and web solutions.',
     photo: '/images/team/huzaifa-ali-cto-devnexes-digital-solutions.png',
@@ -43,7 +43,7 @@ export const team = [
   },
   {
     name: 'Huzaifa Mushtaq',
-    role: 'Technical Team Lead',
+    role: 'Technical Product Officer',
     dept: 'Engineering',
     bio: 'Huzaifa Mushtaq supervises the technical team, assigns development tasks, reviews work, and supports smooth execution of client projects.',
     photo: '/images/team/huzaifa-mushtaq-technical-team-lead-devnexes.png',
@@ -57,7 +57,7 @@ export const team = [
   },
   {
     name: 'Muhammad Habeel',
-    role: 'Chief AI Officer',
+    role: 'Chief Artificial Intelligence Officer',
     dept: 'Executive',
     bio: 'Muhammad Habeel leads the artificial intelligence vision at Devnexes. He specializes in designing cutting-edge AI models, implementing intelligent systems, and driving innovation to solve complex business challenges.',
     photo: '/images/team/habeel.jpeg',

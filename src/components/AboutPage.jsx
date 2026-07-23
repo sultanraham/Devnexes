@@ -49,7 +49,8 @@ const TeamCard = ({ member, index }) => {
               member.role.includes('CEO') ? 'CEO' : 
               member.role.includes('Operations') ? 'COO' : 
               member.role.includes('Technology') ? 'CTO' : 
-              member.role.includes('Lead') ? 'Lead' : member.role
+              member.role.includes('Product') ? 'TPO' : 
+              member.role.includes('Artificial Intelligence') ? 'CAIO' : member.role
             }
           </span>
         </div>
@@ -108,7 +109,7 @@ const OrganizationChart = () => {
           </div>
           <div className="text-left flex-1">
             <p className={`text-[9px] font-bold uppercase tracking-widest mb-1 ${gradient ? 'text-blue-300' : 'text-blue-600'}`}>
-              {member.role.includes('—') ? member.role.split('—')[1].trim() : (member.role.includes('CEO') ? 'Founder & CEO' : (member.role.includes('Lead') ? 'Team Lead' : member.role))}
+              {member.role.includes('—') ? member.role.split('—')[1].trim() : (member.role.includes('CEO') ? 'Founder & CEO' : member.role)}
             </p>
             <h4 className={`font-bold text-[15px] tracking-tight leading-tight ${gradient ? 'text-white' : 'text-[#061632]'}`}>
               {member.name}
