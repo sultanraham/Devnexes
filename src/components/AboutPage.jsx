@@ -191,7 +191,7 @@ const AboutPage = ({ t = {} }) => {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "Devnexes Digital Solutions (Private) Limited",
+    "name": "Devnexes Digital Solutions",
     "url": "https://www.devnexes.site/",
     "logo": "https://www.devnexes.site/images/devnexes-logo.png",
     "sameAs": [
