@@ -135,12 +135,12 @@ export function Navbar({ currentLang, setCurrentLang, user, onLogout }) {
       }`}
       onMouseLeave={() => setActiveMenu(null)}
     >
-      {/* ── TOP MINI INFO BAR (Enhanced Navy Gradient) ─────────────────── */}
+      {/* ── TOP MINI INFO BAR (Royal Brand Blue) ───────────────────────── */}
       <div 
-        className={`w-full bg-gradient-to-r from-[#061632] via-[#0b2447] to-[#19376d] text-white border-b border-blue-500/20 overflow-hidden transition-all duration-300 ease-out shadow-xs ${
+        className={`w-full bg-[#1e3a8a] text-white border-b border-blue-800/80 overflow-hidden transition-all duration-300 ease-out shadow-xs ${
           isScrolled 
             ? "max-h-0 opacity-0 py-0 border-none pointer-events-none" 
-            : "max-h-16 opacity-100 py-2 px-4 sm:px-8"
+            : "max-h-16 opacity-100 py-2.5 px-4 sm:px-8"
         }`}
       >
         <div className="container mx-auto flex items-center justify-between text-xs font-semibold">
