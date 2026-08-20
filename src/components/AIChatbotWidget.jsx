@@ -377,7 +377,7 @@ export default function AIChatbotWidget() {
               </form>
 
               <div className="flex items-center justify-between text-[10px] text-slate-500 px-1 pt-0.5 font-medium">
-                <span>Powered by Groq AI</span>
+                <span>Powered by Devnexes Digital Solutions</span>
                 <a
                   href="https://wa.me/923030111550"
                   target="_blank"

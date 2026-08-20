@@ -529,4 +529,9 @@ app.use((err, req, res, _next) => {
   res.status(500).json({ error: 'Internal server error' });
 });
 
+if (process.argv[1]?.includes('api/index.js') || process.env.RUN_SERVER === 'true') {
+  const PORT = process.env.PORT || 5001;
+  app.listen(PORT, () => console.log(`🚀 Devnexes API server running on http://127.0.0.1:${PORT}`));
+}
+
 export default app;
