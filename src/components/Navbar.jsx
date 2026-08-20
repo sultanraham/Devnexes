@@ -1,14 +1,32 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Link, useLocation } from 'react-router-dom'
-import { Globe, Menu, X, ArrowRight, LogOut } from 'lucide-react'
+import { 
+  ChevronDown, 
+  ChevronRight, 
+  Globe, 
+  Menu, 
+  X, 
+  Mail, 
+  Phone, 
+  ArrowRight,
+  Code2, 
+  Cpu, 
+  Sparkles, 
+  ShieldCheck, 
+  Layout, 
+  Users2,
+  LogOut
+} from 'lucide-react'
 import { translations } from '../translations'
 
-const Navbar = ({ currentLang, setCurrentLang, user, onLogout }) => {
+export function Navbar({ currentLang, setCurrentLang, user, onLogout }) {
   const location = useLocation()
+  const [activeMenu, setActiveMenu] = useState(null)
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isLangOpen, setIsLangOpen] = useState(false)
+  const [activeServiceTab, setActiveServiceTab] = useState("web_dev")
 
   const languages = [
     { code: 'EN', name: 'English', flag: '🇺🇸' },
@@ -22,96 +40,234 @@ const Navbar = ({ currentLang, setCurrentLang, user, onLogout }) => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20)
     }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const navLinks = [
-    { name: t.home || 'Home', href: '/', isRoute: false },
-    { name: 'About', href: '/about', isRoute: true },
-    { name: 'Portfolio', href: '/portfolio', isRoute: true },
-    { name: 'Policy', href: '/policy', isRoute: true },
-  ]
-
-  const isActive = (link) => {
-    if (link.isRoute) return location.pathname === link.href
-    return location.pathname === '/' && !location.hash
+  const toggleMenu = (menu) => {
+    setActiveMenu(activeMenu === menu ? null : menu)
   }
 
+  const serviceTabs = [
+    {
+      id: "web_dev",
+      title: "Custom Web Applications",
+      icon: Code2,
+      desc: "Full-stack web platforms built with React, Next.js, Node.js, and Supabase. Engineered for high speed, security, and scalability.",
+      features: [
+        "React 19 & Next.js SSR/SSG",
+        "Responsive Glassmorphism UI",
+        "Express & Node.js API Backend",
+        "Supabase PostgreSQL Integration",
+        "REST & GraphQL API Engine",
+        "SEO-Ready Static Prerendering"
+      ],
+      link: "/portfolio"
+    },
+    {
+      id: "ai_agents",
+      title: "AI Automation & Chatbots",
+      icon: Cpu,
+      desc: "Intelligent workflow automation, custom LLM integrations, automated data processing, and conversational AI agents.",
+      features: [
+        "Custom LLM API Integrations",
+        "Interactive Chatbot Agents",
+        "Local On-Device AI Models",
+        "Natural Language SQL (Lexibase)",
+        "Workflow Automation Scripts",
+        "Real-Time Data Processing"
+      ],
+      link: "/portfolio"
+    },
+    {
+      id: "seo_perf",
+      title: "SEO & Page Speed Optimization",
+      icon: Sparkles,
+      desc: "Technical SEO audits, Schema.org JSON-LD structured data, Lighthouse 90+ speed tuning, and local search ranking strategies.",
+      features: [
+        "Schema.org JSON-LD Structuring",
+        "Local SEO for Lahore & Gulf",
+        "Lighthouse Speed Optimization",
+        "Automated Sitemap.xml & Robots",
+        "Breadcrumb Navigation Schema",
+        "OpenGraph & Social Cards"
+      ],
+      link: "/portfolio"
+    },
+    {
+      id: "ui_ux",
+      title: "UI/UX & 3D Interactive Design",
+      icon: Layout,
+      desc: "Modern user experience design, 3D WebGL experiences (Three.js), glassmorphism aesthetics, and responsive micro-animations.",
+      features: [
+        "Figma & Prototyping Design",
+        "Tailwind CSS & Framer Motion",
+        "3D WebGL & Interactive FX",
+        "WCAG AA Accessibility",
+        "Mobile-First Responsive Layouts",
+        "Design System Tokenization"
+      ],
+      link: "/portfolio"
+    },
+    {
+      id: "teams",
+      title: "Dedicated Engineering Teams",
+      icon: Users2,
+      desc: "Remote full-stack engineers and AI specialists to accelerate your product development with 1-week post-launch guarantee.",
+      features: [
+        "Dedicated Remote Developers",
+        "Agile Sprint Execution",
+        "1-Week Post-Launch Guarantee",
+        "1 Free Maintenance Session",
+        "Full Codebase Ownership",
+        "Direct CTO & COO Supervision"
+      ],
+      link: "/about"
+    }
+  ]
+
   return (
-    <header className="fixed inset-x-0 top-0 z-[1000] w-full">
-      <nav
-        className={`w-full transition-all duration-300 bg-white ${
-          isScrolled
-            ? 'border-b border-slate-200/80 shadow-md py-3'
-            : 'border-b border-slate-100 shadow-sm py-4'
+    <header 
+      className={`fixed top-0 inset-x-0 z-[1000] w-full transition-all duration-300 ease-out font-outfit ${
+        isScrolled 
+          ? "bg-[#061632] backdrop-blur-md border-b border-blue-900/60 text-white shadow-xl shadow-blue-950/20" 
+          : "bg-white border-b border-slate-200/80 text-slate-900 shadow-xs"
+      }`}
+      onMouseLeave={() => setActiveMenu(null)}
+    >
+      {/* ── TOP MINI INFO BAR (NexERP Style) ────────────────────────── */}
+      <div 
+        className={`w-full bg-[#0a2351] text-white border-b border-blue-900/50 overflow-hidden transition-all duration-300 ease-out ${
+          isScrolled 
+            ? "max-h-0 opacity-0 py-0 border-none pointer-events-none" 
+            : "max-h-16 opacity-100 py-2 px-4 sm:px-8"
         }`}
       >
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl flex items-center justify-between">
+        <div className="container mx-auto flex items-center justify-between text-xs font-semibold">
+          
+          {/* Left: Social Media Links */}
+          <div className="flex items-center gap-4 text-white/70">
+            <a href="https://linkedin.com/company/devnexes-digital-solutions" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" aria-label="LinkedIn">
+              <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.762-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            </a>
+            <a href="https://instagram.com/devnexes.digital.solutions" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" aria-label="Instagram">
+              <svg className="w-3.5 h-3.5 fill-none stroke-current stroke-[2]" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <span className="text-white/30">|</span>
+            <span className="text-white/80 text-[11px] hidden sm:inline">🚀 Lahore, Pakistan — Empowering Digital Growth</span>
+          </div>
 
+          {/* Right: Contact Email & Phone */}
+          <div className="flex items-center gap-6 text-white/80 text-xs">
+            <a href="mailto:devnexes.support@gmail.com" className="flex items-center gap-2 hover:text-white transition-colors">
+              <Mail className="w-3.5 h-3.5 text-blue-400" />
+              <span>devnexes.support@gmail.com</span>
+            </a>
+
+            <a href="tel:+923030111550" className="flex items-center gap-2 hover:text-white transition-colors">
+              <Phone className="w-3.5 h-3.5 text-blue-300" />
+              <span>+92 303 0111550</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      {/* ── MAIN NAVIGATION BAR ──────────────────────────────────────── */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 sm:h-20 items-center justify-between">
+          
           {/* Brand Logo & Name */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-300">
-              <img src="/images/devnexes-logo.png" alt="Devnexes Logo" className="w-6 h-6 object-contain" />
+          <Link to="/" className="flex items-center gap-3 group py-2" onClick={() => setActiveMenu(null)}>
+            <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform duration-300">
+              <img src="/images/devnexes-logo.png" alt="Devnexes Logo" className="w-5 h-5 object-contain filter brightness-200 invert-0" />
             </div>
             <div className="flex flex-col">
-              <span className="text-xl md:text-2xl font-black text-[#061632] tracking-tight font-outfit leading-none">
-                Devnexes
+              <span className={`text-xl sm:text-2xl font-black tracking-tight font-outfit transition-colors ${
+                isScrolled ? "text-white" : "text-[#061632]"
+              }`}>
+                Devnexes<span className={isScrolled ? "text-blue-400" : "text-blue-600"}>.</span>
               </span>
-              <span className="text-[9px] font-bold uppercase tracking-[0.25em] text-blue-600 mt-0.5">
+              <span className={`text-[8px] font-bold uppercase tracking-[0.25em] ${
+                isScrolled ? "text-blue-300 opacity-80" : "text-blue-600"
+              }`}>
                 Digital Solutions
               </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => {
-              const active = isActive(link)
-              return (
-                <div key={link.name}>
-                  {link.isRoute ? (
-                    <Link
-                      to={link.href}
-                      className={`px-5 py-2 rounded-full text-sm font-bold font-outfit transition-all duration-200 ${
-                        active
-                          ? 'bg-blue-50 text-blue-600 border border-blue-100 shadow-xs'
-                          : 'text-slate-700 hover:text-blue-600 hover:bg-slate-50'
-                      }`}
-                    >
-                      {link.name}
-                    </Link>
-                  ) : (
-                    <a
-                      href={link.href}
-                      className={`px-5 py-2 rounded-full text-sm font-bold font-outfit transition-all duration-200 ${
-                        active
-                          ? 'bg-blue-50 text-blue-600 border border-blue-100 shadow-xs'
-                          : 'text-slate-700 hover:text-blue-600 hover:bg-slate-50'
-                      }`}
-                    >
-                      {link.name}
-                    </a>
-                  )}
-                </div>
-              )
-            })}
-          </div>
+          {/* Navigation Items */}
+          <nav className="hidden lg:flex items-center gap-2">
+            
+            {/* Nav Item 1: Services Mega Dropdown */}
+            <button
+              onClick={() => toggleMenu("services")}
+              onMouseEnter={() => setActiveMenu("services")}
+              className={`flex items-center gap-1.5 px-4 py-2 text-[14px] font-bold rounded-lg transition-all ${
+                activeMenu === "services"
+                  ? isScrolled ? "bg-blue-800/60 text-white" : "bg-blue-50 text-blue-600"
+                  : isScrolled ? "text-white/90 hover:bg-blue-900/40 hover:text-white" : "text-slate-800 hover:text-blue-600 hover:bg-slate-100"
+              }`}
+            >
+              <span>Services &amp; Solutions</span>
+              <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${
+                activeMenu === "services" ? "rotate-180" : ""
+              } ${isScrolled ? "text-blue-300" : "text-slate-400"}`} />
+            </button>
 
-          {/* Desktop Right Actions */}
-          <div className="hidden md:flex items-center gap-4">
+            {/* Nav Item 2: About Us */}
+            <Link 
+              to="/about" 
+              onClick={() => setActiveMenu(null)}
+              className={`px-4 py-2 text-[14px] font-bold rounded-lg transition-all ${
+                isScrolled ? "text-white/90 hover:bg-blue-900/40 hover:text-white" : "text-slate-800 hover:text-blue-600 hover:bg-slate-100"
+              }`}
+            >
+              About Us
+            </Link>
 
-            {/* Language Selector */}
+            {/* Nav Item 3: Portfolio & Work */}
+            <Link 
+              to="/portfolio" 
+              onClick={() => setActiveMenu(null)}
+              className={`px-4 py-2 text-[14px] font-bold rounded-lg transition-all ${
+                isScrolled ? "text-white/90 hover:bg-blue-900/40 hover:text-white" : "text-slate-800 hover:text-blue-600 hover:bg-slate-100"
+              }`}
+            >
+              Portfolio &amp; Work
+            </Link>
+
+            {/* Nav Item 4: Policy & Guarantee */}
+            <Link 
+              to="/policy" 
+              onClick={() => setActiveMenu(null)}
+              className={`px-4 py-2 text-[14px] font-bold rounded-lg transition-all ${
+                isScrolled ? "text-white/90 hover:bg-blue-900/40 hover:text-white" : "text-slate-800 hover:text-blue-600 hover:bg-slate-100"
+              }`}
+            >
+              Policy &amp; Guarantee
+            </Link>
+
+          </nav>
+
+          {/* Right Action CTAs */}
+          <div className="flex items-center gap-3">
+
+            {/* Language Dropdown Selector */}
             <div 
-              className="relative"
+              className="relative hidden sm:block"
               onMouseEnter={() => setIsLangOpen(true)}
               onMouseLeave={() => setIsLangOpen(false)}
             >
               <button 
-                className="flex items-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 px-3.5 py-2 rounded-full text-slate-700 text-xs font-bold font-outfit transition-all"
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-bold transition-all border ${
+                  isScrolled 
+                    ? "bg-white/10 border-white/20 text-white hover:bg-white/20" 
+                    : "bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100"
+                }`}
                 aria-label="Select Language"
               >
-                <Globe size={14} className="text-blue-600" />
+                <Globe size={14} className={isScrolled ? "text-blue-300" : "text-blue-600"} />
                 <span>{currentLang}</span>
               </button>
 
@@ -122,7 +278,7 @@ const Navbar = ({ currentLang, setCurrentLang, user, onLogout }) => {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 6, scale: 0.96 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute top-full right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden min-w-[130px] p-1.5 z-50"
+                    className="absolute top-full right-0 mt-1 bg-white text-slate-900 border border-slate-200 rounded-xl shadow-xl overflow-hidden min-w-[130px] p-1.5 z-50"
                   >
                     {languages.map((lang) => (
                       <button
@@ -131,7 +287,7 @@ const Navbar = ({ currentLang, setCurrentLang, user, onLogout }) => {
                           setCurrentLang(lang.code)
                           setIsLangOpen(false)
                         }}
-                        className={`w-full flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-bold font-outfit transition-all ${
+                        className={`w-full flex items-center gap-3 px-3.5 py-2 rounded-lg text-xs font-bold transition-all ${
                           currentLang === lang.code 
                             ? 'bg-blue-50 text-blue-600 font-extrabold' 
                             : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
@@ -146,124 +302,210 @@ const Navbar = ({ currentLang, setCurrentLang, user, onLogout }) => {
               </AnimatePresence>
             </div>
 
-            {/* Contact CTA Button */}
-            <Link
-              to="/contact"
-              className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-xs md:text-sm font-bold font-outfit px-6 py-2.5 rounded-full shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300 active:scale-95 overflow-hidden"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-              <span className="relative z-10">{t.contact || 'Get In Touch'}</span>
-              <ArrowRight size={14} className="relative z-10 group-hover:translate-x-1 transition-transform" />
+            {/* Book Consultation Button */}
+            <Link to="/contact" onClick={() => setActiveMenu(null)}>
+              <button className={`text-xs sm:text-sm font-bold h-10 px-5 rounded-lg transition-all flex items-center gap-2 ${
+                isScrolled 
+                  ? "bg-white text-[#061632] hover:bg-blue-50 shadow-md font-extrabold" 
+                  : "bg-blue-600 hover:bg-blue-700 text-white shadow-md shadow-blue-600/25"
+              }`}>
+                <span>{t.contact || 'Book Consultation'}</span>
+                <ArrowRight size={14} />
+              </button>
             </Link>
 
-            {/* Logged in User Logout Badge */}
+            {/* User Logout Icon */}
             {user && (
               <button
                 onClick={onLogout}
                 title="Logout"
-                className="w-9 h-9 rounded-full bg-red-50 border border-red-200 text-red-600 hover:bg-red-600 hover:text-white flex items-center justify-center transition-all"
+                className="w-9 h-9 rounded-lg bg-red-50 border border-red-200 text-red-600 hover:bg-red-600 hover:text-white flex items-center justify-center transition-all"
               >
                 <LogOut size={14} />
               </button>
             )}
 
-          </div>
-
-          {/* Mobile Menu Toggle */}
-          <div className="md:hidden flex items-center gap-3">
-            <Link
-              to="/contact"
-              className="bg-blue-600 text-white text-xs font-bold font-outfit px-4 py-2 rounded-full shadow-sm"
-            >
-              Contact
-            </Link>
-
+            {/* Mobile Toggle Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={isMobileMenuOpen}
-              className="text-slate-700 p-2 bg-slate-100 hover:bg-slate-200 rounded-xl focus:outline-none"
+              className={`lg:hidden p-2 rounded-lg transition-colors ${
+                isScrolled ? "text-white bg-white/10" : "text-slate-700 bg-slate-100"
+              }`}
             >
-              {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
+
           </div>
 
         </div>
+      </div>
 
-        {/* Mobile Menu Overlay */}
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.25 }}
-              className="w-full md:hidden overflow-hidden border-t border-slate-100 bg-white px-4 pt-3 pb-4 mt-3"
-            >
-              <div className="flex flex-col gap-1.5">
-                {navLinks.map((link) => {
-                  const active = isActive(link)
-                  return link.isRoute ? (
-                    <Link
-                      key={link.name}
-                      to={link.href}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className={`px-4 py-3 rounded-xl text-sm font-bold font-outfit transition-all flex items-center justify-between ${
-                        active 
-                          ? 'bg-blue-50 text-blue-600 border border-blue-100' 
-                          : 'text-slate-700 hover:bg-slate-50'
-                      }`}
-                    >
-                      <span>{link.name}</span>
-                    </Link>
-                  ) : (
-                    <a
-                      key={link.name}
-                      href={link.href}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className={`px-4 py-3 rounded-xl text-sm font-bold font-outfit transition-all flex items-center justify-between ${
-                        active 
-                          ? 'bg-blue-50 text-blue-600 border border-blue-100' 
-                          : 'text-slate-700 hover:bg-slate-50'
-                      }`}
-                    >
-                      <span>{link.name}</span>
-                    </a>
-                  )
-                })}
-
-                {/* Mobile Languages */}
-                <div className="flex items-center justify-around bg-slate-50 border border-slate-100 rounded-xl p-2 mt-2">
-                  {languages.map((lang) => (
-                    <button
-                      key={lang.code}
-                      onClick={() => {
-                        setCurrentLang(lang.code)
-                        setIsMobileMenuOpen(false)
-                      }}
-                      className={`px-4 py-1.5 rounded-lg text-xs font-bold font-outfit flex items-center gap-2 transition-all ${
-                        currentLang === lang.code ? 'bg-white text-blue-600 shadow-sm border border-slate-200' : 'text-slate-500'
-                      }`}
-                    >
-                      <span>{lang.flag}</span>
-                      <span>{lang.code}</span>
-                    </button>
-                  ))}
+      {/* ── ANIMATED MEGA SUBHEADER OVERLAY PANEL (NexERP Style) ─────── */}
+      <AnimatePresence>
+        {activeMenu === "services" && (
+          <motion.div
+            initial={{ opacity: 0, y: -6, scale: 0.99 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -6, scale: 0.99 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="absolute top-full inset-x-0 bg-white text-slate-900 border-t-4 border-blue-600 border-b border-slate-200 shadow-2xl shadow-black/20 overflow-hidden z-50 pointer-events-auto"
+          >
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-7">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                
+                {/* LEFT SIDEBAR NAVIGATION */}
+                <div className="lg:col-span-5 space-y-1">
+                  <span className="text-xs font-black tracking-widest text-slate-400 uppercase mb-3 block px-4 font-sans">
+                    OUR CORE CAPABILITIES
+                  </span>
+                  {serviceTabs.map((tab) => {
+                    const IconComp = tab.icon;
+                    const isActive = activeServiceTab === tab.id;
+                    return (
+                      <button
+                        key={tab.id}
+                        onMouseEnter={() => setActiveServiceTab(tab.id)}
+                        onClick={() => setActiveServiceTab(tab.id)}
+                        className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition-all text-left ${
+                          isActive
+                            ? "bg-blue-600 text-white shadow-md shadow-blue-600/25"
+                            : "text-slate-800 hover:text-blue-600 hover:bg-slate-50"
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <IconComp className={`w-4.5 h-4.5 shrink-0 ${isActive ? "text-white" : "text-blue-600"}`} />
+                          <span>{tab.title}</span>
+                        </div>
+                        <ChevronRight className={`w-4 h-4 shrink-0 transition-transform ${isActive ? "text-white" : "text-slate-400"}`} />
+                      </button>
+                    );
+                  })}
                 </div>
 
-                {user && (
-                  <button
-                    onClick={() => { onLogout(); setIsMobileMenuOpen(false) }}
-                    className="w-full mt-2 bg-red-50 border border-red-200 text-red-600 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2"
-                  >
-                    <LogOut size={16} /> Logout ({user.username})
-                  </button>
-                )}
+                {/* RIGHT CONTENT DISPLAY PANEL */}
+                <div className="lg:col-span-7 pl-4 space-y-5">
+                  {(() => {
+                    const currentTab = serviceTabs.find(t => t.id === activeServiceTab) || serviceTabs[0];
+                    if (!currentTab) return null;
+                    const IconMain = currentTab.icon;
+                    return (
+                      <div className="space-y-6">
+                        {/* Service Header & Description */}
+                        <div className="flex items-start gap-4">
+                          <div className="w-11 h-11 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-600/25 shrink-0">
+                            <IconMain className="w-6 h-6" />
+                          </div>
+                          <div className="space-y-1">
+                            <h3 className="text-lg font-extrabold text-slate-900 leading-tight">
+                              {currentTab.title}
+                            </h3>
+                            <p className="text-xs text-slate-500 leading-relaxed max-w-xl">
+                              {currentTab.desc}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* 2-Column Bullet Features Grid */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 pb-4 border-t border-b border-slate-100">
+                          {currentTab.features.map((feat, idx) => (
+                            <div key={idx} className="flex items-center gap-2 text-xs font-semibold text-slate-700">
+                              <span className="w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0" />
+                              <span>{feat}</span>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Bottom CTA Action Link */}
+                        <Link 
+                          to={currentTab.link}
+                          onClick={() => setActiveMenu(null)}
+                          className="inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 group transition-colors"
+                        >
+                          <span>Explore {currentTab.title} work</span>
+                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                      </div>
+                    );
+                  })()}
+                </div>
+
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </nav>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ── MOBILE MENU OVERLAY ──────────────────────────────────────── */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25 }}
+            className="w-full lg:hidden overflow-hidden border-t border-slate-200 bg-white text-slate-900 px-4 pt-3 pb-6"
+          >
+            <div className="flex flex-col gap-2">
+              <Link
+                to="/"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="px-4 py-3 rounded-xl text-sm font-bold hover:bg-slate-50"
+              >
+                Home
+              </Link>
+              <Link
+                to="/about"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="px-4 py-3 rounded-xl text-sm font-bold hover:bg-slate-50"
+              >
+                About Us
+              </Link>
+              <Link
+                to="/portfolio"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="px-4 py-3 rounded-xl text-sm font-bold hover:bg-slate-50"
+              >
+                Portfolio &amp; Work
+              </Link>
+              <Link
+                to="/policy"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="px-4 py-3 rounded-xl text-sm font-bold hover:bg-slate-50"
+              >
+                Policy &amp; Guarantee
+              </Link>
+
+              {/* Mobile Languages */}
+              <div className="flex items-center justify-around bg-slate-50 border border-slate-200 rounded-xl p-2 mt-2">
+                {languages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => {
+                      setCurrentLang(lang.code)
+                      setIsMobileMenuOpen(false)
+                    }}
+                    className={`px-4 py-1.5 rounded-lg text-xs font-bold flex items-center gap-2 transition-all ${
+                      currentLang === lang.code ? 'bg-white text-blue-600 shadow-sm border border-slate-200' : 'text-slate-500'
+                    }`}
+                  >
+                    <span>{lang.flag}</span>
+                    <span>{lang.code}</span>
+                  </button>
+                ))}
+              </div>
+
+              <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="mt-2">
+                <button className="w-full bg-blue-600 text-white font-bold py-3 rounded-xl text-sm shadow-md">
+                  Book Consultation
+                </button>
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </header>
   )
 }
