@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Link } from 'react-router-dom'
-import { Globe, Menu, X, ArrowRight, Layout, Home } from 'lucide-react'
-
+import { Link, useLocation } from 'react-router-dom'
+import { Globe, Menu, X, ArrowRight, Sparkles, User, LogOut } from 'lucide-react'
 import { translations } from '../translations'
 
 const Navbar = ({ currentLang, setCurrentLang, user, onLogout }) => {
+  const location = useLocation()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isLangOpen, setIsLangOpen] = useState(false)
@@ -19,275 +19,277 @@ const Navbar = ({ currentLang, setCurrentLang, user, onLogout }) => {
   const t = translations?.[currentLang]?.navbar || translations?.['EN']?.navbar || {}
 
   useEffect(() => {
-    if (!currentLang) {
-      console.warn('Navbar: currentLang is undefined, defaulting to EN')
-    }
-  }, [currentLang])
-
-  useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true)
-      } else {
-        setIsScrolled(false)
-      }
+      setIsScrolled(window.scrollY > 40)
     }
-
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   const navLinks = [
-    { name: t.home, href: '/', },
+    { name: t.home || 'Home', href: '/', isRoute: false },
     { name: 'About', href: '/about', isRoute: true },
     { name: 'Portfolio', href: '/portfolio', isRoute: true },
     { name: 'Policy', href: '/policy', isRoute: true },
   ]
 
-  const navContent = (
-    <>
-      <img 
-        src="/images/devnexes-digital-solutions-navbar-background.png"
-        alt="Devnexes Digital Solutions website navigation background"
-        className={`absolute inset-0 z-0 pointer-events-none object-cover object-center w-full h-full transition-opacity duration-700 ${isScrolled ? 'opacity-0' : 'opacity-100'}`}
-      />
-
-      <div className="flex items-center gap-3 relative z-40 pl-6 md:pl-12">
-        <img src="/images/devnexes-logo.png" alt="Devnexes Digital Solutions company logo" className="w-8 h-8 object-contain" />
-        <div className="text-xl md:text-2xl font-black text-white tracking-tighter font-outfit">
-          Devnexes
-        </div>
-      </div>
-
-      {/* Desktop Links */}
-      <div className="hidden md:flex items-center gap-14 text-white/90 font-semibold relative z-40 font-outfit text-[16px]">
-        {navLinks.map((link, index) => (
-          <motion.div 
-            key={link.name} 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ type: "spring", stiffness: 200, damping: 22, delay: 0.1 + (index * 0.04) }}
-            className="relative group"
-          >
-            {link.isRoute ? (
-              <Link 
-                to={link.href} 
-                className={`flex items-center gap-1.5 transition-all py-8 relative ${link.isAdmin ? 'text-emerald-400 hover:text-emerald-300' : 'hover:text-white'}`}
-              >
-                {link.isAdmin && <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />}
-                {link.name}
-                <motion.div 
-                  className={`absolute bottom-6 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-300 ${link.isAdmin ? 'bg-emerald-400' : 'bg-white'}`}
-                  whileHover={{ width: '100%' }}
-                />
-              </Link>
-            ) : (
-              <a 
-                href={link.href} 
-                className="flex items-center gap-1.5 hover:text-white transition-all py-8 relative"
-              >
-                {link.name}
-                <motion.div 
-                  className="absolute bottom-6 left-0 h-[2px] bg-white w-0 group-hover:w-full transition-all duration-300"
-                  whileHover={{ width: '100%' }}
-                />
-              </a>
-            )}
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Desktop Actions */}
-      <div className="hidden md:flex items-center gap-6 text-white relative z-40 pr-12">
-        <div 
-          className="relative"
-          onMouseEnter={() => setIsLangOpen(true)}
-          onMouseLeave={() => setIsLangOpen(false)}
-        >
-          <div className="flex items-center gap-2 cursor-pointer hover:text-white transition-colors group/lang py-4">
-            <span className="font-outfit font-bold">{currentLang}</span>
-            <Globe size={18} className={`transition-transform duration-500 ${isLangOpen ? 'rotate-180 text-blue-400' : ''}`} />
-          </div>
-          
-          <AnimatePresence>
-            {isLangOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                className="absolute top-full right-0 mt-1 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden w-32"
-              >
-                {languages.map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => {
-                      setCurrentLang(lang.code)
-                      setIsLangOpen(false)
-                    }}
-                    className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-bold font-outfit transition-colors hover:bg-gray-50 ${currentLang === lang.code ? 'text-blue-600 bg-blue-50/50' : 'text-gray-700'}`}
-                  >
-                    <span>{lang.flag}</span>
-                    <span>{lang.name}</span>
-                  </button>
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
-        <Link to="/contact" className="bg-white/10 backdrop-blur-md border border-white/20 px-7 py-2 rounded-xl hover:bg-white/25 transition-all font-bold text-white whitespace-nowrap shadow-xl active:scale-95 relative overflow-hidden group/btn flex items-center justify-center">
-           <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000" />
-           <span className="relative z-10">{t.contact}</span>
-        </Link>
-
-        {user && (
-          <button 
-            onClick={onLogout}
-            className="flex items-center gap-2 text-white/50 hover:text-red-400 transition-colors font-bold text-xs uppercase tracking-tighter ml-2"
-          >
-            Logout
-          </button>
-        )}
-      </div>
-
-      {/* Mobile Menu Toggle */}
-      <div className="md:hidden flex items-center pr-6 relative z-50">
-        <button 
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-          aria-expanded={isMobileMenuOpen}
-          className="text-white p-2 focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg"
-        >
-          {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
-      </div>
-    </>
-  )
-
-  const mirrorEffects = (
-    <>
-      <div className="absolute inset-0 bg-linear-to-b from-white/25 to-transparent opacity-50 z-10 pointer-events-none" />
-      <div className="absolute inset-0 bg-linear-to-tr from-white/10 via-transparent to-white/20 opacity-60 z-10 pointer-events-none" />
-      <div className="absolute top-0 left-0 right-0 h-[2px] bg-linear-to-r from-transparent via-white/60 to-transparent opacity-80 z-30" />
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-white/30 to-transparent opacity-40 z-30" />
-      {/* Primary Shine */}
-      <div className="absolute -inset-full top-0 h-full w-1/2 z-20 block transform skew-x-[-25deg] bg-linear-to-r from-transparent via-white/30 to-transparent opacity-50 animate-shine pointer-events-none" />
-      {/* Secondary Fast Shine */}
-      <div className="absolute -inset-full top-0 h-full w-1/4 z-20 block transform skew-x-[-25deg] bg-linear-to-r from-transparent via-white/20 to-transparent opacity-30 animate-shine-fast pointer-events-none" />
-    </>
-  )
+  const isActive = (link) => {
+    if (link.isRoute) return location.pathname === link.href
+    return location.pathname === '/' && !location.hash
+  }
 
   return (
-    <nav className="fixed inset-x-0 top-0 z-1000 flex flex-col items-center w-full px-0">
-      <AnimatePresence mode='wait'>
-        {isScrolled ? (
-          <motion.div 
-            key="scrolled"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
-            className="w-full bg-[#0a2351]/30 backdrop-blur-3xl backdrop-saturate-200 border-b border-white/20 flex items-center justify-between relative shadow-2xl h-[70px]"
-          >
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              {mirrorEffects}
-            </div>
-            {navContent}
-          </motion.div>
-        ) : (
-          <motion.div 
-            key="floating"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
-            className="w-[92%] max-w-[1240px] mt-4 md:mt-6 bg-[#1a2b4b]/20 backdrop-blur-3xl backdrop-saturate-150 border border-white/20 flex items-center justify-between relative shadow-2xl rounded-2xl h-[70px] md:h-[80px]"
-          >
-            <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
-              {mirrorEffects}
-            </div>
-            {navContent}
-          </motion.div>
-        )}
-      </AnimatePresence>
+    <header className="fixed inset-x-0 top-0 z-[1000] flex justify-center px-3 md:px-6 pt-3 md:pt-5 transition-all duration-500">
+      <motion.nav
+        initial={{ y: -30, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ type: 'spring', stiffness: 260, damping: 24 }}
+        className={`w-full transition-all duration-500 relative ${
+          isScrolled
+            ? 'max-w-6xl bg-[#061632]/85 backdrop-blur-2xl border border-white/15 shadow-[0_16px_40px_rgba(0,0,0,0.4)] rounded-full px-5 py-2.5'
+            : 'max-w-7xl bg-[#091e42]/60 backdrop-blur-xl border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.25)] rounded-full md:rounded-2xl px-6 py-3 md:py-3.5'
+        }`}
+      >
+        {/* Ambient Top Glow Line */}
+        <div className="absolute top-0 left-12 right-12 h-px bg-gradient-to-r from-transparent via-blue-400/30 to-transparent pointer-events-none" />
 
-      {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="w-full bg-[#0a2351] backdrop-blur-3xl border-b border-white/10 md:hidden overflow-hidden"
-          >
-            <div className="flex flex-col items-center py-8 gap-6 text-white font-outfit font-semibold">
-              {navLinks.map((link) => (
-                link.isRoute ? (
-                  <Link 
-                    key={link.name} 
-                    to={link.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-xl hover:text-blue-300 transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                ) : (
-                  <a 
-                    key={link.name} 
-                    href={link.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-xl hover:text-blue-300 transition-colors"
-                  >
-                    {link.name}
-                  </a>
-                )
-              ))}
-              <div className="flex gap-4 mt-2">
-                {languages.map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => {
-                      setCurrentLang(lang.code)
-                      setIsMobileMenuOpen(false)
-                    }}
-                    className={`px-3 py-1 rounded-lg border ${currentLang === lang.code ? 'bg-white text-blue-900' : 'border-white/20 text-white'}`}
-                  >
-                    {lang.code}
-                  </button>
-                ))}
+        <div className="flex items-center justify-between relative z-20">
+
+          {/* Brand Logo & Name */}
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="relative">
+              <div className="absolute inset-0 bg-blue-500/30 rounded-xl blur-md group-hover:bg-blue-400/50 transition-all duration-500" />
+              <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center relative z-10 shadow-lg group-hover:scale-105 transition-transform duration-300">
+                <img src="/images/devnexes-logo.png" alt="Devnexes Logo" className="w-6 h-6 object-contain" />
               </div>
-              <Link 
-                to="/#login-section"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="mt-4 bg-white/10 border border-white/20 px-10 py-3 rounded-xl font-bold text-center w-full max-w-[240px]"
-              >
-                {t.contact}
-              </Link>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            <div className="flex flex-col">
+              <span className="text-xl md:text-2xl font-black text-white tracking-tight font-outfit leading-none">
+                Devnexes
+              </span>
+              <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-blue-400 opacity-90">
+                Digital Solutions
+              </span>
+            </div>
+          </Link>
 
-      <style>{`
-        @keyframes shine {
-          0% { left: -100%; }
-          15% { left: 200%; }
-          100% { left: 200%; }
-        }
-        @keyframes shine-fast {
-          0% { left: -150%; }
-          20% { left: 250%; }
-          100% { left: 250%; }
-        }
-        .animate-shine {
-          animation: shine 6s infinite ease-in-out;
-        }
-        .animate-shine-fast {
-          animation: shine-fast 4s infinite ease-in-out;
-          animation-delay: 1s;
-        }
-      `}</style>
-    </nav>
+          {/* Desktop Navigation Links */}
+          <div className="hidden md:flex items-center gap-1.5 bg-white/[0.06] backdrop-blur-md border border-white/10 rounded-full px-3 py-1.5 shadow-inner">
+            {navLinks.map((link) => {
+              const active = isActive(link)
+              return (
+                <div key={link.name} className="relative">
+                  {link.isRoute ? (
+                    <Link
+                      to={link.href}
+                      className={`relative px-5 py-2 rounded-full text-sm font-bold font-outfit transition-all duration-300 flex items-center gap-1.5 ${
+                        active
+                          ? 'text-white'
+                          : 'text-white/70 hover:text-white hover:bg-white/10'
+                      }`}
+                    >
+                      {active && (
+                        <motion.div
+                          layoutId="nav-active-pill"
+                          className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full shadow-[0_0_16px_rgba(37,99,235,0.4)]"
+                          transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                        />
+                      )}
+                      <span className="relative z-10">{link.name}</span>
+                    </Link>
+                  ) : (
+                    <a
+                      href={link.href}
+                      className={`relative px-5 py-2 rounded-full text-sm font-bold font-outfit transition-all duration-300 flex items-center gap-1.5 ${
+                        active
+                          ? 'text-white'
+                          : 'text-white/70 hover:text-white hover:bg-white/10'
+                      }`}
+                    >
+                      {active && (
+                        <motion.div
+                          layoutId="nav-active-pill"
+                          className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full shadow-[0_0_16px_rgba(37,99,235,0.4)]"
+                          transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                        />
+                      )}
+                      <span className="relative z-10">{link.name}</span>
+                    </a>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+
+          {/* Desktop Right Actions */}
+          <div className="hidden md:flex items-center gap-4">
+
+            {/* Language Selector */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setIsLangOpen(true)}
+              onMouseLeave={() => setIsLangOpen(false)}
+            >
+              <button 
+                className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/15 px-3.5 py-2 rounded-full text-white text-xs font-bold font-outfit transition-all"
+                aria-label="Select Language"
+              >
+                <Globe size={14} className="text-blue-400" />
+                <span>{currentLang}</span>
+              </button>
+
+              <AnimatePresence>
+                {isLangOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute top-full right-0 mt-2 bg-[#061632] border border-white/20 rounded-2xl shadow-2xl overflow-hidden min-w-[130px] p-1.5 z-50 backdrop-blur-2xl"
+                  >
+                    {languages.map((lang) => (
+                      <button
+                        key={lang.code}
+                        onClick={() => {
+                          setCurrentLang(lang.code)
+                          setIsLangOpen(false)
+                        }}
+                        className={`w-full flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-bold font-outfit transition-all ${
+                          currentLang === lang.code 
+                            ? 'bg-blue-600 text-white shadow-md' 
+                            : 'text-white/70 hover:text-white hover:bg-white/10'
+                        }`}
+                      >
+                        <span>{lang.flag}</span>
+                        <span>{lang.name}</span>
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Contact CTA Button */}
+            <Link
+              to="/contact"
+              className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-600 hover:from-blue-600 hover:to-indigo-600 text-white text-xs md:text-sm font-bold font-outfit px-6 py-2.5 rounded-full shadow-[0_4px_20px_rgba(37,99,235,0.35)] hover:shadow-[0_6px_28px_rgba(37,99,235,0.5)] transition-all duration-300 active:scale-95 overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+              <span className="relative z-10">{t.contact || 'Get In Touch'}</span>
+              <ArrowRight size={14} className="relative z-10 group-hover:translate-x-1 transition-transform" />
+            </Link>
+
+            {/* Logged in User Badge */}
+            {user && (
+              <button
+                onClick={onLogout}
+                title="Logout"
+                className="w-9 h-9 rounded-full bg-red-500/15 border border-red-400/30 text-red-400 hover:bg-red-500 hover:text-white flex items-center justify-center transition-all"
+              >
+                <LogOut size={14} />
+              </button>
+            )}
+
+          </div>
+
+          {/* Mobile Menu Toggle */}
+          <div className="md:hidden flex items-center gap-2">
+            <Link
+              to="/contact"
+              className="bg-blue-600 text-white text-xs font-bold font-outfit px-4 py-2 rounded-full shadow-md"
+            >
+              Contact
+            </Link>
+
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isMobileMenuOpen}
+              className="text-white p-2 bg-white/10 border border-white/15 rounded-full focus:outline-none"
+            >
+              {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
+
+        </div>
+
+        {/* Mobile Menu Overlay */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              className="w-full md:hidden overflow-hidden border-t border-white/10 mt-3 pt-4 pb-2"
+            >
+              <div className="flex flex-col gap-2">
+                {navLinks.map((link) => {
+                  const active = isActive(link)
+                  return link.isRoute ? (
+                    <Link
+                      key={link.name}
+                      to={link.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={`px-5 py-3 rounded-2xl text-base font-bold font-outfit transition-all flex items-center justify-between ${
+                        active 
+                          ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30' 
+                          : 'text-white/80 hover:bg-white/10 hover:text-white'
+                      }`}
+                    >
+                      <span>{link.name}</span>
+                      {active && <Sparkles size={16} className="text-white" />}
+                    </Link>
+                  ) : (
+                    <a
+                      key={link.name}
+                      href={link.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={`px-5 py-3 rounded-2xl text-base font-bold font-outfit transition-all flex items-center justify-between ${
+                        active 
+                          ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30' 
+                          : 'text-white/80 hover:bg-white/10 hover:text-white'
+                      }`}
+                    >
+                      <span>{link.name}</span>
+                      {active && <Sparkles size={16} className="text-white" />}
+                    </a>
+                  )
+                })}
+
+                {/* Mobile Languages */}
+                <div className="flex items-center justify-around bg-white/5 border border-white/10 rounded-2xl p-2 mt-2">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => {
+                        setCurrentLang(lang.code)
+                        setIsMobileMenuOpen(false)
+                      }}
+                      className={`px-4 py-2 rounded-xl text-xs font-bold font-outfit flex items-center gap-2 transition-all ${
+                        currentLang === lang.code ? 'bg-white text-blue-900 shadow-md' : 'text-white/70'
+                      }`}
+                    >
+                      <span>{lang.flag}</span>
+                      <span>{lang.code}</span>
+                    </button>
+                  ))}
+                </div>
+
+                {user && (
+                  <button
+                    onClick={() => { onLogout(); setIsMobileMenuOpen(false) }}
+                    className="w-full mt-2 bg-red-500/15 border border-red-400/30 text-red-400 py-3 rounded-2xl font-bold text-sm flex items-center justify-center gap-2"
+                  >
+                    <LogOut size={16} /> Logout ({user.username})
+                  </button>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.nav>
+    </header>
   )
 }
 
