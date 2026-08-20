@@ -130,7 +130,7 @@ const Hero = ({ t }) => {
       />
 
       {/* Main Content Container */}
-      <div className="relative z-30 container mx-auto px-6 flex flex-col grow items-center text-center pt-56 md:pt-72 pb-20">
+      <div className="relative z-30 container mx-auto px-6 flex flex-col grow items-center text-center pt-64 md:pt-80 pb-32">
 
         <motion.h1 
           className="font-outfit text-4xl md:text-7xl lg:text-[105px] font-bold text-white mb-10 tracking-tight leading-[1.05] max-w-7xl"
@@ -163,18 +163,18 @@ const Hero = ({ t }) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-white/70 text-center max-w-4xl mx-auto text-lg md:text-2xl font-normal leading-relaxed opacity-100 mt-8 mb-12"
+          className="text-white/80 font-medium text-lg md:text-2xl max-w-3xl mb-14 leading-relaxed"
         >
-          {t.footerDesc}
+          {t.socialProof}
         </motion.p>
 
-        {/* Buttons */}
+        {/* CTA Buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.3 }}
-          transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-16 md:mt-24 mb-20 w-full"
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-24 w-full sm:w-auto"
         >
           <a href="#login-section" className="w-full sm:w-auto">
             <motion.button
@@ -225,7 +225,7 @@ const Hero = ({ t }) => {
               className="max-w-2xl w-full"
             >
               <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
-                <div className="flex -space-x-8 shrink-0 mb-4 sm:mb-0">
+                <div className="flex -space-x-4 shrink-0 mb-4 sm:mb-0">
                   {[1, 2, 3, 4].map((i) => (
                     <motion.div 
                       key={i} 
@@ -233,7 +233,7 @@ const Hero = ({ t }) => {
                       whileInView={{ scale: 1 }}
                       viewport={{ once: false }}
                       transition={{ delay: i * 0.1, type: "spring", stiffness: 260, damping: 20 }}
-                      className="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-[#1a365d] bg-gray-800 overflow-hidden shadow-2xl relative" 
+                      className="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-white/40 bg-gray-800 overflow-hidden shadow-2xl relative" 
                       style={{ zIndex: 4 - i }}
                     >
                       <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=user${i}`} alt="client avatar" loading="lazy" decoding="async" className="w-full h-full object-cover" />
@@ -241,8 +241,8 @@ const Hero = ({ t }) => {
                   ))}
                 </div>
                 <div className="flex flex-col text-center sm:text-left">
-                  <p className="text-[#163c8a] font-bold text-2xl md:text-[28px] font-outfit leading-none mb-2">{socialData.reviewed_by}</p>
-                  <p className="text-white/80 text-sm md:text-[16px] font-medium leading-relaxed opacity-90">
+                  <p className="text-white font-black text-2xl md:text-3xl font-outfit leading-none mb-2 tracking-tight drop-shadow-md">{socialData.reviewed_by}</p>
+                  <p className="text-white/80 text-sm md:text-base font-medium leading-relaxed">
                     "{socialData.social_proof}"
                   </p>
                 </div>
@@ -255,23 +255,23 @@ const Hero = ({ t }) => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: false, amount: 0.3 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              className="w-full lg:w-auto text-center lg:text-right lg:pr-24"
+              className="w-full lg:w-auto text-center lg:text-right lg:pr-12"
             >
               <div className="flex flex-col items-center lg:items-end">
-                <p className="text-white/60 text-sm mb-4 font-normal uppercase tracking-wider">{t.splitValues}</p>
-                <div className="flex flex-col items-center lg:items-end mb-6">
-                  <h2 className="font-outfit text-[#163c8a] text-6xl md:text-[84px] font-semibold leading-none tracking-tighter">
+                <p className="text-blue-300 font-bold text-xs md:text-sm mb-3 uppercase tracking-widest">{t.splitValues}</p>
+                <div className="flex flex-col items-center lg:items-end mb-8">
+                  <h2 className="font-outfit text-white text-6xl md:text-8xl lg:text-[96px] font-black leading-none tracking-tighter drop-shadow-lg">
                     <StatCounter value={statsData[0].value} />
                   </h2>
-                  <p className="text-white/80 font-normal mt-1 text-sm md:text-[16px]">
+                  <p className="text-white/90 font-bold mt-2 text-base md:text-lg">
                     {statsData[0].label}
                   </p>
                 </div>
                 <div className="flex flex-col items-center lg:items-end">
-                  <h2 className="font-outfit text-[#163c8a] text-6xl md:text-[84px] font-semibold leading-none tracking-tighter">
+                  <h2 className="font-outfit text-white text-6xl md:text-8xl lg:text-[96px] font-black leading-none tracking-tighter drop-shadow-lg">
                     <StatCounter value={statsData[0].subValue} />
                   </h2>
-                  <p className="text-white/80 font-normal mt-1 text-sm md:text-[16px]">
+                  <p className="text-white/90 font-bold mt-2 text-base md:text-lg">
                     {statsData[0].subLabel}
                   </p>
                 </div>
