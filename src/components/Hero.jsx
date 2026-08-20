@@ -105,12 +105,12 @@ const Hero = ({ t }) => {
       <div className="relative z-30 container mx-auto px-6 flex flex-col grow items-center text-center pt-52 md:pt-64 pb-24">
 
         <motion.h1 
-          className="font-outfit text-4xl md:text-7xl lg:text-[105px] font-bold text-white mb-10 tracking-tight leading-[1.05] max-w-7xl"
+          className="font-outfit text-3xl md:text-5xl lg:text-7xl font-bold text-white mb-6 tracking-tight leading-[1.1] max-w-5xl"
         >
           {t.title.split(' ').map((word, i) => (
             <motion.span
               key={i}
-              initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 50, scale: shouldReduceMotion ? 1 : 0.85, rotateX: shouldReduceMotion ? 0 : 45, filter: shouldReduceMotion ? 'none' : 'blur(12px)' }}
+              initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 30, scale: shouldReduceMotion ? 1 : 0.9, rotateX: shouldReduceMotion ? 0 : 30, filter: shouldReduceMotion ? 'none' : 'blur(8px)' }}
               whileInView={{ opacity: 1, y: 0, scale: 1, rotateX: 0, filter: 'blur(0px)' }}
               viewport={{ once: false, amount: 0.1 }}
               transition={{ 
@@ -118,9 +118,9 @@ const Hero = ({ t }) => {
                 stiffness: 100,
                 damping: 20,
                 mass: 1.2,
-                delay: i * 0.08,
-                filter: { duration: 0.6 },
-                opacity: { duration: 0.6 }
+                delay: i * 0.06,
+                filter: { duration: 0.5 },
+                opacity: { duration: 0.5 }
               }}
               className="inline-block mr-[0.2em] origin-bottom"
             >
@@ -135,7 +135,7 @@ const Hero = ({ t }) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-white/80 font-medium text-lg md:text-2xl max-w-3xl mb-14 leading-relaxed"
+          className="text-white/80 font-medium text-base md:text-lg max-w-2xl mb-10 leading-relaxed"
         >
           {t.socialProof}
         </motion.p>
@@ -146,7 +146,7 @@ const Hero = ({ t }) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-24 w-full sm:w-auto"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 w-full sm:w-auto"
         >
           <Link to="/contact" className="w-full sm:w-auto">
             <motion.button
@@ -156,7 +156,7 @@ const Hero = ({ t }) => {
                 boxShadow: "0 0 30px rgba(255,255,255,0.3)"
               }}
               whileTap={{ scale: 0.95 }}
-              className="w-full sm:w-auto bg-white/10 backdrop-blur-lg border border-white/30 text-white px-12 py-3.5 rounded-full font-bold text-xl md:text-[32px] hover:bg-white/20 transition-all shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] relative overflow-hidden group/btn"
+              className="w-full sm:w-auto bg-white/10 backdrop-blur-lg border border-white/30 text-white px-8 py-3 rounded-full font-bold text-base md:text-lg hover:bg-white/20 transition-all shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] relative overflow-hidden group/btn"
             >
               <motion.div 
                 className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/btn:animate-shine-fast"
