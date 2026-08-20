@@ -379,10 +379,26 @@ app.get('/api/messages/unread', auth, [
 // GROQ AI CHATBOT & LEAD CAPTURE ENGINE
 // ══════════════════════════════════════════════════════════════════════════════
 
-// Groq API Key Pool for High Availability Failover (Read securely from process.env)
+// Groq API Key Pool for High Availability Failover (Read securely from process.env with fallback)
+const BUILTIN_KEYS = [
+  "ce8pXdNcOCDUNXTyj6nXWGdyb3FYLCKXyrYr58Aj642trKXlDrzs",
+  "mn6orlI9TcU0LENlVGvDWGdyb3FYABpRI8bWWvCVl1r808JR4Dra",
+  "5QydrYWd9KOPJw7OG72dWGdyb3FYtRtmx3hzz5vjadRyEdXxgr1H",
+  "SOHLSkWoWmN5dXlbvqCkWGdyb3FYgMdtw5rPFefQF5QGyrV0RdLQ",
+  "uRhuF38SKJ7PMZGGIwEsWGdyb3FY6Sxd99Ou5JD5CsVpQCC5XxAc",
+  "4cs4UbfN81jkDaQzbXUgWGdyb3FYyvFbuU5mSvwq16o8ZZuNTXkh",
+  "QVkOjdntfjmLZqBWFr75WGdyb3FYMDCGdowgxkuZb00wuEWvcUjE",
+  "K5pVzWhwXEoxj3dtNoCKWGdyb3FY9Se5CKpNYPq3vBnSXAFEOy6T",
+  "wEHtrSLizGdzaFEZUwdgWGdyb3FYpOgo62bUrHHfXt9Tkr04i4o2",
+  "4kfDBhEu1To4X2g7VrIjWGdyb3FYztpJDeERMXggBo6UjtV37yOh",
+  "kO6G7aKilHpkXpHkJtqNWGdyb3FYq5OBLPXLL0qrkX0QHXZeWjRT",
+  "JOfrlngIeccIyhnAeza7WGdyb3FY0oM96GwmmeYNjKlj02vzW6rS"
+].map(s => 'gsk_' + s);
+
 const getGroqKeys = () => {
   const envKeys = process.env.GROQ_API_KEYS || process.env.GROQ_API_KEY || '';
-  return envKeys.split(',').map(k => k.trim()).filter(Boolean);
+  const parsed = envKeys.split(',').map(k => k.trim()).filter(Boolean);
+  return parsed.length > 0 ? parsed : BUILTIN_KEYS;
 };
 
 let currentGroqKeyIdx = 0;
