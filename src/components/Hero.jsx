@@ -135,33 +135,26 @@ const Hero = ({ t }) => {
         <motion.h1 
           className="font-outfit text-4xl md:text-7xl lg:text-[105px] font-bold text-white mb-10 tracking-tight leading-[1.05] max-w-7xl"
         >
-          {t.title.split(' ').map((word, i) => {
-            const isGradientWord = ['Intelligent', 'Web', '&', 'AI', 'Solutions.', 'مصنوعی', 'ذہانت', 'الذكاء', 'الاصطناعي'].includes(word);
-            return (
-              <motion.span
-                key={i}
-                initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 50, scale: shouldReduceMotion ? 1 : 0.85, rotateX: shouldReduceMotion ? 0 : 45, filter: shouldReduceMotion ? 'none' : 'blur(12px)' }}
-                whileInView={{ opacity: 1, y: 0, scale: 1, rotateX: 0, filter: 'blur(0px)' }}
-                viewport={{ once: false, amount: 0.1 }}
-                transition={{ 
-                  type: "spring",
-                  stiffness: 100,
-                  damping: 20,
-                  mass: 1.2,
-                  delay: i * 0.08,
-                  filter: { duration: 0.6 },
-                  opacity: { duration: 0.6 }
-                }}
-                className={`inline-block mr-[0.2em] origin-bottom ${
-                  isGradientWord 
-                    ? 'bg-gradient-to-r from-blue-400 via-sky-300 to-indigo-300 bg-clip-text text-transparent drop-shadow-[0_0_35px_rgba(59,130,246,0.6)] font-extrabold pb-2' 
-                    : ''
-                }`}
-              >
-                {word}
-              </motion.span>
-            )
-          })}
+          {t.title.split(' ').map((word, i) => (
+            <motion.span
+              key={i}
+              initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 50, scale: shouldReduceMotion ? 1 : 0.85, rotateX: shouldReduceMotion ? 0 : 45, filter: shouldReduceMotion ? 'none' : 'blur(12px)' }}
+              whileInView={{ opacity: 1, y: 0, scale: 1, rotateX: 0, filter: 'blur(0px)' }}
+              viewport={{ once: false, amount: 0.1 }}
+              transition={{ 
+                type: "spring",
+                stiffness: 100,
+                damping: 20,
+                mass: 1.2,
+                delay: i * 0.08,
+                filter: { duration: 0.6 },
+                opacity: { duration: 0.6 }
+              }}
+              className="inline-block mr-[0.2em] origin-bottom"
+            >
+              {word}
+            </motion.span>
+          ))}
         </motion.h1>
 
         {/* Subtitle */}

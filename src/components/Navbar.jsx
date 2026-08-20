@@ -418,19 +418,14 @@ export function Navbar({ currentLang, setCurrentLang, user, onLogout }) {
                     const IconMain = currentTab.icon;
                     return (
                       <div className="space-y-6">
-                        {/* Service Header & Description */}
-                        <div className="flex items-start gap-4">
-                          <div className="w-11 h-11 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-600/25 shrink-0">
-                            <IconMain className="w-6 h-6" />
-                          </div>
-                          <div className="space-y-1">
-                            <h3 className="text-lg font-extrabold text-slate-900 leading-tight">
-                              {currentTab.title}
-                            </h3>
-                            <p className="text-xs text-slate-500 leading-relaxed max-w-xl">
-                              {currentTab.desc}
-                            </p>
-                          </div>
+                        {/* Service Header & Description (Corporate Minimalist Layout) */}
+                        <div className="space-y-2 border-l-2 border-blue-600 pl-4 py-0.5">
+                          <h3 className="text-lg font-black text-slate-900 tracking-tight leading-tight">
+                            {currentTab.title}
+                          </h3>
+                          <p className="text-xs text-slate-500 leading-relaxed max-w-xl font-medium">
+                            {currentTab.desc}
+                          </p>
                         </div>
 
                         {/* 2-Column Bullet Features Grid */}
