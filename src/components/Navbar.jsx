@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Link, useLocation } from 'react-router-dom'
-import { Globe, Menu, X, ArrowRight, Sparkles, User, LogOut } from 'lucide-react'
+import { Globe, Menu, X, ArrowRight, LogOut } from 'lucide-react'
 import { translations } from '../translations'
 
 const Navbar = ({ currentLang, setCurrentLang, user, onLogout }) => {
@@ -20,7 +20,7 @@ const Navbar = ({ currentLang, setCurrentLang, user, onLogout }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 40)
+      setIsScrolled(window.scrollY > 20)
     }
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
@@ -39,81 +39,58 @@ const Navbar = ({ currentLang, setCurrentLang, user, onLogout }) => {
   }
 
   return (
-    <header className="fixed inset-x-0 top-0 z-[1000] flex justify-center px-3 md:px-6 pt-3 md:pt-5 transition-all duration-500">
-      <motion.nav
-        initial={{ y: -30, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ type: 'spring', stiffness: 260, damping: 24 }}
-        className={`w-full transition-all duration-500 relative ${
+    <header className="fixed inset-x-0 top-0 z-[1000] w-full">
+      <nav
+        className={`w-full transition-all duration-300 bg-white ${
           isScrolled
-            ? 'max-w-6xl bg-[#061632]/85 backdrop-blur-2xl border border-white/15 shadow-[0_16px_40px_rgba(0,0,0,0.4)] rounded-full px-5 py-2.5'
-            : 'max-w-7xl bg-[#091e42]/60 backdrop-blur-xl border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.25)] rounded-full md:rounded-2xl px-6 py-3 md:py-3.5'
+            ? 'border-b border-slate-200/80 shadow-md py-3'
+            : 'border-b border-slate-100 shadow-sm py-4'
         }`}
       >
-        {/* Ambient Top Glow Line */}
-        <div className="absolute top-0 left-12 right-12 h-px bg-gradient-to-r from-transparent via-blue-400/30 to-transparent pointer-events-none" />
-
-        <div className="flex items-center justify-between relative z-20">
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl flex items-center justify-between">
 
           {/* Brand Logo & Name */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="relative">
-              <div className="absolute inset-0 bg-blue-500/30 rounded-xl blur-md group-hover:bg-blue-400/50 transition-all duration-500" />
-              <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center relative z-10 shadow-lg group-hover:scale-105 transition-transform duration-300">
-                <img src="/images/devnexes-logo.png" alt="Devnexes Logo" className="w-6 h-6 object-contain" />
-              </div>
+            <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform duration-300">
+              <img src="/images/devnexes-logo.png" alt="Devnexes Logo" className="w-6 h-6 object-contain" />
             </div>
             <div className="flex flex-col">
-              <span className="text-xl md:text-2xl font-black text-white tracking-tight font-outfit leading-none">
+              <span className="text-xl md:text-2xl font-black text-[#061632] tracking-tight font-outfit leading-none">
                 Devnexes
               </span>
-              <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-blue-400 opacity-90">
+              <span className="text-[9px] font-bold uppercase tracking-[0.25em] text-blue-600 mt-0.5">
                 Digital Solutions
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation Links */}
-          <div className="hidden md:flex items-center gap-1.5 bg-white/[0.06] backdrop-blur-md border border-white/10 rounded-full px-3 py-1.5 shadow-inner">
+          <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => {
               const active = isActive(link)
               return (
-                <div key={link.name} className="relative">
+                <div key={link.name}>
                   {link.isRoute ? (
                     <Link
                       to={link.href}
-                      className={`relative px-5 py-2 rounded-full text-sm font-bold font-outfit transition-all duration-300 flex items-center gap-1.5 ${
+                      className={`px-5 py-2 rounded-full text-sm font-bold font-outfit transition-all duration-200 ${
                         active
-                          ? 'text-white'
-                          : 'text-white/70 hover:text-white hover:bg-white/10'
+                          ? 'bg-blue-50 text-blue-600 border border-blue-100 shadow-xs'
+                          : 'text-slate-700 hover:text-blue-600 hover:bg-slate-50'
                       }`}
                     >
-                      {active && (
-                        <motion.div
-                          layoutId="nav-active-pill"
-                          className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full shadow-[0_0_16px_rgba(37,99,235,0.4)]"
-                          transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                        />
-                      )}
-                      <span className="relative z-10">{link.name}</span>
+                      {link.name}
                     </Link>
                   ) : (
                     <a
                       href={link.href}
-                      className={`relative px-5 py-2 rounded-full text-sm font-bold font-outfit transition-all duration-300 flex items-center gap-1.5 ${
+                      className={`px-5 py-2 rounded-full text-sm font-bold font-outfit transition-all duration-200 ${
                         active
-                          ? 'text-white'
-                          : 'text-white/70 hover:text-white hover:bg-white/10'
+                          ? 'bg-blue-50 text-blue-600 border border-blue-100 shadow-xs'
+                          : 'text-slate-700 hover:text-blue-600 hover:bg-slate-50'
                       }`}
                     >
-                      {active && (
-                        <motion.div
-                          layoutId="nav-active-pill"
-                          className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full shadow-[0_0_16px_rgba(37,99,235,0.4)]"
-                          transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                        />
-                      )}
-                      <span className="relative z-10">{link.name}</span>
+                      {link.name}
                     </a>
                   )}
                 </div>
@@ -131,21 +108,21 @@ const Navbar = ({ currentLang, setCurrentLang, user, onLogout }) => {
               onMouseLeave={() => setIsLangOpen(false)}
             >
               <button 
-                className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/15 px-3.5 py-2 rounded-full text-white text-xs font-bold font-outfit transition-all"
+                className="flex items-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 px-3.5 py-2 rounded-full text-slate-700 text-xs font-bold font-outfit transition-all"
                 aria-label="Select Language"
               >
-                <Globe size={14} className="text-blue-400" />
+                <Globe size={14} className="text-blue-600" />
                 <span>{currentLang}</span>
               </button>
 
               <AnimatePresence>
                 {isLangOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                    initial={{ opacity: 0, y: 6, scale: 0.96 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 8, scale: 0.95 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute top-full right-0 mt-2 bg-[#061632] border border-white/20 rounded-2xl shadow-2xl overflow-hidden min-w-[130px] p-1.5 z-50 backdrop-blur-2xl"
+                    exit={{ opacity: 0, y: 6, scale: 0.96 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute top-full right-0 mt-1 bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden min-w-[130px] p-1.5 z-50"
                   >
                     {languages.map((lang) => (
                       <button
@@ -156,8 +133,8 @@ const Navbar = ({ currentLang, setCurrentLang, user, onLogout }) => {
                         }}
                         className={`w-full flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-bold font-outfit transition-all ${
                           currentLang === lang.code 
-                            ? 'bg-blue-600 text-white shadow-md' 
-                            : 'text-white/70 hover:text-white hover:bg-white/10'
+                            ? 'bg-blue-50 text-blue-600 font-extrabold' 
+                            : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
                         }`}
                       >
                         <span>{lang.flag}</span>
@@ -172,19 +149,19 @@ const Navbar = ({ currentLang, setCurrentLang, user, onLogout }) => {
             {/* Contact CTA Button */}
             <Link
               to="/contact"
-              className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-600 hover:from-blue-600 hover:to-indigo-600 text-white text-xs md:text-sm font-bold font-outfit px-6 py-2.5 rounded-full shadow-[0_4px_20px_rgba(37,99,235,0.35)] hover:shadow-[0_6px_28px_rgba(37,99,235,0.5)] transition-all duration-300 active:scale-95 overflow-hidden"
+              className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-xs md:text-sm font-bold font-outfit px-6 py-2.5 rounded-full shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300 active:scale-95 overflow-hidden"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
               <span className="relative z-10">{t.contact || 'Get In Touch'}</span>
               <ArrowRight size={14} className="relative z-10 group-hover:translate-x-1 transition-transform" />
             </Link>
 
-            {/* Logged in User Badge */}
+            {/* Logged in User Logout Badge */}
             {user && (
               <button
                 onClick={onLogout}
                 title="Logout"
-                className="w-9 h-9 rounded-full bg-red-500/15 border border-red-400/30 text-red-400 hover:bg-red-500 hover:text-white flex items-center justify-center transition-all"
+                className="w-9 h-9 rounded-full bg-red-50 border border-red-200 text-red-600 hover:bg-red-600 hover:text-white flex items-center justify-center transition-all"
               >
                 <LogOut size={14} />
               </button>
@@ -193,10 +170,10 @@ const Navbar = ({ currentLang, setCurrentLang, user, onLogout }) => {
           </div>
 
           {/* Mobile Menu Toggle */}
-          <div className="md:hidden flex items-center gap-2">
+          <div className="md:hidden flex items-center gap-3">
             <Link
               to="/contact"
-              className="bg-blue-600 text-white text-xs font-bold font-outfit px-4 py-2 rounded-full shadow-md"
+              className="bg-blue-600 text-white text-xs font-bold font-outfit px-4 py-2 rounded-full shadow-sm"
             >
               Contact
             </Link>
@@ -205,7 +182,7 @@ const Navbar = ({ currentLang, setCurrentLang, user, onLogout }) => {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={isMobileMenuOpen}
-              className="text-white p-2 bg-white/10 border border-white/15 rounded-full focus:outline-none"
+              className="text-slate-700 p-2 bg-slate-100 hover:bg-slate-200 rounded-xl focus:outline-none"
             >
               {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
@@ -220,10 +197,10 @@ const Navbar = ({ currentLang, setCurrentLang, user, onLogout }) => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="w-full md:hidden overflow-hidden border-t border-white/10 mt-3 pt-4 pb-2"
+              transition={{ duration: 0.25 }}
+              className="w-full md:hidden overflow-hidden border-t border-slate-100 bg-white px-4 pt-3 pb-4 mt-3"
             >
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-1.5">
                 {navLinks.map((link) => {
                   const active = isActive(link)
                   return link.isRoute ? (
@@ -231,34 +208,32 @@ const Navbar = ({ currentLang, setCurrentLang, user, onLogout }) => {
                       key={link.name}
                       to={link.href}
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className={`px-5 py-3 rounded-2xl text-base font-bold font-outfit transition-all flex items-center justify-between ${
+                      className={`px-4 py-3 rounded-xl text-sm font-bold font-outfit transition-all flex items-center justify-between ${
                         active 
-                          ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30' 
-                          : 'text-white/80 hover:bg-white/10 hover:text-white'
+                          ? 'bg-blue-50 text-blue-600 border border-blue-100' 
+                          : 'text-slate-700 hover:bg-slate-50'
                       }`}
                     >
                       <span>{link.name}</span>
-                      {active && <Sparkles size={16} className="text-white" />}
                     </Link>
                   ) : (
                     <a
                       key={link.name}
                       href={link.href}
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className={`px-5 py-3 rounded-2xl text-base font-bold font-outfit transition-all flex items-center justify-between ${
+                      className={`px-4 py-3 rounded-xl text-sm font-bold font-outfit transition-all flex items-center justify-between ${
                         active 
-                          ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30' 
-                          : 'text-white/80 hover:bg-white/10 hover:text-white'
+                          ? 'bg-blue-50 text-blue-600 border border-blue-100' 
+                          : 'text-slate-700 hover:bg-slate-50'
                       }`}
                     >
                       <span>{link.name}</span>
-                      {active && <Sparkles size={16} className="text-white" />}
                     </a>
                   )
                 })}
 
                 {/* Mobile Languages */}
-                <div className="flex items-center justify-around bg-white/5 border border-white/10 rounded-2xl p-2 mt-2">
+                <div className="flex items-center justify-around bg-slate-50 border border-slate-100 rounded-xl p-2 mt-2">
                   {languages.map((lang) => (
                     <button
                       key={lang.code}
@@ -266,8 +241,8 @@ const Navbar = ({ currentLang, setCurrentLang, user, onLogout }) => {
                         setCurrentLang(lang.code)
                         setIsMobileMenuOpen(false)
                       }}
-                      className={`px-4 py-2 rounded-xl text-xs font-bold font-outfit flex items-center gap-2 transition-all ${
-                        currentLang === lang.code ? 'bg-white text-blue-900 shadow-md' : 'text-white/70'
+                      className={`px-4 py-1.5 rounded-lg text-xs font-bold font-outfit flex items-center gap-2 transition-all ${
+                        currentLang === lang.code ? 'bg-white text-blue-600 shadow-sm border border-slate-200' : 'text-slate-500'
                       }`}
                     >
                       <span>{lang.flag}</span>
@@ -279,7 +254,7 @@ const Navbar = ({ currentLang, setCurrentLang, user, onLogout }) => {
                 {user && (
                   <button
                     onClick={() => { onLogout(); setIsMobileMenuOpen(false) }}
-                    className="w-full mt-2 bg-red-500/15 border border-red-400/30 text-red-400 py-3 rounded-2xl font-bold text-sm flex items-center justify-center gap-2"
+                    className="w-full mt-2 bg-red-50 border border-red-200 text-red-600 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2"
                   >
                     <LogOut size={16} /> Logout ({user.username})
                   </button>
@@ -288,7 +263,7 @@ const Navbar = ({ currentLang, setCurrentLang, user, onLogout }) => {
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.nav>
+      </nav>
     </header>
   )
 }
