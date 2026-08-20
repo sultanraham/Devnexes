@@ -315,19 +315,19 @@ const AboutPage = ({ t = {} }) => {
         </div>
       </section>
 
-      {/* Core Values (Ultra-Modern Glassmorphic Redesign) */}
-      <section className="py-28 bg-gradient-to-b from-slate-50 via-blue-50/30 to-slate-50 border-y border-slate-200/80 relative overflow-hidden">
-        {/* Background Ambient Radial Glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-blue-400/10 rounded-full blur-[160px] pointer-events-none" />
+      {/* Core Values (4-Column Connected Flow Stepper Layout) */}
+      <section className="py-28 bg-gradient-to-b from-slate-50 via-blue-50/40 to-slate-50 border-y border-slate-200/80 relative overflow-hidden">
+        {/* Background Radial Glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-400/10 rounded-full blur-[180px] pointer-events-none" />
 
-        <div className="container mx-auto px-6 max-w-5xl relative z-10">
+        <div className="container mx-auto px-6 max-w-7xl relative z-10">
           <motion.div 
             initial={{ opacity: 0, y: 20 }} 
             whileInView={{ opacity: 1, y: 0 }} 
             viewport={{ once: true }} 
             className="text-center mb-20 flex flex-col items-center"
           >
-            <span className="inline-flex items-center gap-2 bg-blue-100/80 text-blue-800 text-[11px] font-extrabold uppercase tracking-[0.3em] px-4.5 py-1.5 rounded-full mb-4 border border-blue-300/50 shadow-xs">
+            <span className="inline-flex items-center gap-2 bg-blue-100/90 text-blue-800 text-[11px] font-extrabold uppercase tracking-[0.3em] px-4.5 py-1.5 rounded-full mb-4 border border-blue-300/60 shadow-xs">
               <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
               What Drives Us
             </span>
@@ -335,47 +335,58 @@ const AboutPage = ({ t = {} }) => {
               Our Core Values
             </h2>
             <p className="text-slate-500 text-sm sm:text-base max-w-xl font-medium">
-              Built on uncompromising principles of security, speed, global engineering standards, and long-term partnership.
+              4 foundational pillars driving every line of code and partnership at Devnexes.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {values.map((v, i) => (
-              <motion.div 
-                key={i} 
-                initial={{ opacity: 0, y: 30 }} 
-                whileInView={{ opacity: 1, y: 0 }} 
-                transition={{ delay: i * 0.12, duration: 0.5 }} 
-                viewport={{ once: true }}
-                className="bg-white/90 backdrop-blur-xl p-8 sm:p-10 rounded-3xl border border-slate-200/90 shadow-lg shadow-slate-200/50 hover:shadow-2xl hover:shadow-blue-900/15 hover:-translate-y-2 transition-all duration-500 group relative overflow-hidden flex flex-col justify-between"
-              >
-                {/* Background Ambient Glow on Hover */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/5 via-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+          {/* Stepper Timeline Grid Container */}
+          <div className="relative">
+            {/* Horizontal Connecting Flow Line (Visible on Desktop) */}
+            <div className="hidden lg:block absolute top-7 left-[10%] right-[10%] h-[3px] bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 rounded-full z-0 opacity-70" />
 
-                <div>
-                  {/* Top Header Row with Index Badge & Icon */}
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="w-14 h-14 bg-gradient-to-tr from-[#061632] to-[#1e3a8a] text-cyan-400 group-hover:text-white group-hover:from-blue-600 group-hover:to-indigo-600 transition-all duration-500 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-950/20 group-hover:scale-110">
-                      {v.icon}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 relative z-10">
+              {values.map((v, i) => (
+                <motion.div 
+                  key={i} 
+                  initial={{ opacity: 0, y: 35 }} 
+                  whileInView={{ opacity: 1, y: 0 }} 
+                  transition={{ delay: i * 0.12, duration: 0.5, ease: "easeOut" }} 
+                  viewport={{ once: true }}
+                  className="bg-white/95 backdrop-blur-xl p-7 rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-blue-900/15 hover:border-blue-400 hover:-translate-y-2 transition-all duration-500 group flex flex-col justify-between relative overflow-hidden"
+                >
+                  {/* Top Ambient Highlight */}
+                  <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 group-hover:h-2 transition-all duration-300" />
+
+                  <div>
+                    {/* Stepper Node & Icon Header */}
+                    <div className="flex items-center justify-between mb-6 pt-1">
+                      <div className="w-13 h-13 bg-gradient-to-tr from-[#061632] to-[#1e3a8a] text-cyan-400 group-hover:text-white group-hover:from-blue-600 group-hover:to-indigo-600 transition-all duration-500 rounded-2xl flex items-center justify-center shadow-md shadow-blue-950/20 group-hover:scale-110">
+                        {v.icon}
+                      </div>
+                      <span className="w-9 h-9 rounded-full bg-blue-50 border border-blue-200 flex items-center justify-center text-xs font-black text-blue-700 font-mono shadow-xs group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-colors">
+                        0{i + 1}
+                      </span>
                     </div>
-                    <span className="text-xs font-black text-blue-700 bg-blue-50 border border-blue-200/80 px-3 py-1 rounded-full font-mono tracking-widest">
-                      0{i + 1}
-                    </span>
+
+                    {/* Step Title */}
+                    <h3 className="text-[#061632] font-extrabold text-lg sm:text-xl mb-3 tracking-tight group-hover:text-blue-600 transition-colors">
+                      {v.title}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-medium">
+                      {v.desc}
+                    </p>
                   </div>
 
-                  {/* Expandable Accent Line */}
-                  <div className="h-1 w-12 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full mb-5 group-hover:w-full transition-all duration-500 ease-out" />
-
-                  {/* Title & Description */}
-                  <h3 className="text-[#061632] font-black text-xl md:text-2xl mb-3 tracking-tight group-hover:text-blue-600 transition-colors">
-                    {v.title}
-                  </h3>
-                  <p className="text-slate-600 text-sm md:text-base leading-relaxed font-medium">
-                    {v.desc}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
+                  {/* Bottom Step Indicator Badge */}
+                  <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+                    <span>Pillar 0{i + 1}</span>
+                    <span className="text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity font-extrabold">Devnexes</span>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
