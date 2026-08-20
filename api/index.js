@@ -6,6 +6,8 @@ import helmet from 'helmet';
 import xss from 'xss';
 import { body, param, query, validationResult } from 'express-validator';
 import { createClient } from '@supabase/supabase-js';
+import { Groq } from 'groq-sdk';
+import { SYSTEM_PROMPT } from '../src/config/chatbotSystemPrompt.js';
 
 // ── Environment ────────────────────────────────────────────────────────
 const supabaseUrl  = process.env.VITE_SUPABASE_URL;
@@ -371,6 +373,150 @@ app.get('/api/messages/unread', auth, [
   const { count, error } = await supabase.from('messages').select('id', { count: 'exact' }).eq('user_id', user_id).eq('sender', sender).eq('is_read', 0);
   if (error) return res.status(500).json({ error: 'Server error' });
   res.json({ count });
+});
+
+// ══════════════════════════════════════════════════════════════════════════════
+// GROQ AI CHATBOT & LEAD CAPTURE ENGINE
+// ══════════════════════════════════════════════════════════════════════════════
+
+// Groq API Key Pool for High Availability Failover (Read securely from process.env)
+const getGroqKeys = () => {
+  const envKeys = process.env.GROQ_API_KEYS || process.env.GROQ_API_KEY || '';
+  return envKeys.split(',').map(k => k.trim()).filter(Boolean);
+};
+
+let currentGroqKeyIdx = 0;
+const getGroqClient = () => {
+  const keys = getGroqKeys();
+  if (keys.length === 0) return null;
+  const key = keys[currentGroqKeyIdx % keys.length];
+  return new Groq({ apiKey: key });
+};
+
+// Rate Limiter for Chat Endpoint: max 20 requests per 10 minutes per IP
+const chatRateLimitStore = new Map();
+const chatLimiter = (req, res, next) => {
+  const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown';
+  const now = Date.now();
+  const windowMs = 10 * 60 * 1000;
+  const maxRequests = 20;
+
+  const record = chatRateLimitStore.get(ip) || { count: 0, resetTime: now + windowMs };
+  if (now > record.resetTime) {
+    record.count = 1;
+    record.resetTime = now + windowMs;
+  } else {
+    record.count += 1;
+  }
+  chatRateLimitStore.set(ip, record);
+
+  if (record.count > maxRequests) {
+    return res.status(429).json({ 
+      error: 'Rate limit exceeded. You can send up to 20 messages per 10 minutes. Please reach out to our team directly on WhatsApp (+92 303 0111550).' 
+    });
+  }
+  next();
+};
+
+// POST /api/chat - AI Chatbot completion proxy
+app.post('/api/chat', chatLimiter, [
+  body('messages').isArray({ min: 1, max: 30 }).withMessage('Messages array (1-30) required'),
+], validate, async (req, res) => {
+  try {
+    const rawMessages = req.body.messages;
+    
+    // Check total conversation length & input sanitization
+    const lastUserMsg = rawMessages[rawMessages.length - 1];
+    if (!lastUserMsg || typeof lastUserMsg.content !== 'string') {
+      return res.status(400).json({ error: 'Invalid message payload' });
+    }
+
+    if (lastUserMsg.content.length > 2000) {
+      return res.status(400).json({ error: 'Message exceeds maximum length of 2000 characters' });
+    }
+
+    const keys = getGroqKeys();
+    if (keys.length === 0) {
+      return res.status(503).json({
+        error: 'AI assistant key not configured on server. Please chat with us on WhatsApp (+92 303 0111550).',
+        whatsappFallback: true
+      });
+    }
+
+    // Build message array with server-side system prompt
+    const conversation = [
+      { role: 'system', content: SYSTEM_PROMPT },
+      ...rawMessages.map(m => ({
+        role: m.role === 'user' ? 'user' : 'assistant',
+        content: xss(String(m.content).slice(0, 2000))
+      }))
+    ];
+
+    // Attempt completion with key rotation fallback
+    let responseText = null;
+    let attempts = 0;
+    const maxAttempts = keys.length;
+
+    while (attempts < maxAttempts && !responseText) {
+      try {
+        const groq = getGroqClient();
+        if (!groq) break;
+        const completion = await groq.chat.completions.create({
+          model: 'llama-3.3-70b-versatile',
+          messages: conversation,
+          temperature: 0.4,
+          max_tokens: 350,
+          top_p: 0.9,
+        });
+
+        responseText = completion.choices[0]?.message?.content;
+      } catch (err) {
+        console.warn(`[Groq Failover] Key index ${currentGroqKeyIdx} failed: ${err.message}. Rotating...`);
+        currentGroqKeyIdx = (currentGroqKeyIdx + 1) % keys.length;
+        attempts++;
+      }
+    }
+
+    if (!responseText) {
+      return res.status(503).json({ 
+        error: 'AI service temporarily unavailable. Please chat with us on WhatsApp (+92 303 0111550) or email devnexes.support@gmail.com.',
+        whatsappFallback: true
+      });
+    }
+
+    res.json({ reply: responseText });
+  } catch (err) {
+    console.error('[API /api/chat error]', err);
+    res.status(500).json({ error: 'Failed to process chat request' });
+  }
+});
+
+// POST /api/lead - Capture qualified lead details & store in Supabase
+app.post('/api/lead', [
+  body('name').trim().notEmpty().withMessage('Name required'),
+  body('contact').trim().notEmpty().withMessage('Email or Phone required'),
+], validate, async (req, res) => {
+  try {
+    const { name, contact, service, note } = req.body;
+
+    // Save lead to Supabase 'leads' or 'contact_requests' table
+    try {
+      await supabase.from('leads').insert({
+        name: xss(name),
+        contact: xss(contact),
+        service: xss(service || 'General Inquiry'),
+        note: xss(note || ''),
+        created_at: new Date().toISOString()
+      });
+    } catch (e) {
+      console.log('[Lead Supabase store notice]:', e.message);
+    }
+
+    res.json({ success: true, message: 'Lead captured successfully! Our team will reach out within 2 hours.' });
+  } catch (err) {
+    console.error('[API /api/lead error]', err);
+    res.status(500).json({ error: 'Failed to record lead' });
+  }
 });
 
 // ══════════════════════════════════════════════════════════════════════════════

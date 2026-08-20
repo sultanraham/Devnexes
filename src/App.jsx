@@ -19,6 +19,7 @@ import TeamMemberPage from './components/TeamMemberPage'
 import Footer from './components/Footer'
 import SEO from './components/SEO'
 import CookieConsent, { getCookieConsent } from './components/CookieConsent'
+import AIChatbotWidget from './components/AIChatbotWidget'
 import { translations } from './translations'
 
 const Home = ({ t, onLogin, user }) => (
@@ -144,6 +145,7 @@ const Layout = ({ currentLang, setCurrentLang, t }) => {
         <Route path="/register" element={<Navigate to="/#register-section" replace />} />
       </Routes>
       <CookieConsent />
+      {!isAdminPage && <AIChatbotWidget />}
     </main>
   )
 }
