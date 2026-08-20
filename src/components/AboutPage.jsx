@@ -243,11 +243,11 @@ const AboutPage = ({ t = {} }) => {
       </div>
 
       {/* Hero */}
-      <section className="min-h-[60vh] bg-gradient-to-b from-[#0b2447] via-[#091b3a] to-[#061632] flex items-center justify-center relative overflow-hidden">
+      <section className="min-h-[85vh] bg-gradient-to-b from-[#0b2447] via-[#091b3a] to-[#061632] flex items-center justify-center relative overflow-hidden">
 
         {/* Ambient Radial Glow behind logo */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-          <div className="w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-[140px]" />
+          <div className="w-[650px] h-[650px] bg-blue-500/20 rounded-full blur-[160px]" />
         </div>
 
         {/* Full Visible Watermark Logo */}
@@ -255,13 +255,13 @@ const AboutPage = ({ t = {} }) => {
           <img
             src="/images/devnexes-logo.png"
             alt="Devnexes Brand Mark"
-            className="w-[80%] sm:w-[55%] md:w-[40%] max-w-[480px] max-h-[70%] opacity-35 filter brightness-150 drop-shadow-[0_0_60px_rgba(59,130,246,0.4)] object-contain"
+            className="w-[85%] sm:w-[60%] md:w-[45%] max-w-[580px] max-h-[75%] opacity-35 filter brightness-150 drop-shadow-[0_0_70px_rgba(59,130,246,0.4)] object-contain"
           />
         </div>
 
         <div className="absolute inset-0 opacity-[0.04] z-0" style={{ backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px] z-0" />
-        <div className="container mx-auto px-6 max-w-7xl relative z-10 pt-36 md:pt-44 pb-20 md:pb-24 flex flex-col items-center justify-center text-center">
+        <div className="container mx-auto px-6 max-w-7xl relative z-10 pt-52 md:pt-64 pb-32 md:pb-40 flex flex-col items-center justify-center text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="flex flex-col items-center">
             <p className="text-blue-400 text-[11px] font-bold uppercase tracking-[0.4em] mb-4">About Devnexes</p>
             <h1 className="text-white text-4xl md:text-7xl font-bold tracking-tighter leading-none mb-6 max-w-4xl">
