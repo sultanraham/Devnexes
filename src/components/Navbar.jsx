@@ -208,11 +208,13 @@ export function Navbar({ currentLang, setCurrentLang, user, onLogout }) {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 sm:h-20 items-center justify-between">
           
-          {/* Brand Logo & Name (Clean & Simple) */}
-          <Link to="/" className="flex items-center gap-2.5 group py-2" onClick={() => setActiveMenu(null)}>
-            <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform duration-300">
-              <img src="/images/devnexes-logo.png" alt="Devnexes Logo" className="w-5 h-5 object-contain filter brightness-200" />
-            </div>
+          {/* Brand Logo & Name (Clean & Simple - Transparent Logo) */}
+          <Link to="/" className="flex items-center gap-3 group py-2" onClick={() => setActiveMenu(null)}>
+            <img 
+              src="/images/devnexes-logo.png" 
+              alt="Devnexes Logo" 
+              className="w-8 h-8 md:w-9 md:h-9 object-contain group-hover:scale-105 transition-transform duration-300" 
+            />
             <span className={`text-xl sm:text-2xl font-black tracking-tight font-outfit transition-colors ${
               isScrolled ? "text-white" : "text-[#061632]"
             }`}>
