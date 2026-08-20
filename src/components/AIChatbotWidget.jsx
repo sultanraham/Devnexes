@@ -34,9 +34,30 @@ const renderFormattedText = (text, isUser) => {
 export default function AIChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [messages, setMessages] = useState([
-    { role: 'assistant', content: INITIAL_GREETING, id: 'init-1' }
-  ])
+
+  // Individual user session cache (cleared automatically on browser refresh)
+  const [messages, setMessages] = useState(() => {
+    try {
+      const navEntry = performance.getEntriesByType('navigation')?.[0]
+      const isReload = navEntry && navEntry.type === 'reload'
+      if (isReload) {
+        sessionStorage.removeItem('devnexes_chat_history')
+        return [{ role: 'assistant', content: INITIAL_GREETING, id: 'init-1' }]
+      }
+      const cached = sessionStorage.getItem('devnexes_chat_history')
+      if (cached) {
+        const parsed = JSON.parse(cached)
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed
+      }
+    } catch (e) {}
+    return [{ role: 'assistant', content: INITIAL_GREETING, id: 'init-1' }]
+  })
+
+  useEffect(() => {
+    try {
+      sessionStorage.setItem('devnexes_chat_history', JSON.stringify(messages))
+    } catch (e) {}
+  }, [messages])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [showLeadForm, setShowLeadForm] = useState(false)
