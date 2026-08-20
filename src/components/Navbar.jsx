@@ -130,7 +130,7 @@ export function Navbar({ currentLang, setCurrentLang, user, onLogout }) {
     <header 
       className={`fixed top-0 inset-x-0 z-[1000] w-full transition-all duration-300 ease-out font-outfit ${
         isScrolled 
-          ? "bg-[#061632] backdrop-blur-md border-b border-blue-900/60 text-white shadow-xl shadow-blue-950/20" 
+          ? "bg-[#1e3a8a] backdrop-blur-md border-b border-blue-800 text-white shadow-xl shadow-blue-950/30" 
           : "bg-white border-b border-slate-200/80 text-slate-900 shadow-xs"
       }`}
       onMouseLeave={() => setActiveMenu(null)}
