@@ -283,7 +283,7 @@ export default function AIChatbotWidget() {
           )}
         </AnimatePresence>
 
-        {/* Main Spinning Settings Gear Trigger Button */}
+        {/* Main Floating Trigger Button (Vibrant Royal Gradient & Glowing Shadow) */}
         <motion.button
           ref={triggerBtnRef}
           onClick={() => {
@@ -294,19 +294,19 @@ export default function AIChatbotWidget() {
               setIsMenuOpen(!isMenuOpen)
             }
           }}
-          whileHover={{ scale: 1.08 }}
-          whileTap={{ scale: 0.95 }}
-          className="relative bg-gradient-to-r from-[#061632] to-[#0b2447] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl shadow-blue-950/40 border border-blue-400/30 group transition-colors"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.92 }}
+          className="relative bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-[0_10px_30px_rgba(37,99,235,0.5)] border-2 border-white/40 group transition-all cursor-pointer"
           aria-label="Open Devnexes Tools Menu"
         >
           {isOpen || isMenuOpen ? (
             <X size={26} className="transition-transform rotate-90 duration-200 text-white" />
           ) : (
             <>
-              <Settings className="w-7 h-7 text-cyan-400 group-hover:rotate-180 transition-transform duration-500" />
+              <Settings className="w-7 h-7 text-white group-hover:rotate-180 transition-transform duration-700 ease-in-out drop-shadow-[0_2px_8px_rgba(255,255,255,0.5)]" />
               <span className="absolute -top-1 -right-1 flex h-4 w-4">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-4 w-4 bg-cyan-500 border-2 border-[#061632]"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-80"></span>
+                <span className="relative inline-flex rounded-full h-4 w-4 bg-emerald-500 border-2 border-white"></span>
               </span>
             </>
           )}
