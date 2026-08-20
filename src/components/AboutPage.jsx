@@ -92,26 +92,28 @@ const OrganizationChart = () => {
   const lead = team.find(m => m.slug === 'huzaifa-mushtaq')
   const caio = team.find(m => m.slug === 'muhammad-habeel')
 
-  const NodeCard = ({ member, gradient = false }) => {
+  const NodeCard = ({ member, isCeo = false }) => {
     if (!member) return null;
     return (
       <Link to={`/team/${member.slug}`} className="block">
         <motion.div 
           whileHover={{ y: -4, scale: 1.02 }}
-          className={`relative flex items-center gap-4 p-4 rounded-[20px] border transition-all duration-300 w-72 z-10 cursor-pointer ${
-            gradient 
-              ? 'bg-gradient-to-br from-[#061632] via-[#0f2756] to-[#1e3a8a] border-white/10 shadow-xl shadow-blue-900/30 text-white' 
-              : 'bg-white/90 backdrop-blur-md border-slate-200/60 shadow-lg shadow-slate-200/40 hover:shadow-2xl hover:shadow-blue-900/10 hover:border-blue-300'
+          className={`relative flex items-center gap-4 p-4.5 rounded-3xl transition-all duration-300 w-76 z-10 cursor-pointer ${
+            isCeo 
+              ? 'bg-white border-2 border-blue-600 shadow-xl shadow-blue-600/15 hover:shadow-2xl hover:shadow-blue-600/25 hover:border-blue-700' 
+              : 'bg-white border border-slate-200/90 shadow-md shadow-slate-200/60 hover:shadow-xl hover:border-blue-400'
           }`}
         >
-          <div className={`w-14 h-14 rounded-full overflow-hidden shrink-0 border-2 shadow-inner ${gradient ? 'border-white/20' : 'border-white'}`}>
-            <img src={member.photo} alt={member.name} className="w-full h-full object-cover" style={{ objectPosition: member.photoPos || 'center top' }} />
+          <div className={`w-14 h-14 rounded-full overflow-hidden shrink-0 border-2 shadow-sm ${isCeo ? 'border-blue-600 p-0.5' : 'border-slate-200'}`}>
+            <img src={member.photo} alt={member.name} className="w-full h-full object-cover rounded-full" style={{ objectPosition: member.photoPos || 'center top' }} />
           </div>
           <div className="text-left flex-1">
-            <p className={`text-[9px] font-bold uppercase tracking-widest mb-1 ${gradient ? 'text-blue-300' : 'text-blue-600'}`}>
+            <span className={`inline-block text-[9px] font-extrabold uppercase tracking-widest mb-1.5 px-2.5 py-0.5 rounded-full ${
+              isCeo ? 'bg-blue-600 text-white shadow-xs' : 'bg-blue-50 text-blue-700 border border-blue-200/60'
+            }`}>
               {member.role.includes('—') ? member.role.split('—')[1].trim() : (member.role.includes('CEO') ? 'Founder & CEO' : member.role)}
-            </p>
-            <h4 className={`font-bold text-[15px] tracking-tight leading-tight ${gradient ? 'text-white' : 'text-[#061632]'}`}>
+            </span>
+            <h4 className="font-extrabold text-base tracking-tight leading-tight text-slate-900">
               {member.name}
             </h4>
           </div>
@@ -121,33 +123,33 @@ const OrganizationChart = () => {
   }
 
   return (
-    <div className="w-full flex justify-center py-16 mb-10 overflow-x-auto hide-scrollbar">
+    <div className="w-full flex justify-center py-12 mb-12 overflow-x-auto hide-scrollbar">
       <div className="min-w-[1100px] flex flex-col items-center px-4 relative">
         
         {/* CEO Level */}
         <div className="flex flex-col items-center relative z-20">
-          <div className="absolute -inset-8 bg-blue-600/10 blur-3xl rounded-full z-0 pointer-events-none" />
+          <div className="absolute -inset-6 bg-blue-500/10 blur-2xl rounded-full z-0 pointer-events-none" />
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <NodeCard member={ceo} gradient={true} />
+            <NodeCard member={ceo} isCeo={true} />
           </motion.div>
           {/* Vertical line down from CEO */}
-          <div className="relative w-[2px] h-12 bg-gradient-to-b from-[#1e3a8a] to-blue-200">
-             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-[#1e3a8a] shadow-[0_0_8px_#1e3a8a]" />
+          <div className="relative w-[2px] h-12 bg-gradient-to-b from-blue-600 to-blue-300">
+             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-blue-600 border border-white shadow-sm" />
           </div>
         </div>
 
         {/* Second Level Container */}
         <div className="relative flex justify-center gap-12 w-full z-10">
           {/* Horizontal connection line */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[672px] h-[2px] bg-blue-200">
-            <div className="absolute top-1/2 left-0 -translate-y-1/2 w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_8px_#60a5fa]" />
-            <div className="absolute top-1/2 right-0 -translate-y-1/2 w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_8px_#60a5fa]" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_8px_#60a5fa]" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[672px] h-[2px] bg-gradient-to-r from-blue-400 via-indigo-500 to-blue-400">
+            <div className="absolute top-1/2 left-0 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-blue-600 border border-white shadow-sm" />
+            <div className="absolute top-1/2 right-0 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-blue-600 border border-white shadow-sm" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-blue-600 border border-white shadow-sm" />
           </div>
 
           {/* COO Branch */}
           <div className="flex flex-col items-center w-72">
-            <div className="w-[2px] h-8 bg-blue-200" />
+            <div className="w-[2px] h-8 bg-blue-300" />
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <NodeCard member={coo} />
             </motion.div>
@@ -155,7 +157,7 @@ const OrganizationChart = () => {
 
           {/* CAIO Branch */}
           <div className="flex flex-col items-center w-72">
-            <div className="w-[2px] h-8 bg-blue-200" />
+            <div className="w-[2px] h-8 bg-blue-300" />
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
               <NodeCard member={caio} />
             </motion.div>
@@ -163,14 +165,14 @@ const OrganizationChart = () => {
 
           {/* CTO Branch */}
           <div className="flex flex-col items-center w-72">
-            <div className="w-[2px] h-8 bg-blue-200" />
+            <div className="w-[2px] h-8 bg-blue-300" />
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <NodeCard member={cto} />
             </motion.div>
             
             {/* Line down to Tech Lead */}
-            <div className="relative w-[2px] h-12 bg-gradient-to-b from-blue-200 to-indigo-300">
-                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-indigo-500 shadow-[0_0_8px_#818cf8]" />
+            <div className="relative w-[2px] h-12 bg-gradient-to-b from-blue-300 to-indigo-400">
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-indigo-600 border border-white shadow-sm" />
             </div>
             
             {/* Tech Lead */}
