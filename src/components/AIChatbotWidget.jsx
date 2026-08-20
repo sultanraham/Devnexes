@@ -178,21 +178,20 @@ export default function AIChatbotWidget() {
             transition={{ duration: 0.25, ease: "easeOut" }}
             className="fixed bottom-24 right-4 sm:right-6 z-[995] w-[calc(100vw-2rem)] sm:w-[420px] max-h-[620px] h-[82vh] bg-white text-slate-900 rounded-3xl shadow-2xl shadow-slate-400/30 border border-slate-200 flex flex-col overflow-hidden font-sans"
           >
-            {/* ── HEADER (White Theme) ── */}
-            <div className="bg-white p-4 border-b border-slate-200 flex items-center justify-between shrink-0 shadow-xs">
+            {/* ── HEADER (White Theme - Clean Minimalist) ── */}
+            <div className="bg-white px-4 py-3.5 border-b border-slate-200 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-3">
                 <div className="relative">
-                  <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center shadow-xs p-1 border border-blue-200">
-                    <img src="/images/devnexes-logo.png" alt="Devnexes Logo" className="w-6 h-6 object-contain" />
+                  <div className="w-9 h-9 flex items-center justify-center">
+                    <img src="/images/devnexes-logo.png" alt="Devnexes Logo" className="w-8 h-8 object-contain" />
                   </div>
-                  <span className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-500 border-2 border-white animate-pulse" />
+                  <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-white animate-pulse" />
                 </div>
                 <div>
-                  <h3 className="font-extrabold text-sm text-slate-900 flex items-center gap-1.5 tracking-tight">
+                  <h3 className="font-extrabold text-base text-slate-900 flex items-center gap-1.5 tracking-tight">
                     Cortex Mini
-                    <Sparkles size={14} className="text-blue-600" />
+                    <Sparkles size={15} className="text-blue-600" />
                   </h3>
-                  <p className="text-[11px] text-blue-600 font-semibold">Devnexes AI Agent &amp; Advisor</p>
                 </div>
               </div>
 
