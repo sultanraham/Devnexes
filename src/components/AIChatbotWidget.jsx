@@ -148,7 +148,11 @@ export default function AIChatbotWidget() {
             <X size={26} className="transition-transform rotate-90 duration-200" />
           ) : (
             <>
-              <Bot size={28} className="group-hover:rotate-12 transition-transform duration-300" />
+              <img 
+                src="/images/devnexes-logo.png" 
+                alt="Devnexes Logo" 
+                className="w-8 h-8 object-contain filter brightness-200 group-hover:rotate-12 transition-transform duration-300" 
+              />
               <span className="absolute -top-1 -right-1 flex h-4 w-4">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-4 w-4 bg-cyan-500 border-2 border-[#061632]"></span>
@@ -178,8 +182,8 @@ export default function AIChatbotWidget() {
             <div className="bg-gradient-to-r from-[#061632] via-[#0b2447] to-[#19376d] p-4 border-b border-blue-500/20 flex items-center justify-between shrink-0 shadow-md">
               <div className="flex items-center gap-3">
                 <div className="relative">
-                  <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-inner">
-                    <Bot size={22} />
+                  <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-inner p-1">
+                    <img src="/images/devnexes-logo.png" alt="Devnexes Logo" className="w-6 h-6 object-contain filter brightness-200" />
                   </div>
                   <span className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-400 border-2 border-[#061632] animate-pulse" />
                 </div>
@@ -223,10 +227,10 @@ export default function AIChatbotWidget() {
                   >
                     <div
                       className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs shrink-0 ${
-                        isUser ? 'bg-blue-600 text-white' : 'bg-slate-800 text-cyan-400 border border-blue-500/30'
+                        isUser ? 'bg-blue-600 text-white' : 'bg-slate-800 text-cyan-400 border border-blue-500/30 p-1'
                       }`}
                     >
-                      {isUser ? <User size={14} /> : <Bot size={14} />}
+                      {isUser ? <User size={14} /> : <img src="/images/devnexes-logo.png" alt="Logo" className="w-4 h-4 object-contain filter brightness-200" />}
                     </div>
 
                     <div
