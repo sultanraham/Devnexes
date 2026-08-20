@@ -225,7 +225,7 @@ export function Navbar({ currentLang, setCurrentLang, user, onLogout }) {
           {/* Navigation Items */}
           <nav className="hidden lg:flex items-center gap-2">
             
-            {/* Nav Item 1: Services Mega Dropdown */}
+            {/* Nav Item 1: Services (Mega Dropdown) */}
             <button
               onClick={() => toggleMenu("services")}
               onMouseEnter={() => setActiveMenu("services")}
@@ -235,24 +235,13 @@ export function Navbar({ currentLang, setCurrentLang, user, onLogout }) {
                   : isScrolled ? "text-white/90 hover:bg-blue-900/40 hover:text-white" : "text-slate-800 hover:text-blue-600 hover:bg-slate-100"
               }`}
             >
-              <span>Services &amp; Solutions</span>
+              <span>Services</span>
               <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${
                 activeMenu === "services" ? "rotate-180" : ""
               } ${isScrolled ? "text-blue-300" : "text-slate-400"}`} />
             </button>
 
-            {/* Nav Item 2: About Us */}
-            <Link 
-              to="/about" 
-              onClick={() => setActiveMenu(null)}
-              className={`px-4 py-2 text-[14px] font-bold rounded-lg transition-all ${
-                isScrolled ? "text-white/90 hover:bg-blue-900/40 hover:text-white" : "text-slate-800 hover:text-blue-600 hover:bg-slate-100"
-              }`}
-            >
-              About Us
-            </Link>
-
-            {/* Nav Item 3: Portfolio & Work */}
+            {/* Nav Item 2: Portfolio */}
             <Link 
               to="/portfolio" 
               onClick={() => setActiveMenu(null)}
@@ -260,10 +249,10 @@ export function Navbar({ currentLang, setCurrentLang, user, onLogout }) {
                 isScrolled ? "text-white/90 hover:bg-blue-900/40 hover:text-white" : "text-slate-800 hover:text-blue-600 hover:bg-slate-100"
               }`}
             >
-              Portfolio &amp; Work
+              Portfolio
             </Link>
 
-            {/* Nav Item 4: Policy & Guarantee */}
+            {/* Nav Item 3: Privacy & Policy */}
             <Link 
               to="/policy" 
               onClick={() => setActiveMenu(null)}
@@ -271,7 +260,7 @@ export function Navbar({ currentLang, setCurrentLang, user, onLogout }) {
                 isScrolled ? "text-white/90 hover:bg-blue-900/40 hover:text-white" : "text-slate-800 hover:text-blue-600 hover:bg-slate-100"
               }`}
             >
-              Policy &amp; Guarantee
+              Privacy &amp; Policy
             </Link>
 
           </nav>
@@ -477,25 +466,18 @@ export function Navbar({ currentLang, setCurrentLang, user, onLogout }) {
                 Home
               </Link>
               <Link
-                to="/about"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="px-4 py-3 rounded-xl text-sm font-bold hover:bg-slate-50"
-              >
-                About Us
-              </Link>
-              <Link
                 to="/portfolio"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="px-4 py-3 rounded-xl text-sm font-bold hover:bg-slate-50"
               >
-                Portfolio &amp; Work
+                Portfolio
               </Link>
               <Link
                 to="/policy"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="px-4 py-3 rounded-xl text-sm font-bold hover:bg-slate-50"
               >
-                Policy &amp; Guarantee
+                Privacy &amp; Policy
               </Link>
 
               {/* Mobile Languages */}
