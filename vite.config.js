@@ -6,7 +6,7 @@ function expressDevApiPlugin() {
     name: 'express-dev-api-plugin',
     async configureServer(server) {
       const { default: apiApp } = await import('./api/index.js')
-      server.middlewares.use(apiApp)
+      server.middlewares.use('/api', apiApp)
     }
   }
 }
