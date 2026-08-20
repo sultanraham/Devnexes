@@ -111,18 +111,23 @@ const PortfolioPage = () => {
       </div>
 
       {/* Hero */}
-      <section className="min-h-[50vh] bg-[#061632] flex items-center relative overflow-hidden">
+      <section className="min-h-[50vh] bg-gradient-to-b from-[#0b2447] via-[#091b3a] to-[#061632] flex items-center relative overflow-hidden">
 
-        {/* Background Logo with Low Opacity */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden">
+        {/* Ambient Radial Glow behind logo */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+          <div className="w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-[140px]" />
+        </div>
+
+        {/* Full Visible Watermark Logo */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 p-8">
           <img
             src="/images/devnexes-logo.png"
-            alt=""
-            className="w-[120%] md:w-[80%] max-w-[1000px] opacity-[0.15] object-contain"
+            alt="Devnexes Brand Mark"
+            className="w-[80%] sm:w-[55%] md:w-[40%] max-w-[480px] max-h-[70%] opacity-35 filter brightness-150 drop-shadow-[0_0_60px_rgba(59,130,246,0.4)] object-contain"
           />
         </div>
 
-        <div className="absolute inset-0 opacity-[0.03] z-0" style={{ backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+        <div className="absolute inset-0 opacity-[0.04] z-0" style={{ backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px] z-0" />
         <div className="container mx-auto px-6 max-w-7xl relative z-10 pt-72 md:pt-96 pb-32 flex flex-col items-center text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="flex flex-col items-center">

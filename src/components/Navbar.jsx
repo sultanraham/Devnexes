@@ -263,7 +263,7 @@ export function Navbar({ currentLang, setCurrentLang, user, onLogout }) {
               Portfolio
             </Link>
 
-            {/* Nav Item 3: Privacy & Policy */}
+            {/* Nav Item 4: Privacy & Policy */}
             <Link 
               to="/policy" 
               onClick={() => setActiveMenu(null)}
