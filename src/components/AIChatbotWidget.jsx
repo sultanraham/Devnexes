@@ -135,27 +135,27 @@ export default function AIChatbotWidget() {
 
   return (
     <>
-      {/* ── FLOATING CHAT TRIGGER BUTTON (Positioned Above WhatsApp Button) ── */}
+      {/* ── FLOATING CHAT TRIGGER BUTTON (Clean White Theme) ── */}
       <div className="fixed bottom-24 right-6 z-[990]">
         <motion.button
           onClick={() => setIsOpen(!isOpen)}
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.95 }}
-          className="relative bg-gradient-to-r from-blue-600 to-indigo-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl shadow-blue-900/50 border border-blue-400/30 group"
+          className="relative bg-white text-slate-900 w-14 h-14 rounded-full flex items-center justify-center shadow-2xl shadow-blue-950/30 border border-slate-200 group hover:bg-slate-50 transition-colors"
           aria-label="Open AI Assistant"
         >
           {isOpen ? (
-            <X size={26} className="transition-transform rotate-90 duration-200" />
+            <X size={26} className="transition-transform rotate-90 duration-200 text-slate-700" />
           ) : (
             <>
               <img 
                 src="/images/devnexes-logo.png" 
                 alt="Devnexes Logo" 
-                className="w-8 h-8 object-contain filter brightness-200 group-hover:rotate-12 transition-transform duration-300" 
+                className="w-8 h-8 object-contain group-hover:rotate-12 transition-transform duration-300" 
               />
               <span className="absolute -top-1 -right-1 flex h-4 w-4">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-4 w-4 bg-cyan-500 border-2 border-[#061632]"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-4 w-4 bg-blue-600 border-2 border-white"></span>
               </span>
             </>
           )}
@@ -168,7 +168,7 @@ export default function AIChatbotWidget() {
         )}
       </div>
 
-      {/* ── CHAT MODAL WINDOW ── */}
+      {/* ── CHAT MODAL WINDOW (Clean White Background) ── */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -176,14 +176,14 @@ export default function AIChatbotWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="fixed bottom-24 right-4 sm:right-6 z-[995] w-[calc(100vw-2rem)] sm:w-[420px] max-h-[620px] h-[82vh] bg-[#061632] text-white rounded-3xl shadow-2xl shadow-blue-950/70 border border-blue-500/20 flex flex-col overflow-hidden font-sans"
+            className="fixed bottom-24 right-4 sm:right-6 z-[995] w-[calc(100vw-2rem)] sm:w-[420px] max-h-[620px] h-[82vh] bg-white text-slate-900 rounded-3xl shadow-2xl shadow-slate-400/30 border border-slate-200 flex flex-col overflow-hidden font-sans"
           >
             {/* ── HEADER ── */}
-            <div className="bg-gradient-to-r from-[#061632] via-[#0b2447] to-[#19376d] p-4 border-b border-blue-500/20 flex items-center justify-between shrink-0 shadow-md">
+            <div className="bg-gradient-to-r from-[#061632] via-[#0b2447] to-[#19376d] p-4 border-b border-blue-900/30 flex items-center justify-between shrink-0 shadow-md">
               <div className="flex items-center gap-3">
                 <div className="relative">
-                  <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-inner p-1">
-                    <img src="/images/devnexes-logo.png" alt="Devnexes Logo" className="w-6 h-6 object-contain filter brightness-200" />
+                  <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-md p-1 border border-blue-200">
+                    <img src="/images/devnexes-logo.png" alt="Devnexes Logo" className="w-6 h-6 object-contain" />
                   </div>
                   <span className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-400 border-2 border-[#061632] animate-pulse" />
                 </div>
@@ -216,8 +216,8 @@ export default function AIChatbotWidget() {
               </div>
             </div>
 
-            {/* ── MESSAGES LIST ── */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar bg-slate-950/40">
+            {/* ── MESSAGES LIST (White Canvas) ── */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar bg-slate-50/70">
               {messages.map((msg) => {
                 const isUser = msg.role === 'user'
                 return (
@@ -227,17 +227,17 @@ export default function AIChatbotWidget() {
                   >
                     <div
                       className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs shrink-0 ${
-                        isUser ? 'bg-blue-600 text-white' : 'bg-slate-800 text-cyan-400 border border-blue-500/30 p-1'
+                        isUser ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 border border-slate-200 shadow-xs p-1'
                       }`}
                     >
-                      {isUser ? <User size={14} /> : <img src="/images/devnexes-logo.png" alt="Logo" className="w-4 h-4 object-contain filter brightness-200" />}
+                      {isUser ? <User size={14} /> : <img src="/images/devnexes-logo.png" alt="Logo" className="w-4 h-4 object-contain" />}
                     </div>
 
                     <div
                       className={`max-w-[82%] px-4 py-3 rounded-2xl text-xs sm:text-sm leading-relaxed ${
                         isUser
-                          ? 'bg-blue-600 text-white rounded-tr-none font-medium'
-                          : 'bg-[#0f2448] text-slate-100 rounded-tl-none border border-blue-500/20 shadow-xs font-normal'
+                          ? 'bg-blue-600 text-white rounded-tr-none font-medium shadow-sm'
+                          : 'bg-white text-slate-800 rounded-tl-none border border-slate-200/90 shadow-sm font-normal'
                       }`}
                     >
                       <p className="whitespace-pre-wrap">{msg.content}</p>
@@ -260,8 +260,8 @@ export default function AIChatbotWidget() {
 
               {/* Typing Indicator */}
               {isLoading && (
-                <div className="flex items-center gap-2 text-blue-400 text-xs pl-9">
-                  <span className="w-2 h-2 rounded-full bg-blue-400 animate-ping" />
+                <div className="flex items-center gap-2 text-blue-600 text-xs pl-9 font-medium">
+                  <span className="w-2 h-2 rounded-full bg-blue-600 animate-ping" />
                   <span>Devnexes AI is thinking...</span>
                 </div>
               )}
@@ -269,13 +269,13 @@ export default function AIChatbotWidget() {
               {/* Quick Reply Pills */}
               {messages.length === 1 && !isLoading && (
                 <div className="pl-9 pt-2 space-y-2">
-                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Suggested Questions:</p>
+                  <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Suggested Questions:</p>
                   <div className="flex flex-wrap gap-2">
                     {QUICK_REPLIES.map((reply, idx) => (
                       <button
                         key={idx}
                         onClick={() => handleSendMessage(reply)}
-                        className="text-xs bg-blue-900/40 hover:bg-blue-600 text-blue-200 hover:text-white border border-blue-500/30 px-3 py-1.5 rounded-full transition-all text-left"
+                        className="text-xs bg-white hover:bg-blue-600 text-slate-700 hover:text-white border border-slate-200 hover:border-blue-600 px-3 py-1.5 rounded-full transition-all text-left shadow-xs"
                       >
                         {reply}
                       </button>
@@ -289,13 +289,13 @@ export default function AIChatbotWidget() {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mx-2 p-4 bg-gradient-to-br from-[#0e274e] to-[#071733] rounded-2xl border border-blue-500/40 space-y-3"
+                  className="mx-2 p-4 bg-gradient-to-br from-blue-50 to-indigo-50/50 rounded-2xl border border-blue-200 space-y-3 shadow-sm"
                 >
                   <div className="flex items-center justify-between">
-                    <h4 className="text-xs font-bold text-cyan-300 uppercase tracking-wider flex items-center gap-1.5">
-                      <Sparkles size={14} /> Request a Free Consultation
+                    <h4 className="text-xs font-bold text-blue-900 uppercase tracking-wider flex items-center gap-1.5">
+                      <Sparkles size={14} className="text-blue-600" /> Request a Free Consultation
                     </h4>
-                    <button onClick={() => setShowLeadForm(false)} className="text-slate-400 hover:text-white">
+                    <button onClick={() => setShowLeadForm(false)} className="text-slate-400 hover:text-slate-700">
                       <X size={14} />
                     </button>
                   </div>
@@ -307,7 +307,7 @@ export default function AIChatbotWidget() {
                       required
                       value={leadData.name}
                       onChange={e => setLeadData({ ...leadData, name: e.target.value })}
-                      className="w-full bg-slate-900/80 border border-blue-500/30 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-blue-400"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 shadow-2xs"
                     />
                     <input
                       type="text"
@@ -315,12 +315,12 @@ export default function AIChatbotWidget() {
                       required
                       value={leadData.contact}
                       onChange={e => setLeadData({ ...leadData, contact: e.target.value })}
-                      className="w-full bg-slate-900/80 border border-blue-500/30 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-blue-400"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 shadow-2xs"
                     />
                     <select
                       value={leadData.service}
                       onChange={e => setLeadData({ ...leadData, service: e.target.value })}
-                      className="w-full bg-slate-900/80 border border-blue-500/30 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-400"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-blue-500 shadow-2xs"
                     >
                       <option value="Custom Web Applications">Custom Web Applications</option>
                       <option value="AI Automation & Chatbots">AI Automation &amp; Chatbots</option>
@@ -332,7 +332,7 @@ export default function AIChatbotWidget() {
                     <button
                       type="submit"
                       disabled={isSubmittingLead}
-                      className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 rounded-xl text-xs transition-colors flex items-center justify-center gap-1.5"
+                      className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 rounded-xl text-xs transition-colors flex items-center justify-center gap-1.5 shadow-sm"
                     >
                       {isSubmittingLead ? 'Submitting...' : 'Submit Consultation Request'}
                     </button>
@@ -343,8 +343,8 @@ export default function AIChatbotWidget() {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* ── FOOTER / INPUT BAR ── */}
-            <div className="p-3 bg-[#061632] border-t border-blue-500/20 flex flex-col gap-2 shrink-0">
+            {/* ── FOOTER / INPUT BAR (Clean White) ── */}
+            <div className="p-3 bg-white border-t border-slate-200 flex flex-col gap-2 shrink-0">
               <form
                 onSubmit={(e) => {
                   e.preventDefault()
@@ -358,24 +358,24 @@ export default function AIChatbotWidget() {
                   value={input}
                   maxLength={2000}
                   onChange={(e) => setInput(e.target.value)}
-                  className="flex-1 bg-slate-900/80 border border-blue-500/30 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none focus:border-blue-400 transition-colors"
+                  className="flex-1 bg-slate-100/90 border border-slate-200 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white transition-colors"
                 />
                 <button
                   type="submit"
                   disabled={!input.trim() || isLoading}
-                  className="bg-blue-600 hover:bg-blue-500 disabled:opacity-40 text-white p-2.5 rounded-xl transition-colors shrink-0"
+                  className="bg-blue-600 hover:bg-blue-500 disabled:opacity-40 text-white p-2.5 rounded-xl transition-colors shrink-0 shadow-sm"
                 >
                   <Send size={16} />
                 </button>
               </form>
 
-              <div className="flex items-center justify-between text-[10px] text-slate-400 px-1 pt-0.5">
+              <div className="flex items-center justify-between text-[10px] text-slate-500 px-1 pt-0.5 font-medium">
                 <span>Powered by Groq AI</span>
                 <a
                   href="https://wa.me/923030111550"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-emerald-400 hover:underline flex items-center gap-1"
+                  className="text-emerald-600 hover:underline flex items-center gap-1 font-semibold"
                 >
                   <Phone size={10} /> Speak with Human
                 </a>
