@@ -241,7 +241,18 @@ export function Navbar({ currentLang, setCurrentLang, user, onLogout }) {
               } ${isScrolled ? "text-blue-300" : "text-slate-400"}`} />
             </button>
 
-            {/* Nav Item 2: Portfolio */}
+            {/* Nav Item 2: About Us */}
+            <Link 
+              to="/about" 
+              onClick={() => setActiveMenu(null)}
+              className={`px-4 py-2 text-[14px] font-bold rounded-lg transition-all ${
+                isScrolled ? "text-white/90 hover:bg-blue-900/40 hover:text-white" : "text-slate-800 hover:text-blue-600 hover:bg-slate-100"
+              }`}
+            >
+              About Us
+            </Link>
+
+            {/* Nav Item 3: Portfolio */}
             <Link 
               to="/portfolio" 
               onClick={() => setActiveMenu(null)}
@@ -464,6 +475,13 @@ export function Navbar({ currentLang, setCurrentLang, user, onLogout }) {
                 className="px-4 py-3 rounded-xl text-sm font-bold hover:bg-slate-50"
               >
                 Home
+              </Link>
+              <Link
+                to="/about"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="px-4 py-3 rounded-xl text-sm font-bold hover:bg-slate-50"
+              >
+                About Us
               </Link>
               <Link
                 to="/portfolio"

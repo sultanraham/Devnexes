@@ -242,27 +242,39 @@ const AboutPage = ({ t = {} }) => {
         </motion.button>
       </div>
 
-      {/* Hero */}
-      <section className="min-h-[60vh] bg-[#061632] flex items-center relative overflow-hidden">
+      {/* Hero (Light Theme with Fully Visible Brand Logo) */}
+      <section className="min-h-[65vh] bg-gradient-to-b from-slate-50 via-white to-blue-50/50 flex items-center relative overflow-hidden border-b border-slate-200/80">
 
-        {/* Background Logo with Low Opacity */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden">
-          <img
-            src="/images/devnexes-logo.png"
-            alt=""
-            className="w-[120%] md:w-[80%] max-w-[1000px] opacity-[0.15] object-contain"
-          />
-        </div>
-
-        <div className="absolute inset-0 opacity-[0.03] z-0" style={{ backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px] z-0" />
-        <div className="container mx-auto px-6 max-w-7xl relative z-10 pt-72 md:pt-96 pb-32 flex flex-col items-center text-center">
+        {/* Ambient Subtle Background Grid */}
+        <div className="absolute inset-0 opacity-[0.03] z-0" style={{ backgroundImage: 'radial-gradient(#061632 1px, transparent 1px)', backgroundSize: '36px 36px' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-blue-500/10 rounded-full blur-[140px] pointer-events-none z-0" />
+        
+        <div className="container mx-auto px-6 max-w-7xl relative z-10 pt-48 md:pt-60 pb-24 flex flex-col items-center text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="flex flex-col items-center">
-            <p className="text-blue-400 text-[11px] font-bold uppercase tracking-[0.4em] mb-4">About Devnexes</p>
-            <h1 className="text-white text-4xl md:text-7xl font-bold tracking-tighter leading-none mb-6 max-w-4xl">
+            
+            {/* Fully Visible Crisp Brand Logo Badge */}
+            <motion.div 
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="w-24 h-24 md:w-32 md:h-32 rounded-3xl bg-white p-5 shadow-2xl shadow-blue-900/10 border border-slate-200/80 mb-8 flex items-center justify-center group hover:scale-105 transition-transform duration-300"
+            >
+              <img
+                src="/images/devnexes-logo.png"
+                alt="Devnexes Full Brand Logo"
+                className="w-full h-full object-contain filter drop-shadow-md"
+              />
+            </motion.div>
+
+            <p className="text-blue-600 font-extrabold text-xs md:text-sm uppercase tracking-[0.35em] mb-4 bg-blue-100/80 px-4 py-1.5 rounded-full border border-blue-200">
+              About Devnexes
+            </p>
+            
+            <h1 className="text-slate-900 text-4xl md:text-7xl font-black tracking-tight leading-none mb-6 max-w-4xl font-outfit">
               We Build Digital Products That Work.
             </h1>
-            <p className="text-white/50 text-base md:text-xl max-w-2xl leading-relaxed">
+            
+            <p className="text-slate-600 text-base md:text-xl max-w-2xl leading-relaxed font-medium">
               Devnexes is a Pakistani AI and web development company founded to help businesses build reliable, modern, and scalable digital infrastructure.
             </p>
           </motion.div>
