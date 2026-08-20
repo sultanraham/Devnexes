@@ -163,7 +163,7 @@ export default function AIChatbotWidget() {
 
         {hasUnread && !isOpen && (
           <div className="absolute right-16 top-2 bg-blue-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap animate-bounce">
-            AI Assistant Ready 👋
+            Cortex Mini Ready 👋
           </div>
         )}
       </div>
@@ -178,21 +178,21 @@ export default function AIChatbotWidget() {
             transition={{ duration: 0.25, ease: "easeOut" }}
             className="fixed bottom-24 right-4 sm:right-6 z-[995] w-[calc(100vw-2rem)] sm:w-[420px] max-h-[620px] h-[82vh] bg-white text-slate-900 rounded-3xl shadow-2xl shadow-slate-400/30 border border-slate-200 flex flex-col overflow-hidden font-sans"
           >
-            {/* ── HEADER ── */}
-            <div className="bg-gradient-to-r from-[#061632] via-[#0b2447] to-[#19376d] p-4 border-b border-blue-900/30 flex items-center justify-between shrink-0 shadow-md">
+            {/* ── HEADER (White Theme) ── */}
+            <div className="bg-white p-4 border-b border-slate-200 flex items-center justify-between shrink-0 shadow-xs">
               <div className="flex items-center gap-3">
                 <div className="relative">
-                  <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-md p-1 border border-blue-200">
+                  <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center shadow-xs p-1 border border-blue-200">
                     <img src="/images/devnexes-logo.png" alt="Devnexes Logo" className="w-6 h-6 object-contain" />
                   </div>
-                  <span className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-400 border-2 border-[#061632] animate-pulse" />
+                  <span className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-500 border-2 border-white animate-pulse" />
                 </div>
                 <div>
-                  <h3 className="font-extrabold text-sm text-white flex items-center gap-1.5 tracking-tight">
-                    Devnexes AI Assistant
-                    <Sparkles size={14} className="text-cyan-400" />
+                  <h3 className="font-extrabold text-sm text-slate-900 flex items-center gap-1.5 tracking-tight">
+                    Cortex Mini
+                    <Sparkles size={14} className="text-blue-600" />
                   </h3>
-                  <p className="text-[11px] text-blue-300 font-medium">Lead-Qualifying &amp; Technical Advisor</p>
+                  <p className="text-[11px] text-blue-600 font-semibold">Devnexes AI Agent &amp; Advisor</p>
                 </div>
               </div>
 
@@ -203,13 +203,13 @@ export default function AIChatbotWidget() {
                     setShowLeadForm(false)
                   }}
                   title="Reset conversation"
-                  className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                  className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors"
                 >
                   <RefreshCw size={16} />
                 </button>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                  className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors"
                 >
                   <X size={18} />
                 </button>
@@ -258,11 +258,20 @@ export default function AIChatbotWidget() {
                 )
               })}
 
-              {/* Typing Indicator */}
+              {/* Agent Thinking Animation (Bouncing 3-dot sequence) */}
               {isLoading && (
-                <div className="flex items-center gap-2 text-blue-600 text-xs pl-9 font-medium">
-                  <span className="w-2 h-2 rounded-full bg-blue-600 animate-ping" />
-                  <span>Devnexes AI is thinking...</span>
+                <div className="flex items-start gap-2.5">
+                  <div className="w-7 h-7 rounded-lg bg-white border border-slate-200 shadow-xs flex items-center justify-center p-1">
+                    <img src="/images/devnexes-logo.png" alt="Logo" className="w-4 h-4 object-contain animate-pulse" />
+                  </div>
+                  <div className="bg-white border border-slate-200/90 shadow-sm rounded-2xl rounded-tl-none px-4 py-3 flex items-center gap-2 text-xs text-slate-600 font-semibold">
+                    <span>Cortex Mini is thinking</span>
+                    <div className="flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-bounce [animation-delay:-0.3s]" />
+                      <span className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-bounce [animation-delay:-0.15s]" />
+                      <span className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-bounce" />
+                    </div>
+                  </div>
                 </div>
               )}
 
