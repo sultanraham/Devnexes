@@ -102,7 +102,7 @@ const Hero = ({ t }) => {
       />
 
       {/* Main Content Container */}
-      <div className="relative z-30 container mx-auto px-6 flex flex-col grow items-center text-center pt-36 md:pt-48 pb-20">
+      <div className="relative z-30 container mx-auto px-6 flex flex-col grow items-center text-center pt-52 md:pt-64 pb-24">
 
         <motion.h1 
           className="font-outfit text-4xl md:text-7xl lg:text-[105px] font-bold text-white mb-10 tracking-tight leading-[1.05] max-w-7xl"
