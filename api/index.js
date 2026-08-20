@@ -59,7 +59,7 @@ app.use(cors({
 app.use(express.json({ limit: '10kb' }));
 
 // ══════════════════════════════════════════════════════════════════════════════
-// HELPERS
+// HELPERS & RATE LIMITERS
 // ══════════════════════════════════════════════════════════════════════════════
 const sanitize = (str, maxLen = 500) =>
   xss((str || '').toString().trim(), { whiteList: {}, stripIgnoreTag: true }).slice(0, maxLen);
@@ -89,12 +89,30 @@ const adminOnly = (req, res, next) => {
   next();
 };
 
+const createRateLimiter = (maxRequests, windowMs) => {
+  const requests = new Map();
+  return (req, res, next) => {
+    const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress || 'unknown';
+    const now = Date.now();
+    const timestamps = (requests.get(ip) || []).filter(t => now - t < windowMs);
+    if (timestamps.length >= maxRequests) {
+      return res.status(429).json({ error: 'Too many requests. Please try again later.' });
+    }
+    timestamps.push(now);
+    requests.set(ip, timestamps);
+    next();
+  };
+};
+
+const loginLimiter = createRateLimiter(10, 15 * 60 * 1000);   // Max 10 attempts / 15 min
+const contactLimiter = createRateLimiter(5, 15 * 60 * 1000);   // Max 5 contact form submissions / 15 min
+
 // ══════════════════════════════════════════════════════════════════════════════
 // ROUTES (MIGRATED TO SUPABASE)
 // ══════════════════════════════════════════════════════════════════════════════
 
 // ── Login ──────────────────────────────────────────────────────────────────────
-app.post('/api/login', [
+app.post('/api/login', loginLimiter, [
   body('username').isString().trim().notEmpty().withMessage('Username is required').isLength({ max: 50 }),
   body('password').isString().notEmpty().withMessage('Password is required').isLength({ max: 100 }),
 ], validate, async (req, res) => {
@@ -117,7 +135,7 @@ app.post('/api/login', [
 });
 
 // ── Register ───────────────────────────────────────────────────────────────────
-app.post('/api/register', [
+app.post('/api/register', loginLimiter, [
   body('username').isString().trim().notEmpty().withMessage('Username is required'),
   body('email').isEmail().withMessage('Valid email required').normalizeEmail(),
   body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters'),
@@ -137,7 +155,7 @@ app.post('/api/register', [
 });
 
 // ── Contact form ───────────────────────────────────────────────────────────────
-app.post('/api/contact', [
+app.post('/api/contact', contactLimiter, [
   body('name').isString().trim().isLength({ min: 2, max: 100 }).withMessage('Name must be 2–100 characters'),
   body('email').isEmail().withMessage('Valid email required').normalizeEmail(),
   body('message').isString().trim().isLength({ min: 5, max: 2000 }).withMessage('Message must be 5–2000 characters'),
