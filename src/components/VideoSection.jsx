@@ -1,64 +1,13 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { motion, useInView, useSpring, useTransform } from 'framer-motion'
-import { supabase } from '../supabaseClient'
-
-const Counter = ({ value }) => {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true })
-  
-  const num = parseInt(value) || 0
-  const suffix = value.replace(/[0-9]/g, '')
-
-  const spring = useSpring(0, { stiffness: 40, damping: 20 })
-  const display = useTransform(spring, current => Math.floor(current))
-
-  useEffect(() => {
-    if (isInView) {
-      spring.set(num)
-    }
-  }, [isInView, num, spring])
-
-  return (
-    <span ref={ref} className="inline-flex">
-      <motion.span>{display}</motion.span>
-      <span>{suffix}</span>
-    </span>
-  )
-}
-
 const VideoSection = () => {
   const [isPlaying, setIsPlaying] = useState(false)
-  const [siteStats, setSiteStats] = useState({
+  const siteStats = {
     stat_1_value: '150K', stat_1_label: 'AI Solutions',
     stat_2_value: '500K', stat_2_label: 'Vision AI',
     stat_3_value: '250M', stat_3_label: 'Web Dev',
     stat_4_value: '200K', stat_4_label: 'Custom'
-  })
-
-  useEffect(() => {
-    const fetchSettings = async () => {
-      const keys = ['stat_1_value', 'stat_1_label', 'stat_2_value', 'stat_2_label', 'stat_3_value', 'stat_3_label', 'stat_4_value', 'stat_4_label']
-      try {
-        const { data } = await supabase.from('site_settings').select('key, value').in('key', keys)
-        if (data && data.length > 0) {
-          const fetchedStats = {}
-          data.forEach(item => fetchedStats[item.key] = item.value)
-          setSiteStats(prev => ({ ...prev, ...fetchedStats }))
-        }
-      } catch (err) {}
-    }
-    fetchSettings()
-
-    const channel = supabase.channel('video_stats_settings')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'site_settings' }, (payload) => {
-        if (payload.new && payload.new.key && payload.new.key.startsWith('stat_')) {
-          setSiteStats(prev => ({ ...prev, [payload.new.key]: payload.new.value }))
-        }
-      })
-      .subscribe()
-
-    return () => supabase.removeChannel(channel)
-  }, [])
+  }
 
   const stats = [
     { value: siteStats.stat_1_value, label: siteStats.stat_1_label, color: 'text-[#7c1d1d]' },

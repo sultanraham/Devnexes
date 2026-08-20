@@ -370,17 +370,6 @@ export function Navbar({ currentLang, setCurrentLang, user, onLogout }) {
               </button>
             </Link>
 
-            {/* User Logout Icon */}
-            {user && (
-              <button
-                onClick={onLogout}
-                title="Logout"
-                className="w-9 h-9 rounded-lg bg-red-50 border border-red-200 text-red-600 hover:bg-red-600 hover:text-white flex items-center justify-center transition-all"
-              >
-                <LogOut size={14} />
-              </button>
-            )}
-
             {/* Mobile Toggle Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

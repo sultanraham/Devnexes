@@ -1,95 +1,13 @@
 import React from 'react'
 import { motion, AnimatePresence, useInView, useReducedMotion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { supabase } from '../supabaseClient'
-
-const StatCounter = ({ value }) => {
-  const [displayValue, setDisplayValue] = React.useState("0")
-  const ref = React.useRef(null)
-  const isInView = useInView(ref, { once: true, amount: 0.5 })
-
-  React.useEffect(() => {
-    if (!isInView) {
-      setDisplayValue("0")
-      return
-    }
-
-    const numericPart = parseFloat(value.replace(/[^0-9.]/g, ''))
-    const suffix = value.replace(/[0-9.]/g, '')
-
-    let actualValue = numericPart
-    if (suffix.toLowerCase() === 'k') actualValue *= 1000
-    else if (suffix.toLowerCase() === 'm') actualValue *= 1000000
-
-    let start = 0
-    const duration = 2000
-    const startTime = performance.now()
-
-    const update = (now) => {
-      const elapsed = now - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      // Ease out cubic
-      const easedProgress = 1 - Math.pow(1 - progress, 3)
-
-      if (progress < 1) {
-        if (suffix.toLowerCase() === 'k' || suffix.toLowerCase() === 'm') {
-          const raw = start + (actualValue - start) * easedProgress
-          let formatted = Math.floor(raw).toString()
-          if (raw >= 1000000) {
-            formatted = (raw / 1000000).toFixed(1) + suffix
-          } else if (raw >= 1000) {
-            formatted = (raw / 1000).toFixed(1) + suffix
-          }
-          setDisplayValue(formatted)
-        } else {
-          const current = start + (numericPart - start) * easedProgress
-          const formatted = value.includes('.') ? current.toFixed(1) : Math.floor(current).toString()
-          setDisplayValue(formatted + suffix)
-        }
-        requestAnimationFrame(update)
-      } else {
-        // Ensure final state exactly matches the database value
-        setDisplayValue(value)
-      }
-    }
-
-    requestAnimationFrame(update)
-  }, [value, isInView])
-
-  return <span ref={ref}>{displayValue}</span>
-}
-
 const Hero = ({ t }) => {
   const shouldReduceMotion = useReducedMotion()
-  const [socialData, setSocialData] = React.useState({
+  const socialData = {
     transaction_volume: '9.9M',
     split_values: '3.5%',
     reviewed_by: '100k+'
-  })
-
-  React.useEffect(() => {
-    const fetchSocialData = async () => {
-      try {
-        const { data, error } = await supabase.from('social_data').select('*').eq('id', 1).single()
-        if (data) {
-          setSocialData(data)
-        }
-      } catch (err) {
-        console.log('Using default social data')
-      }
-    }
-    fetchSocialData()
-    
-    const channel = supabase.channel('social_data_changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'social_data', filter: 'id=eq.1' }, (payload) => {
-        setSocialData(payload.new)
-      })
-      .subscribe()
-
-    return () => {
-      supabase.removeChannel(channel)
-    }
-  }, [])
+  }
 
   const statsData = [
     { value: socialData.transaction_volume, label: t.transactionVolume, subValue: socialData.split_values, subLabel: t.splitValues },
@@ -176,7 +94,7 @@ const Hero = ({ t }) => {
           transition={{ duration: 0.6, delay: 0.5 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-24 w-full sm:w-auto"
         >
-          <a href="#login-section" className="w-full sm:w-auto">
+          <Link to="/contact" className="w-full sm:w-auto">
             <motion.button
               whileHover={{ 
                 scale: 1.05, 
@@ -192,8 +110,8 @@ const Hero = ({ t }) => {
               />
               <span className="relative z-10">{t.getStarted}</span>
             </motion.button>
-          </a>
-          <a href="#login-section" className="w-full sm:w-auto">
+          </Link>
+          <Link to="/contact" className="w-full sm:w-auto">
             <motion.button
               whileHover={{ 
                 scale: 1.05, 
@@ -209,7 +127,7 @@ const Hero = ({ t }) => {
               />
               <span className="relative z-10">{t.register}</span>
             </motion.button>
-          </a>
+          </Link>
         </motion.div>
 
         {/* Bottom Section */}

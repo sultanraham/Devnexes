@@ -1,10 +1,14 @@
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('Missing Supabase environment variables. Check your .env file.');
-}
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Supabase completely removed from project
+export const supabase = {
+  from: () => ({
+    select: () => ({ eq: () => ({ single: () => Promise.resolve({ data: null, error: null }) }) }),
+    upsert: () => Promise.resolve({ data: null, error: null }),
+    insert: () => Promise.resolve({ data: null, error: null }),
+    delete: () => Promise.resolve({ data: null, error: null }),
+  }),
+  channel: () => ({
+    on: function() { return this; },
+    subscribe: function() { return this; }
+  }),
+  removeChannel: () => {}
+};

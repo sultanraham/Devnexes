@@ -1,7 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence, useInView, useSpring, useTransform } from 'framer-motion'
-import { supabase } from '../supabaseClient'
-
 const Counter = ({ value }) => {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true })
@@ -59,7 +57,6 @@ const AvatarOrbit = ({ client, radius, isAnyHovered, hoveredId, onHover, isRever
             <img src={avatarUrl} alt={client.name} loading="lazy" decoding="async" width="56" height="56" className="w-full h-full object-cover" />
           </motion.div>
 
-          {/* DESKTOP TOOLTIP - ALWAYS ON THE RIGHT */}
           {!isMobile && (
             <AnimatePresence>
               {isMeHovered && (
@@ -79,7 +76,6 @@ const AvatarOrbit = ({ client, radius, isAnyHovered, hoveredId, onHover, isRever
                     </div>
                   </div>
                   <p className="text-gray-600 text-[15px] leading-relaxed font-outfit italic">"{client.text}"</p>
-                  {/* Small arrow pointing back to avatar */}
                   <div className="absolute top-[55px] -left-2 w-4 h-4 bg-white rotate-45 border-l border-b border-gray-100" />
                 </motion.div>
               )}
@@ -91,11 +87,11 @@ const AvatarOrbit = ({ client, radius, isAnyHovered, hoveredId, onHover, isRever
   )
 }
 
-const TrustedClients = ({ t }) => {
+export default function TrustedClients({ t }) {
   const [hoveredAvatar, setHoveredAvatar] = useState(null)
   const [isMobile, setIsMobile] = useState(false)
-  const [clientCount, setClientCount] = useState('1000+k')
-  const [clients, setClients] = useState([
+  const clientCount = '1000+k'
+  const clients = [
     { id: 1, name: 'Sara', role: 'Digital Creator', ring: 'outer', angle: 0, text: 'Quick and easy account opening.' },
     { id: 2, name: 'Jack', role: 'Software Engineer', ring: 'outer', angle: 90, text: 'Best automation tools available.' },
     { id: 3, name: 'Oliver', role: 'Business Owner', ring: 'outer', angle: 180, text: 'Expert technical guidance.' },
@@ -103,46 +99,7 @@ const TrustedClients = ({ t }) => {
     { id: 5, name: 'Sophie', role: 'UX Designer', ring: 'middle', angle: 45, text: 'A game changer for workflow.' },
     { id: 6, name: 'Charlie', role: 'Product Manager', ring: 'middle', angle: 135, text: 'Real insights within a week.' },
     { id: 7, name: 'Aneka', role: 'Entrepreneur', ring: 'middle', angle: 225, text: 'Best investment for startups.' },
-  ])
-
-  useEffect(() => {
-    const fetchClients = async () => {
-      try {
-        const { data, error } = await supabase.from('trusted_clients').select('*').order('ring').order('angle')
-        if (data && data.length > 0) {
-          setClients(data)
-        }
-      } catch (err) {
-        console.log('Using default clients')
-      }
-    }
-    fetchClients()
-    
-    const fetchSettings = async () => {
-      try {
-        const { data } = await supabase.from('site_settings').select('value').eq('key', 'trusted_clients_count').single()
-        if (data && data.value) setClientCount(data.value)
-      } catch (err) {}
-    }
-    fetchSettings()
-
-    const channel = supabase.channel('trusted_clients_changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'trusted_clients' }, () => {
-        fetchClients()
-      })
-      .subscribe()
-
-    const channelSettings = supabase.channel('trusted_clients_settings')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'site_settings', filter: "key=eq.trusted_clients_count" }, (payload) => {
-        if (payload.new && payload.new.value) setClientCount(payload.new.value)
-      })
-      .subscribe()
-
-    return () => {
-      supabase.removeChannel(channel)
-      supabase.removeChannel(channelSettings)
-    }
-  }, [])
+  ]
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 1024)
@@ -272,5 +229,3 @@ const TrustedClients = ({ t }) => {
     </section>
   )
 }
-
-export default TrustedClients

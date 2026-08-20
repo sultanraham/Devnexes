@@ -1,41 +1,11 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { supabase } from '../supabaseClient'
-
 const DownloadSection = ({ t }) => {
-  const [settings, setSettings] = React.useState(null)
-
-  React.useEffect(() => {
-    const fetchSettings = async () => {
-      try {
-        const { data } = await supabase.from('site_settings').select('*')
-        if (data) {
-          const sData = {}
-          data.forEach(r => sData[r.key] = r.value)
-          setSettings(sData)
-        }
-      } catch (err) {
-        console.error(err)
-      }
-    }
-    fetchSettings()
-
-    const channel = supabase.channel('site_settings_changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'site_settings' }, () => {
-        fetchSettings()
-      })
-      .subscribe()
-
-    return () => supabase.removeChannel(channel)
-  }, [])
-
-  if (!t && !settings) return null;
-
   const content = {
-    title: settings?.download_title || t?.title || 'DOWNLOAD APP',
-    subtitle: settings?.download_subtitle || t?.subtitle || 'Master your project flow.',
-    desc: settings?.download_desc || t?.desc || 'Manage your digital operations anytime, anywhere.',
-    qr: settings?.qr_url || 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://devnexes.site',
+    title: t?.title || 'DOWNLOAD APP',
+    subtitle: t?.subtitle || 'Master your project flow.',
+    desc: t?.desc || 'Manage your digital operations anytime, anywhere.',
+    qr: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://devnexes.site',
     wallpaper: '/images/devnexes-eduai-application.png'
   }
 
