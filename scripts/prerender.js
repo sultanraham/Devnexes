@@ -15,9 +15,10 @@ const routes = [
   '/portfolio',
   '/policy',
   '/team/muhammad-raham-abdul-qayyum',
-  '/team/muhammad-arham',
+  '/team/muhammad-arham-abdul-qayyum',
   '/team/huzaifa-ali',
-  '/team/huzaifa-mushtaq'
+  '/team/huzaifa-mushtaq',
+  '/team/muhammad-habeel'
 ];
 
 async function startServer() {
@@ -43,8 +44,12 @@ async function startServer() {
 }
 
 async function runPrerender() {
-  if (process.env.VERCEL || process.env.CI) {
-    console.log('Skipping Puppeteer prerendering in CI/Vercel environment to prevent build errors.');
+  // Note: Puppeteer requires a real browser, so prerendering must be run locally
+  // before deploying. Run `npm run build` on your local machine, then commit
+  // the dist/ folder, or use a CI runner with Chrome installed.
+  if (process.env.VERCEL) {
+    console.log('Skipping Puppeteer on Vercel (no browser available). Pre-render locally before deploying.');
+    console.log('The dist/ folder should already contain pre-rendered HTML from your local build.');
     process.exit(0);
   }
 

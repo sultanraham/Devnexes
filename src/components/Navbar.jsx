@@ -220,14 +220,25 @@ const Navbar = ({ currentLang, setCurrentLang, user, onLogout }) => {
           >
             <div className="flex flex-col items-center py-8 gap-6 text-white font-outfit font-semibold">
               {navLinks.map((link) => (
-                <a 
-                  key={link.name} 
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-xl hover:text-blue-300 transition-colors"
-                >
-                  {link.name}
-                </a>
+                link.isRoute ? (
+                  <Link 
+                    key={link.name} 
+                    to={link.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-xl hover:text-blue-300 transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                ) : (
+                  <a 
+                    key={link.name} 
+                    href={link.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-xl hover:text-blue-300 transition-colors"
+                  >
+                    {link.name}
+                  </a>
+                )
               ))}
               <div className="flex gap-4 mt-2">
                 {languages.map((lang) => (

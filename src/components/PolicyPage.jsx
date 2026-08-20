@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, Shield, FileText, RefreshCw } from 'lucide-react'
 import Footer from './Footer'
 import SEO from './SEO'
+import { resetCookieConsent } from './CookieConsent'
 
 const tabs = [
   { id: 'privacy', label: 'Privacy Policy', icon: <Shield className="w-4 h-4" /> },
@@ -26,8 +27,11 @@ const PolicyPage = () => {
   return (
     <div className="w-full bg-slate-50 font-outfit">
       <SEO 
-        title="Privacy & Policies" 
-        description="Review Devnexes Digital Solutions' privacy policy, terms & conditions, and service & refund policies." 
+        title="Privacy & Service Policies" 
+        description="Review Devnexes Digital Solutions' privacy policy, terms & conditions, 1-week post-launch guarantee, and service & refund policies." 
+        keywords="Devnexes privacy policy, terms of service, post launch guarantee, refund policy"
+        url="https://www.devnexes.site/policy"
+        breadcrumbs={[{ name: 'Policy', item: '/policy' }]}
       />
       <div className="fixed top-8 left-8 z-50">
         <motion.button
@@ -110,7 +114,20 @@ const PolicyPage = () => {
                 <p>All data is stored on secured servers. Passwords are hashed using bcrypt. API access requires JWT authentication. We do not sell, rent, or share your data with third parties.</p>
               </Section>
               <Section title="5. Cookies">
-                <p>Our website uses minimal cookies for session management only. We do not use advertising or tracking cookies.</p>
+                <p>Our website uses cookies to improve your experience. We categorize cookies as follows:</p>
+                <ul className="list-disc list-inside space-y-1 ml-2">
+                  <li><strong>Essential Cookies:</strong> Required for authentication, session management, and security. Cannot be disabled.</li>
+                  <li><strong>Analytics Cookies:</strong> Help us understand visitor behavior through anonymous session tracking. You can opt out.</li>
+                  <li><strong>Functional Cookies:</strong> Remember your preferences like language selection. You can opt out.</li>
+                </ul>
+                <p>You can manage your cookie preferences at any time:</p>
+                <button
+                  onClick={resetCookieConsent}
+                  className="mt-3 inline-flex items-center gap-2 bg-[#1e3a8a] text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-[#1e3a8a]/90 transition-colors"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" />
+                  Manage Cookie Preferences
+                </button>
               </Section>
               <Section title="6. Your Rights">
                 <p>You may request deletion of your account and data at any time by emailing us at devnexes.support@gmail.com. We will process your request within 7 business days.</p>

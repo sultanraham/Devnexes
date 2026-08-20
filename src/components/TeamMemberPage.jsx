@@ -50,11 +50,18 @@ const TeamMemberPage = () => {
   return (
     <div className="w-full bg-slate-50 font-outfit min-h-screen flex flex-col">
       <SEO 
-        title={member.name} 
-        description={member.bio} 
+        title={`${member.name} — ${member.role}`} 
+        description={`${member.name} is the ${member.role} at Devnexes Digital Solutions. ${member.bio.slice(0, 150)}...`} 
         image={`https://www.devnexes.site${member.photo}`} 
+        url={`https://www.devnexes.site/team/${member.slug}`}
+        type="profile"
+        keywords={`${member.name}, ${member.role}, Devnexes team, ${member.dept}`}
+        breadcrumbs={[
+          { name: 'About Us', item: '/about' },
+          { name: member.name, item: `/team/${member.slug}` }
+        ]}
+        jsonLd={structuredData}
       />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
 
       {/* Back nav */}
       <div className="fixed top-8 left-8 z-50">

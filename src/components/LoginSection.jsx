@@ -52,6 +52,7 @@ const LoginSection = ({ t, onLogin }) => {
   const [formData, setFormData] = React.useState({ username: '', password: '', email: '' })
   const [error, setError] = React.useState('')
   const [loading, setLoading] = React.useState(false)
+  const [registerSuccess, setRegisterSuccess] = React.useState(false)
 
   if (!t) return null
 
@@ -75,8 +76,11 @@ const LoginSection = ({ t, onLogin }) => {
             onLogin(data.user, data.token)
             navigate(data.user.role === 'admin' ? '/admin' : '/')
           } else {
-            alert('Registration successful! Please login.')
-            setIsLogin(true)
+            setRegisterSuccess(true)
+            setTimeout(() => {
+              setRegisterSuccess(false)
+              setIsLogin(true)
+            }, 3000)
           }
         } else {
           setError(data.message || data.error || 'Something went wrong')
@@ -126,6 +130,22 @@ const LoginSection = ({ t, onLogin }) => {
             ))}
           </div>
 
+          {registerSuccess && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-emerald-500/15 border border-emerald-400/30 rounded-2xl px-5 py-4 mb-6 flex items-center gap-3"
+            >
+              <div className="w-8 h-8 bg-emerald-500/20 rounded-full flex items-center justify-center shrink-0">
+                <ArrowRight size={14} className="text-emerald-400" />
+              </div>
+              <div>
+                <p className="text-emerald-300 text-sm font-bold">Account Created Successfully!</p>
+                <p className="text-emerald-300/70 text-xs">Redirecting to sign in...</p>
+              </div>
+            </motion.div>
+          )}
+
           <AnimatePresence mode="wait">
             <motion.form
               key={isLogin ? 'login' : 'register'}
@@ -146,9 +166,12 @@ const LoginSection = ({ t, onLogin }) => {
 
               {isLogin && (
                 <div className="text-right">
-                  <button type="button" className="text-white/50 text-xs hover:text-white transition-colors">
-                    Forgot password?
-                  </button>
+                  <a 
+                    href="mailto:devnexes.support@gmail.com?subject=Password%20Reset%20Request"
+                    className="text-white/50 text-xs hover:text-white transition-colors"
+                  >
+                    Forgot password? Contact Support
+                  </a>
                 </div>
               )}
 

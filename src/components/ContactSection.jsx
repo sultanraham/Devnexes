@@ -11,7 +11,7 @@ const sanitize = (str, maxLen = 500) =>
 
 const ContactSection = ({ t }) => {
   const navigate = useNavigate()
-  const [formData, setFormData] = useState({ name: '', email: '', type: '', message: '' })
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' })
   const [status, setStatus] = useState(null) // 'sending' | 'success' | 'error' | 'bot'
   const [honeypot, setHoneypot] = useState('')    // Bot trap — must stay empty
   const formLoadTime = useRef(Date.now())          // Track how long form was on screen
@@ -53,7 +53,7 @@ const ContactSection = ({ t }) => {
       const data = await res.json()
       if (res.status === 429) { setStatus('rate_limited'); return }
       setStatus(data.success ? 'success' : 'error')
-      if (data.success) setFormData({ name: '', email: '', type: '', message: '' })
+      if (data.success) setFormData({ name: '', email: '', message: '' })
     } catch {
       setStatus('error')
     }
@@ -62,8 +62,11 @@ const ContactSection = ({ t }) => {
   return (
     <div className="w-full bg-[#f8faff]">
       <SEO 
-        title="Contact Us" 
+        title="Contact Us — Request a Consultation" 
         description="Get in touch with Devnexes Digital Solutions. Request a consultation for custom web, mobile, and AI solutions. Expected response time under 2 hours." 
+        keywords="contact Devnexes, hire web developer Lahore, AI consultation, software development quote"
+        url="https://www.devnexes.site/contact"
+        breadcrumbs={[{ name: 'Contact Us', item: '/contact' }]}
       />
       <section className="min-h-[90vh] w-full relative overflow-x-hidden selection:bg-blue-100 flex flex-col justify-center py-20 md:py-32">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">

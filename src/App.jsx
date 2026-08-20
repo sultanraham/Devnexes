@@ -18,11 +18,17 @@ import PolicyPage from './components/PolicyPage'
 import TeamMemberPage from './components/TeamMemberPage'
 import Footer from './components/Footer'
 import SEO from './components/SEO'
+import CookieConsent, { getCookieConsent } from './components/CookieConsent'
 import { translations } from './translations'
 
 const Home = ({ t, onLogin, user }) => (
   <>
-    <SEO />
+    <SEO 
+      title="Web Development, AI Automation & SEO Solutions"
+      description="Devnexes Digital Solutions builds custom web applications, AI chatbots, automation workflows, and high-ranking SEO strategies for businesses globally."
+      keywords="web development Lahore, AI automation Pakistan, custom software agency, chatbots, React web app, SEO services"
+      url="https://www.devnexes.site/"
+    />
     <Hero t={t.hero} />
     <Features t={t.features} />
     {!user && <div id="login-section"><LoginSection t={t.login} onLogin={onLogin} /></div>}
@@ -73,8 +79,11 @@ const Layout = ({ currentLang, setCurrentLang, t }) => {
     }
   }, [location])
 
-  // Session Heartbeat for ALL Visitors
+  // Session Heartbeat for ALL Visitors (only if analytics cookies accepted)
   useEffect(() => {
+    // Respect cookie consent — only track if analytics cookies were accepted
+    if (!getCookieConsent('analytics')) return
+
     let visitorId = localStorage.getItem('visitor_id')
     if (!visitorId || !/^[a-zA-Z0-9_-]{8,128}$/.test(visitorId)) {
       // Use crypto.randomUUID if available (more secure than Math.random)
@@ -134,6 +143,7 @@ const Layout = ({ currentLang, setCurrentLang, t }) => {
         <Route path="/login" element={<Navigate to="/#login-section" replace />} />
         <Route path="/register" element={<Navigate to="/#register-section" replace />} />
       </Routes>
+      <CookieConsent />
     </main>
   )
 }

@@ -93,8 +93,11 @@ const PortfolioPage = () => {
   return (
     <div className="w-full bg-white font-outfit">
       <SEO 
-        title="Portfolio & Case Studies" 
-        description="Explore our portfolio of cutting-edge AI agents, developer tools, and productivity solutions built by Devnexes Digital Solutions." 
+        title="Portfolio & Case Studies — AI & Web Projects" 
+        description="Explore our portfolio of cutting-edge AI agents, developer tools, local AI products, and productivity solutions built by Devnexes Digital Solutions." 
+        keywords="Devnexes portfolio, AI agents, Get Things Done AI, Cortex IDE, Lexibase, Interview Cracker, Grey Matter"
+        url="https://www.devnexes.site/portfolio"
+        breadcrumbs={[{ name: 'Portfolio', item: '/portfolio' }]}
       />
       <div className="fixed top-8 left-8 z-50">
         <motion.button

@@ -8,12 +8,12 @@ import { body, param, query, validationResult } from 'express-validator';
 import { createClient } from '@supabase/supabase-js';
 
 // ── Environment ────────────────────────────────────────────────────────
-const supabaseUrl  = process.env.VITE_SUPABASE_URL  || 'https://xxclkvohboxhhziyegsj.supabase.co';
+const supabaseUrl  = process.env.VITE_SUPABASE_URL;
 const supabaseKey  = process.env.SUPABASE_SERVICE_KEY;
 const JWT_SECRET   = process.env.JWT_SECRET;
 
-if (!supabaseKey || !JWT_SECRET) {
-  console.error('[FATAL] Missing required environment variables. Check your .env file.');
+if (!supabaseUrl || !supabaseKey || !JWT_SECRET) {
+  console.error('[FATAL] Missing required environment variables (VITE_SUPABASE_URL, SUPABASE_SERVICE_KEY, JWT_SECRET). Check your .env file.');
 }
 
 const supabase = createClient(supabaseUrl, supabaseKey);

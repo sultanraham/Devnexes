@@ -221,8 +221,11 @@ const AboutPage = ({ t = {} }) => {
   return (
     <div className="w-full bg-slate-50 font-outfit relative">
       <SEO 
-        title="About Us" 
-        description="Learn about Devnexes Digital Solutions, our mission, values, and the leadership team driving innovation in custom web and AI solutions." 
+        title="About Us — Leadership & Vision" 
+        description="Learn about Devnexes Digital Solutions, our mission, core values, and the leadership team driving innovation in custom web and AI solutions." 
+        keywords="Devnexes team, software company Lahore, Raham Abdul Qayyum, Arham Abdul Qayyum, Huzaifa Ali, Huzaifa Mushtaq, Habeel"
+        url="https://www.devnexes.site/about"
+        breadcrumbs={[{ name: 'About Us', item: '/about' }]}
       />
       {/* SEO Structured Data for Google Images */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
