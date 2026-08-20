@@ -59,7 +59,7 @@ const PolicyPage = () => {
         <div className="absolute inset-0 opacity-[0.03] z-0" style={{ backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px] z-0" />
         
-        <div className="container mx-auto px-6 max-w-7xl relative z-10 pt-60 md:pt-80 pb-28 flex flex-col items-center text-center">
+        <div className="container mx-auto px-6 max-w-7xl relative z-10 pt-72 md:pt-96 pb-32 flex flex-col items-center text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="flex flex-col items-center">
             <p className="text-blue-400 text-[11px] font-bold uppercase tracking-[0.4em] mb-4">Legal & Policies</p>
             <h1 className="text-white text-4xl md:text-7xl font-bold tracking-tighter leading-none mb-6">Transparency First.</h1>
