@@ -58,9 +58,9 @@ const StatCounter = ({ value }) => {
 const Hero = ({ t }) => {
   const shouldReduceMotion = useReducedMotion()
   const socialData = {
-    transaction_volume: '9.9M',
-    split_values: '3.5%',
-    reviewed_by: '100k+'
+    transaction_volume: '150+',
+    split_values: '99.5%',
+    reviewed_by: '1K+'
   }
 
   const statsData = [
@@ -231,19 +231,19 @@ const Hero = ({ t }) => {
             >
               <div className="flex flex-col items-center lg:items-end">
                 <p className="text-blue-300 font-bold text-xs md:text-sm mb-3 uppercase tracking-widest">{t.splitValues}</p>
-                <div className="flex flex-col items-center lg:items-end mb-8">
-                  <h2 className="font-outfit text-white text-6xl md:text-8xl lg:text-[96px] font-black leading-none tracking-tighter drop-shadow-lg">
+                <div className="flex flex-col items-center lg:items-end mb-6">
+                  <h2 className="font-outfit text-white text-3xl md:text-5xl lg:text-6xl font-black leading-none tracking-tighter drop-shadow-lg">
                     <StatCounter value={statsData[0].value} />
                   </h2>
-                  <p className="text-white/90 font-bold mt-2 text-base md:text-lg">
+                  <p className="text-white/80 font-semibold mt-1.5 text-xs md:text-sm">
                     {statsData[0].label}
                   </p>
                 </div>
                 <div className="flex flex-col items-center lg:items-end">
-                  <h2 className="font-outfit text-white text-6xl md:text-8xl lg:text-[96px] font-black leading-none tracking-tighter drop-shadow-lg">
+                  <h2 className="font-outfit text-white text-3xl md:text-5xl lg:text-6xl font-black leading-none tracking-tighter drop-shadow-lg">
                     <StatCounter value={statsData[0].subValue} />
                   </h2>
-                  <p className="text-white/90 font-bold mt-2 text-base md:text-lg">
+                  <p className="text-white/80 font-semibold mt-1.5 text-xs md:text-sm">
                     {statsData[0].subLabel}
                   </p>
                 </div>
