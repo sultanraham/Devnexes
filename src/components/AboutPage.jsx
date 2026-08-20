@@ -315,10 +315,11 @@ const AboutPage = ({ t = {} }) => {
         </div>
       </section>
 
-      {/* Core Values (4-Column Connected Flow Stepper Layout) */}
-      <section className="py-28 bg-gradient-to-b from-slate-50 via-blue-50/40 to-slate-50 border-y border-slate-200/80 relative overflow-hidden">
-        {/* Background Radial Glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-400/10 rounded-full blur-[180px] pointer-events-none" />
+      {/* Core Values (Luxurious Royal Navy & Glowing Neon Cyan Stepper) */}
+      <section className="py-28 bg-gradient-to-br from-[#061632] via-[#091b3a] to-[#0b2447] text-white border-y border-blue-900/60 relative overflow-hidden">
+        {/* Background Ambient Glowing Orbs */}
+        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-cyan-500/15 rounded-full blur-[180px] pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-blue-600/15 rounded-full blur-[180px] pointer-events-none" />
 
         <div className="container mx-auto px-6 max-w-7xl relative z-10">
           <motion.div 
@@ -327,22 +328,22 @@ const AboutPage = ({ t = {} }) => {
             viewport={{ once: true }} 
             className="text-center mb-20 flex flex-col items-center"
           >
-            <span className="inline-flex items-center gap-2 bg-blue-100/90 text-blue-800 text-[11px] font-extrabold uppercase tracking-[0.3em] px-4.5 py-1.5 rounded-full mb-4 border border-blue-300/60 shadow-xs">
-              <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+            <span className="inline-flex items-center gap-2 bg-blue-950/80 text-cyan-400 text-[11px] font-extrabold uppercase tracking-[0.3em] px-4.5 py-1.5 rounded-full mb-4 border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.15)]">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
               What Drives Us
             </span>
-            <h2 className="text-[#061632] text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-4">
+            <h2 className="text-white text-3xl sm:text-4xl md:text-5xl font-black tracking-tight mb-4 drop-shadow-md">
               Our Core Values
             </h2>
-            <p className="text-slate-500 text-sm sm:text-base max-w-xl font-medium">
-              4 foundational pillars driving every line of code and partnership at Devnexes.
+            <p className="text-slate-300 text-sm sm:text-base max-w-xl font-medium leading-relaxed">
+              4 foundational pillars driving every line of code, architecture decision, and client partnership at Devnexes.
             </p>
           </motion.div>
 
           {/* Stepper Timeline Grid Container */}
           <div className="relative">
-            {/* Horizontal Connecting Flow Line (Visible on Desktop) */}
-            <div className="hidden lg:block absolute top-7 left-[10%] right-[10%] h-[3px] bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 rounded-full z-0 opacity-70" />
+            {/* Horizontal Glowing Connecting Line (Visible on Desktop) */}
+            <div className="hidden lg:block absolute top-7 left-[10%] right-[10%] h-[3px] bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 rounded-full z-0 opacity-80 shadow-[0_0_12px_rgba(6,182,212,0.6)]" />
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 relative z-10">
               {values.map((v, i) => (
@@ -352,37 +353,37 @@ const AboutPage = ({ t = {} }) => {
                   whileInView={{ opacity: 1, y: 0 }} 
                   transition={{ delay: i * 0.12, duration: 0.5, ease: "easeOut" }} 
                   viewport={{ once: true }}
-                  className="bg-white/95 backdrop-blur-xl p-7 rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-blue-900/15 hover:border-blue-400 hover:-translate-y-2 transition-all duration-500 group flex flex-col justify-between relative overflow-hidden"
+                  className="bg-white/[0.07] backdrop-blur-2xl p-7 rounded-3xl border border-white/15 hover:border-cyan-400/60 shadow-2xl hover:shadow-[0_15px_35px_rgba(6,182,212,0.25)] hover:-translate-y-2 transition-all duration-500 group flex flex-col justify-between relative overflow-hidden"
                 >
-                  {/* Top Ambient Highlight */}
-                  <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 group-hover:h-2 transition-all duration-300" />
+                  {/* Top Glowing Ambient Highlight */}
+                  <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-cyan-400 to-blue-500 group-hover:h-2 transition-all duration-300 shadow-[0_0_10px_rgba(6,182,212,0.8)]" />
 
                   <div>
                     {/* Stepper Node & Icon Header */}
                     <div className="flex items-center justify-between mb-6 pt-1">
-                      <div className="w-13 h-13 bg-gradient-to-tr from-[#061632] to-[#1e3a8a] text-cyan-400 group-hover:text-white group-hover:from-blue-600 group-hover:to-indigo-600 transition-all duration-500 rounded-2xl flex items-center justify-center shadow-md shadow-blue-950/20 group-hover:scale-110">
+                      <div className="w-13 h-13 bg-gradient-to-tr from-cyan-500 to-blue-600 text-white group-hover:from-cyan-400 group-hover:to-blue-500 transition-all duration-500 rounded-2xl flex items-center justify-center shadow-lg shadow-cyan-500/30 group-hover:scale-110">
                         {v.icon}
                       </div>
-                      <span className="w-9 h-9 rounded-full bg-blue-50 border border-blue-200 flex items-center justify-center text-xs font-black text-blue-700 font-mono shadow-xs group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-colors">
+                      <span className="w-9 h-9 rounded-full bg-cyan-950/80 border border-cyan-500/40 flex items-center justify-center text-xs font-black text-cyan-300 font-mono shadow-inner group-hover:bg-cyan-400 group-hover:text-slate-950 group-hover:border-cyan-400 transition-colors">
                         0{i + 1}
                       </span>
                     </div>
 
                     {/* Step Title */}
-                    <h3 className="text-[#061632] font-extrabold text-lg sm:text-xl mb-3 tracking-tight group-hover:text-blue-600 transition-colors">
+                    <h3 className="text-white font-black text-lg sm:text-xl mb-3 tracking-tight group-hover:text-cyan-300 transition-colors">
                       {v.title}
                     </h3>
 
                     {/* Description */}
-                    <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-medium">
+                    <p className="text-slate-300 text-xs sm:text-sm leading-relaxed font-medium">
                       {v.desc}
                     </p>
                   </div>
 
                   {/* Bottom Step Indicator Badge */}
-                  <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+                  <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-[11px] font-bold text-slate-400 uppercase tracking-widest">
                     <span>Pillar 0{i + 1}</span>
-                    <span className="text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity font-extrabold">Devnexes</span>
+                    <span className="text-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity font-extrabold tracking-wider">Devnexes</span>
                   </div>
                 </motion.div>
               ))}
