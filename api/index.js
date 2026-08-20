@@ -478,7 +478,7 @@ app.post('/api/chat', chatLimiter, [
         const groq = getGroqClient();
         if (!groq) break;
         const completion = await groq.chat.completions.create({
-          model: 'llama-3.3-70b-versatile',
+          model: 'groq/compound',
           messages: conversation,
           temperature: 0.4,
           max_tokens: 350,
