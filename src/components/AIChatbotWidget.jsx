@@ -148,8 +148,16 @@ export default function AIChatbotWidget() {
 
     // Detect lead trigger intent
     const lower = textToSend.toLowerCase()
-    if (lower.includes('quote') || lower.includes('pricing') || lower.includes('start a project') || lower.includes('hire') || lower.includes('contact')) {
-      setTimeout(() => setShowLeadForm(true), 1200)
+    if (
+      lower.includes('quote') || 
+      lower.includes('pricing') || 
+      lower.includes('start a project') || 
+      lower.includes('hire') || 
+      lower.includes('contact') || 
+      lower.includes('form') || 
+      lower.includes('consultation')
+    ) {
+      setTimeout(() => setShowLeadForm(true), 600)
     }
 
     let replyText = null
