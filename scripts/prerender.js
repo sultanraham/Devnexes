@@ -66,10 +66,10 @@ async function runPrerender() {
       const page = await browser.newPage();
       
       // Navigate to the local server
-      await page.goto(`http://localhost:5050${route}`, { waitUntil: 'networkidle0' });
+      await page.goto(`http://localhost:5050${route}`, { waitUntil: 'domcontentloaded', timeout: 15000 });
       
       // Wait for React to render inside the root div
-      await page.waitForSelector('#root > *');
+      await page.waitForSelector('#root > *', { timeout: 10000 });
 
       // Get the full HTML
       const html = await page.evaluate(() => '<!DOCTYPE html>\n' + document.documentElement.outerHTML);
