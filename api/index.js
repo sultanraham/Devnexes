@@ -185,15 +185,20 @@ app.post('/api/chat', chatLimiter, [
 });
 
 // Helper function to send email notification for new leads
-const sendLeadEmail = async ({ name, contact, service, note }) => {
+const sendLeadEmail = async ({ name, contact, service, note, message }) => {
   const host = process.env.SMTP_HOST || 'smtp.gmail.com';
   const port = parseInt(process.env.SMTP_PORT || '587', 10);
   const user = process.env.SMTP_USER || process.env.EMAIL_USER || 'devnexes.support@gmail.com';
   const pass = process.env.SMTP_PASS || process.env.EMAIL_PASS;
   const emailTo = process.env.EMAIL_TO || 'devnexes.support@gmail.com';
 
+  const clientName = name || 'Anonymous Visitor';
+  const clientContact = contact || 'Not Provided';
+  const selectedService = service || 'Custom Web Development & AI Solutions';
+  const projectDetails = note || message || 'No extra notes provided.';
+
   if (!user || !pass) {
-    console.log('[LEAD LOGGED TO SERVER] (SMTP App Password pending in .env):', { name, contact, service, note });
+    console.log('[LEAD CAPTURED - SMTP PASS PENDING IN .ENV]:', { name: clientName, contact: clientContact, service: selectedService, details: projectDetails });
     return;
   }
 
@@ -206,46 +211,86 @@ const sendLeadEmail = async ({ name, contact, service, note }) => {
     });
 
     const mailOptions = {
-      from: `"Devnexes Leads" <${user}>`,
+      from: `"Devnexes Lead Engine" <${user}>`,
       to: emailTo,
-      subject: `🔥 New Lead Quote Request: ${name} (${service})`,
+      subject: `🔥 New Lead Notification: ${clientName} (${selectedService})`,
       html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff; color: #1e293b;">
-          <h2 style="color: #1e3a8a; margin-top: 0; font-size: 22px;">🚀 New Project Quote Request</h2>
-          <p style="color: #475569; font-size: 14px; margin-bottom: 20px;">A client submitted project details via the Devnexes AI Chatbot Engine:</p>
-          <table style="width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px;">
-            <tr>
-              <td style="padding: 10px 14px; font-weight: bold; background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; width: 35%;">Client Name:</td>
-              <td style="padding: 10px 14px; border-bottom: 1px solid #e2e8f0;">${xss(name)}</td>
-            </tr>
-            <tr>
-              <td style="padding: 10px 14px; font-weight: bold; background-color: #f8fafc; border-bottom: 1px solid #e2e8f0;">Contact Info:</td>
-              <td style="padding: 10px 14px; border-bottom: 1px solid #e2e8f0; color: #2563eb; font-weight: bold;">${xss(contact)}</td>
-            </tr>
-            <tr>
-              <td style="padding: 10px 14px; font-weight: bold; background-color: #f8fafc; border-bottom: 1px solid #e2e8f0;">Requested Service:</td>
-              <td style="padding: 10px 14px; border-bottom: 1px solid #e2e8f0; font-weight: bold; color: #0f172a;">${xss(service)}</td>
-            </tr>
-            ${note ? `
-            <tr>
-              <td style="padding: 10px 14px; font-weight: bold; background-color: #f8fafc; border-bottom: 1px solid #e2e8f0;">Session Context:</td>
-              <td style="padding: 10px 14px; border-bottom: 1px solid #e2e8f0;">${xss(note)}</td>
-            </tr>
-            ` : ''}
-          </table>
-          <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #e2e8f0; font-size: 12px; color: #94a3b8; text-align: center;">
-            Sent automatically by Devnexes Digital Solutions Lead Notification Engine
+        <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 620px; margin: 0 auto; padding: 0; background-color: #f8fafc; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+          <!-- Header -->
+          <div style="background: linear-gradient(135deg, #061632 0%, #1e3a8a 100%); padding: 28px; text-align: center; color: #ffffff;">
+            <h1 style="margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.5px;">⚡ New Devnexes Lead Received</h1>
+            <p style="margin: 6px 0 0 0; font-size: 12px; color: #93c5fd; text-transform: uppercase; letter-spacing: 1.5px;">Instant Project Quote Request</p>
+          </div>
+
+          <!-- Content Body -->
+          <div style="padding: 28px; background-color: #ffffff;">
+            <div style="margin-bottom: 20px; padding: 14px 18px; background-color: #eff6ff; border-left: 4px solid #2563eb; border-radius: 8px;">
+              <p style="margin: 0; font-size: 13px; font-weight: 700; color: #1e3a8a;">A visitor has submitted a new inquiry via devnexes.site:</p>
+            </div>
+
+            <table style="width: 100%; border-collapse: separate; border-spacing: 0; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; font-size: 14px;">
+              <tr style="background-color: #f8fafc;">
+                <td style="padding: 14px 18px; font-weight: 700; color: #475569; border-bottom: 1px solid #e2e8f0; width: 35%;">👤 Client Name:</td>
+                <td style="padding: 14px 18px; font-weight: 800; color: #0f172a; border-bottom: 1px solid #e2e8f0; font-size: 15px;">${xss(clientName)}</td>
+              </tr>
+              <tr>
+                <td style="padding: 14px 18px; font-weight: 700; color: #475569; border-bottom: 1px solid #e2e8f0;">📬 Contact (Email / Phone):</td>
+                <td style="padding: 14px 18px; font-weight: 800; color: #2563eb; border-bottom: 1px solid #e2e8f0; font-size: 15px;">
+                  <a href="mailto:${xss(clientContact)}" style="color: #2563eb; text-decoration: underline;">${xss(clientContact)}</a>
+                </td>
+              </tr>
+              <tr style="background-color: #f8fafc;">
+                <td style="padding: 14px 18px; font-weight: 700; color: #475569; border-bottom: 1px solid #e2e8f0;">🛠️ Service Interested In:</td>
+                <td style="padding: 14px 18px; font-weight: 800; color: #061632; border-bottom: 1px solid #e2e8f0; font-size: 14px;">
+                  <span style="background-color: #dbeafe; color: #1e40af; padding: 4px 12px; border-radius: 20px; font-size: 12px; text-transform: uppercase; font-weight: 800;">${xss(selectedService)}</span>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 14px 18px; font-weight: 700; color: #475569; vertical-align: top;">💬 Project Details / Message:</td>
+                <td style="padding: 14px 18px; color: #334155; line-height: 1.6; font-size: 14px;">${xss(projectDetails)}</td>
+              </tr>
+            </table>
+
+            <div style="margin-top: 28px; text-align: center;">
+              <a href="mailto:${xss(clientContact)}" style="display: inline-block; background-color: #2563eb; color: #ffffff; padding: 14px 28px; font-weight: 800; font-size: 13px; text-transform: uppercase; text-decoration: none; border-radius: 10px; letter-spacing: 1px; shadow: 0 4px 10px rgba(37,99,235,0.3);">
+                Reply to ${xss(clientName)} Directly →
+              </a>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div style="background-color: #f1f5f9; padding: 14px; text-align: center; font-size: 12px; color: #64748b; border-top: 1px solid #e2e8f0;">
+            Sent automatically via Devnexes Digital Solutions Lead Engine
           </div>
         </div>
       `
     };
 
     await transporter.sendMail(mailOptions);
-    console.log(`[EMAIL NOTIFICATION SENT SUCCESSFULLY] To: ${emailTo}`);
+    console.log(`[EMAIL NOTIFICATION SENT SUCCESSFULLY] To: ${emailTo} for lead: ${clientName}`);
   } catch (mailErr) {
     console.error('[EMAIL NOTIFICATION ERROR]', mailErr.message);
   }
 };
+
+// POST /api/contact - Handle contact form submissions
+app.post('/api/contact', [
+  body('name').trim().notEmpty().withMessage('Name required'),
+  body('email').trim().isEmail().withMessage('Valid email required'),
+  body('message').trim().notEmpty().withMessage('Message required'),
+], validate, async (req, res) => {
+  try {
+    const { name, email, service, message } = req.body;
+    console.log(`[CONTACT FORM SUBMITTED] Name: ${name}, Email: ${email}`);
+
+    sendLeadEmail({ name, contact: email, service: service || 'Contact Form Inquiry', message }).catch(e => console.error(e));
+
+    res.json({ success: true, message: 'Message sent successfully! Our team will contact you within 2 hours.' });
+  } catch (err) {
+    console.error('[API /api/contact error]', err);
+    res.status(500).json({ error: 'Failed to process contact form' });
+  }
+});
 
 // POST /api/lead - Capture qualified lead details & send email
 app.post('/api/lead', [
@@ -253,11 +298,11 @@ app.post('/api/lead', [
   body('contact').trim().notEmpty().withMessage('Email or Phone required'),
 ], validate, async (req, res) => {
   try {
-    const { name, contact, service, note } = req.body;
+    const { name, contact, service, note, message } = req.body;
     console.log(`[LEAD CAPTURED] Name: ${name}, Contact: ${contact}, Service: ${service}`);
     
     // Dispatch instant email notification in background
-    sendLeadEmail({ name, contact, service: service || 'Custom Web & AI', note }).catch(e => console.error(e));
+    sendLeadEmail({ name, contact, service: service || 'Custom Web Development & AI', note, message }).catch(e => console.error(e));
 
     res.json({ success: true, message: 'Lead captured successfully! Our team will reach out within 2 hours.' });
   } catch (err) {
