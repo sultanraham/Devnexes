@@ -5,10 +5,10 @@ export const translations = {
       title: 'Transforming Businesses with Intelligent Web & AI Solutions.',
       getStarted: 'Get Started',
       register: 'Register',
-      reviewedBy: 'Reviewed by 100k+ happy users',
-      socialProof: 'With 1k+ verified reviews, customers praise our secure, user-friendly banking platform built on trust.',
-      transactionVolume: 'Daily Transaction Volume',
-      splitValues: 'Split into values',
+      reviewedBy: 'Reviewed by 500+ happy global clients',
+      socialProof: 'With 500+ verified reviews, clients praise our high-performance digital solutions, web engineering, and custom AI systems.',
+      transactionVolume: 'Successful Projects Delivered',
+      splitValues: 'Client Satisfaction Rate',
       footerDesc: 'Devnexes Digital Solutions provides Web Development, AI Automation, SEO, UI/UX Design, Chatbots, and Custom Business Websites.'
     },
     features: {
@@ -75,11 +75,11 @@ export const translations = {
       title: 'مصنوعی ذہانت کے ساتھ مستقبل کو بااختیار بنانا',
       getStarted: 'شروع کریں',
       register: 'رجسٹر کریں',
-      reviewedBy: '1k+ خوش صارفین کے ذریعے جائزہ لیا گیا',
-      socialProof: '1k+ تصدیق شدہ جائزوں کے ساتھ، صارفین ہمارے محفوظ اور قابل اعتماد بینکنگ پلیٹ فارم کی تعریف کرتے ہیں۔',
-      transactionVolume: 'روزانہ لین دین کا حجم',
-      splitValues: 'اقدار میں تقسیم',
-      footerDesc: 'جہاں جدت اعتماد سے ملتی ہے۔ ہمارا ڈیجیٹل بینکنگ پلیٹ فارم ایک محفوظ، تیز اور صارف دوست تجربہ فراہم کرتا ہے۔'
+      reviewedBy: '500+ خوش آئند کلائنٹس کے ذریعے جائزہ لیا گیا',
+      socialProof: '500+ تصدیق شدہ جائزوں کے ساتھ، صارفین ہمارے جدید اور قابل اعتماد ڈیجیٹل حل کی تعریف کرتے ہیں۔',
+      transactionVolume: 'مکمل شدہ ڈیجیٹل پروجیکٹس',
+      splitValues: 'کلائنٹ کی اطمینان کی شرح',
+      footerDesc: 'جہاں جدت کوالٹی سے ملتی ہے۔ ہماری سافٹ ویئر ایجنسی تیز، محفوظ اور اعلیٰ معیار کے ویب اور AI حل فراہم کرتی ہے۔'
     },
     features: {
       tag: 'ہمیں کیوں منتخب کریں',
@@ -145,11 +145,11 @@ export const translations = {
       title: 'تمكين المستقبل باستخدام الذكاء الاصطناعي',
       getStarted: 'ابدأ الآن',
       register: 'تسجيل',
-      reviewedBy: 'تمت مراجعته من قبل أكثر من 100 ألف مستخدم سعيد',
-      socialProof: 'مع أكثر من 100،000 مراجعة تم التحقق منها ، يثني العملاء على منصتنا المصرفية الآمنة.',
-      transactionVolume: 'حجم التداول اليومي',
-      splitValues: 'مقسمة إلى قيم',
-      footerDesc: 'حيث يلتقي الابتكار بالموثوقية. توفر منصتنا المصرفية الرقمية تجربة آمنة وسريعة.'
+      reviewedBy: 'تم التقييم بواسطة 500+ عميل سعيد',
+      socialProof: 'مع أكثر من 500 مراجعة موثقة، يشيد العملاء بحلولنا الرقمية عالية الأداء وهندسة البرمجيات.',
+      transactionVolume: 'المشاريع الرقمية المنجزة',
+      splitValues: 'نسبة رضا العملاء',
+      footerDesc: 'حيث يلتقي الابتكار بالجودة. تقدم وكالتنا حلول ويب وذكاء اصطناعي آمنة وسريعة.'
     },
     features: {
       tag: 'لماذا تختارنا',
