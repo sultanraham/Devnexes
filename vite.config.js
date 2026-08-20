@@ -1,12 +1,22 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import compression from 'vite-plugin-compression'
+function expressDevApiPlugin() {
+  return {
+    name: 'express-dev-api-plugin',
+    async configureServer(server) {
+      const { default: apiApp } = await import('./api/index.js')
+      server.middlewares.use(apiApp)
+    }
+  }
+}
 
 export default defineConfig({
   server: {
     allowedHosts: ['unadorned-crinkle-coach.ngrok-free.dev', 'josphine-prelumbar-relatedly.ngrok-free.dev'],
   },
   plugins: [
+    expressDevApiPlugin(),
     react(),
     // Gzip for all text assets
     compression({ algorithm: 'gzip', ext: '.gz', threshold: 1024 }),
