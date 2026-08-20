@@ -274,26 +274,40 @@ const AboutPage = ({ t = {} }) => {
         </div>
       </section>
 
-      {/* Company Identity */}
-      <section className="py-24 bg-white">
+      {/* Company Identity / Our Story */}
+      <section className="py-24 bg-white relative overflow-hidden">
         <div className="container mx-auto px-6 max-w-5xl">
           <div className="flex flex-col text-left">
             <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-              <p className="text-blue-600 text-[11px] font-bold uppercase tracking-[0.4em] mb-4">{t.storyTag || 'Our Story'}</p>
-              <h2 className="text-[#061632] text-3xl md:text-5xl font-bold tracking-tighter mb-6 leading-tight whitespace-pre-line">
+              <span className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 text-[11px] font-extrabold uppercase tracking-[0.3em] px-4 py-1.5 rounded-full mb-5 border border-blue-200/60 shadow-xs">
+                <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+                {t.storyTag || 'Our Story'}
+              </span>
+
+              <h2 className="text-[#061632] text-3xl md:text-5xl font-black tracking-tight mb-6 leading-tight whitespace-pre-line">
                 {t.storyTitle || 'Built in Pakistan.\nBuilt for the World.'}
               </h2>
-              <div className="space-y-4 text-gray-500 text-base leading-relaxed max-w-3xl">
+              
+              <div className="space-y-4 text-slate-600 text-base md:text-lg leading-relaxed max-w-3xl font-medium">
                 <p>{t.story1 || 'Devnexes was founded with a single conviction: that businesses in Pakistan and globally deserve access to world-class digital solutions without the inflated agency pricing.'}</p>
                 <p>{t.story2 || 'We specialise in AI integration, full-stack web development, and mobile applications. Every project we take on is treated as a long-term partnership, not a transaction.'}</p>
-                <p dangerouslySetInnerHTML={{ __html: (t.story3 || 'Our team is fully remote, technically rigorous, and obsessed with delivery quality. We back every project with a 1-week post-launch guarantee. If anything goes wrong after we deliver, we fix it free.').replace('1-week post-launch guarantee', '<strong class="text-[#1e3a8a]">1-week post-launch guarantee</strong>').replace('1 ہفتے کی گارنٹی', '<strong class="text-[#1e3a8a]">1 ہفتے کی گارنٹی</strong>').replace('بضمان لمدة أسبوع واحد بعد الإطلاق', '<strong class="text-[#1e3a8a]">بضمان لمدة أسبوع واحد بعد الإطلاق</strong>') }} />
+                <p dangerouslySetInnerHTML={{ __html: (t.story3 || 'Our team is fully remote, technically rigorous, and obsessed with delivery quality. We back every project with a 1-week post-launch guarantee. If anything goes wrong after we deliver, we fix it free.').replace('1-week post-launch guarantee', '<strong class="text-blue-900 font-extrabold underline decoration-blue-300">1-week post-launch guarantee</strong>').replace('1 ہفتے کی گارنٹی', '<strong class="text-blue-900 font-extrabold underline decoration-blue-300">1 ہفتے کی گارنٹی</strong>').replace('بضمان لمدة أسبوع واحد بعد الإطلاق', '<strong class="text-blue-900 font-extrabold underline decoration-blue-300">بضمان لمدة أسبوع واحد بعد الإطلاق</strong>') }} />
               </div>
+
               <div className="mt-10 flex flex-col sm:flex-row justify-start gap-4">
-                <button onClick={() => navigate('/contact')} className="flex items-center justify-center gap-2 bg-[#1e3a8a] text-white px-8 py-4 rounded-none font-bold text-[13px] uppercase tracking-widest hover:bg-blue-700 transition-all group">
-                  {t.startProject || 'Start a Project'} <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                <button 
+                  onClick={() => navigate('/contact')} 
+                  className="flex items-center justify-center gap-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-4 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all shadow-lg shadow-blue-600/25 hover:scale-[1.02] cursor-pointer"
+                >
+                  <span>{t.startProject || 'Start a Project'}</span>
+                  <ArrowRight size={16} />
                 </button>
-                <button onClick={() => navigate('/portfolio')} className="flex items-center justify-center gap-2 border border-slate-200 text-[#1e3a8a] px-8 py-4 rounded-none font-bold text-[13px] uppercase tracking-widest hover:bg-slate-50 transition-all">
-                  {t.viewWork || 'View Our Work'}
+
+                <button 
+                  onClick={() => navigate('/portfolio')} 
+                  className="flex items-center justify-center gap-2 border border-slate-200 text-slate-800 px-8 py-4 rounded-2xl font-bold text-xs uppercase tracking-widest hover:bg-slate-50 transition-all cursor-pointer"
+                >
+                  <span>{t.viewWork || 'View Our Work'}</span>
                 </button>
               </div>
             </motion.div>
@@ -301,21 +315,29 @@ const AboutPage = ({ t = {} }) => {
         </div>
       </section>
 
-      {/* Values */}
-      <section className="py-24 bg-slate-50">
+      {/* Core Values */}
+      <section className="py-24 bg-slate-50/70 border-y border-slate-200/60">
         <div className="container mx-auto px-6 max-w-5xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-            <h2 className="text-[#061632] text-3xl md:text-5xl font-bold tracking-tighter">Our Core Values</h2>
+            <span className="text-blue-600 text-[11px] font-extrabold uppercase tracking-[0.3em] mb-2 block">What Drives Us</span>
+            <h2 className="text-[#061632] text-3xl md:text-5xl font-black tracking-tight">Our Core Values</h2>
           </motion.div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {values.map((v, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} viewport={{ once: true }}
-                className="bg-white p-10 rounded-3xl border border-slate-100 hover:shadow-xl hover:shadow-[#1e3a8a]/5 hover:-translate-y-1 transition-all duration-300">
-                <div className="w-14 h-14 bg-blue-50/80 rounded-2xl flex items-center justify-center text-blue-600 mb-6">
+              <motion.div 
+                key={i} 
+                initial={{ opacity: 0, y: 20 }} 
+                whileInView={{ opacity: 1, y: 0 }} 
+                transition={{ delay: i * 0.1 }} 
+                viewport={{ once: true }}
+                className="bg-white p-8 sm:p-10 rounded-3xl border border-slate-200/80 shadow-xs hover:shadow-2xl hover:shadow-blue-900/10 hover:-translate-y-1.5 transition-all duration-300 group"
+              >
+                <div className="w-14 h-14 bg-gradient-to-tr from-blue-600 to-indigo-600 text-white rounded-2xl flex items-center justify-center mb-6 shadow-md shadow-blue-600/30 group-hover:scale-110 transition-transform">
                   {v.icon}
                 </div>
-                <h3 className="text-[#061632] font-bold text-xl mb-3 tracking-tight">{v.title}</h3>
-                <p className="text-gray-500 text-base leading-relaxed">{v.desc}</p>
+                <h3 className="text-[#061632] font-extrabold text-xl mb-3 tracking-tight">{v.title}</h3>
+                <p className="text-slate-500 text-sm md:text-base leading-relaxed font-medium">{v.desc}</p>
               </motion.div>
             ))}
           </div>
