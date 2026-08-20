@@ -188,9 +188,8 @@ export default function AIChatbotWidget() {
                   <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-white animate-pulse" />
                 </div>
                 <div>
-                  <h3 className="font-extrabold text-base text-slate-900 flex items-center gap-1.5 tracking-tight">
+                  <h3 className="font-extrabold text-base text-slate-900 tracking-tight">
                     Cortex Mini
-                    <Sparkles size={15} className="text-blue-600" />
                   </h3>
                 </div>
               </div>
@@ -225,11 +224,11 @@ export default function AIChatbotWidget() {
                     className={`flex items-start gap-2.5 ${isUser ? 'flex-row-reverse' : ''}`}
                   >
                     <div
-                      className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs shrink-0 ${
-                        isUser ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 border border-slate-200 shadow-xs p-1'
+                      className={`w-7 h-7 flex items-center justify-center shrink-0 ${
+                        isUser ? 'bg-blue-600 text-white rounded-lg' : ''
                       }`}
                     >
-                      {isUser ? <User size={14} /> : <img src="/images/devnexes-logo.png" alt="Logo" className="w-4 h-4 object-contain" />}
+                      {isUser ? <User size={14} /> : <img src="/images/devnexes-logo.png" alt="Logo" className="w-5 h-5 object-contain" />}
                     </div>
 
                     <div
@@ -260,8 +259,8 @@ export default function AIChatbotWidget() {
               {/* Agent Thinking Animation (Bouncing 3-dot sequence) */}
               {isLoading && (
                 <div className="flex items-start gap-2.5">
-                  <div className="w-7 h-7 rounded-lg bg-white border border-slate-200 shadow-xs flex items-center justify-center p-1">
-                    <img src="/images/devnexes-logo.png" alt="Logo" className="w-4 h-4 object-contain animate-pulse" />
+                  <div className="w-7 h-7 flex items-center justify-center shrink-0">
+                    <img src="/images/devnexes-logo.png" alt="Logo" className="w-5 h-5 object-contain animate-pulse" />
                   </div>
                   <div className="bg-white border border-slate-200/90 shadow-sm rounded-2xl rounded-tl-none px-4 py-3 flex items-center gap-2 text-xs text-slate-600 font-semibold">
                     <span>Cortex Mini is thinking</span>
