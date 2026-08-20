@@ -150,31 +150,39 @@ const ContactSection = ({ t }) => {
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-2">
-                          <label className="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">Name</label>
+                          <label htmlFor="contact-name" className="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">Your Name</label>
                           <input
+                            id="contact-name"
                             type="text" name="name" value={formData.name} onChange={handleChange} required maxLength="80"
                             className="w-full bg-slate-50 border border-slate-200 hover:border-blue-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 rounded-2xl px-6 py-4 text-[#0a192f] font-medium text-base outline-none transition-all"
-                            placeholder="username"
+                            placeholder="John Doe"
                           />
                         </div>
                         <div className="space-y-2">
-                          <label className="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">Email</label>
+                          <label htmlFor="contact-email" className="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">Email Address</label>
                           <input
+                            id="contact-email"
                             type="email" name="email" value={formData.email} onChange={handleChange} required maxLength="100"
                             className="w-full bg-slate-50 border border-slate-200 hover:border-blue-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 rounded-2xl px-6 py-4 text-[#0a192f] font-medium text-base outline-none transition-all"
-                            placeholder="email"
+                            placeholder="john@example.com"
                           />
                         </div>
                       </div>
 
                       <div className="space-y-2">
-                        <label className="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">Message</label>
+                        <label htmlFor="contact-message" className="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">Project Details / Message</label>
                         <textarea
+                          id="contact-message"
                           name="message" rows="4" value={formData.message} onChange={handleChange} required maxLength="1000"
                           className="w-full bg-slate-50 border border-slate-200 hover:border-blue-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 rounded-2xl px-6 py-4 text-[#0a192f] font-medium text-base outline-none transition-all resize-none"
-                          placeholder="Type your message..."
+                          placeholder="Tell us about your project requirements..."
                         />
                       </div>
+
+                      <p className="text-slate-400 text-xs font-medium leading-relaxed">
+                        By submitting this form, you agree to our{' '}
+                        <a href="/policy" className="text-blue-600 hover:underline">Privacy Policy</a>. We never sell your data or send marketing spam.
+                      </p>
 
                       {status === 'error' && <p className="text-red-500 text-sm font-bold bg-red-50 p-4 rounded-xl">Please check your details and try again.</p>}
                       {status === 'rate_limited' && <p className="text-amber-600 text-sm font-bold bg-amber-50 p-4 rounded-xl border border-amber-200">⏳ Too many messages. Please wait a few minutes and try again.</p>}

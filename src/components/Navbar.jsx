@@ -154,7 +154,9 @@ const Navbar = ({ currentLang, setCurrentLang, user, onLogout }) => {
       <div className="md:hidden flex items-center pr-6 relative z-50">
         <button 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="text-white p-2"
+          aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={isMobileMenuOpen}
+          className="text-white p-2 focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg"
         >
           {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
