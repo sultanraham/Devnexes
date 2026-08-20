@@ -200,11 +200,6 @@ export default function AIChatbotWidget() {
 
     setIsSubmittingLead(true)
 
-    const whatsappMsg = encodeURIComponent(
-      `Hello Devnexes Team! 👋 I would like to get a custom quote:\n\n👤 Name: ${leadData.name}\n📞 Contact: ${leadData.contact}\n💼 Service: ${leadData.service}`
-    )
-    const whatsappUrl = `https://wa.me/923030111550?text=${whatsappMsg}`
-
     try {
       await fetch(`${API_BASE}/api/lead`, {
         method: 'POST',
@@ -223,14 +218,10 @@ export default function AIChatbotWidget() {
         ...prev,
         { 
           role: 'assistant', 
-          content: `Thank you **${leadData.name}**! 🎉 Our team has received your request for **${leadData.service}**. We will reach out to **${leadData.contact}** within 2 hours!`,
-          id: `lead-ack-${Date.now()}`,
-          whatsappUrl: whatsappUrl
+          content: `Thank you **${leadData.name}**! 🎉 Our team has received your inquiry for **${leadData.service}**. An email notification has been dispatched to our engineering desk (**devnexes.support@gmail.com**), and we will contact you at **${leadData.contact}** within 2 hours!`,
+          id: `lead-ack-${Date.now()}`
         }
       ])
-
-      // Automatically open WhatsApp with pre-filled lead details
-      window.open(whatsappUrl, '_blank')
     } catch (err) {
       console.error('Lead submit error:', err)
     } finally {
