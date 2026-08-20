@@ -20,7 +20,7 @@ Core Services Offered:
 5. Dedicated Engineering Teams — On-demand full-stack engineers and AI developers to scale engineering bandwidth without hiring overhead.
 
 Featured Projects & Case Studies (ONLY discuss these real projects):
-- NexERP: Enterprise resource planning & business management platform for multi-tenant organizations built with React, Next.js, and Supabase.
+- Personal ERP: Enterprise resource planning & business management platform for multi-tenant organizations built with React, Next.js, and Supabase.
 - EPIC Command: Security surveillance & real-time video monitoring control center dashboard.
 - ClipForge: AI-powered video clipping & automatic subtitle/transcription generation SaaS platform.
 - Get Things Done (GTD): AI-powered productivity assistant for task management and automated goal execution.
