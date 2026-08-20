@@ -80,52 +80,23 @@ export default function AIChatbotWidget() {
 
   const API_BASE = import.meta.env.VITE_API_URL || ''
 
-  // Direct Groq API Client Failover for 100% reliability
-  const callGroqDirect = async (updatedMessages) => {
-    const keys = [
-      "ce8pXdNcOCDUNXTyj6nXWGdyb3FYLCKXyrYr58Aj642trKXlDrzs",
-      "mn6orlI9TcU0LENlVGvDWGdyb3FYABpRI8bWWvCVl1r808JR4Dra",
-      "5QydrYWd9KOPJw7OG72dWGdyb3FYtRtmx3hzz5vjadRyEdXxgr1H",
-      "SOHLSkWoWmN5dXlbvqCkWGdyb3FYgMdtw5rPFefQF5QGyrV0RdLQ",
-      "uRhuF38SKJ7PMZGGIwEsWGdyb3FY6Sxd99Ou5JD5CsVpQCC5XxAc",
-      "4cs4UbfN81jkDaQzbXUgWGdyb3FYyvFbuU5mSvwq16o8ZZuNTXkh",
-      "4kfDBhEu1To4X2g7VrIjWGdyb3FYztpJDeERMXggBo6UjtV37yOh",
-      "kO6G7aKilHpkXpHkJtqNWGdyb3FYq5OBLPXLL0qrkX0QHXZeWjRT",
-      "JOfrlngIeccIyhnAeza7WGdyb3FY0oM96GwmmeYNjKlj02vzW6rS"
-    ].map(s => 'gsk_' + s)
+  // Real-time typewriter effect helper
+  const animateBotResponse = (fullText, botMsgId) => {
+    let currentText = ''
+    const words = fullText.split(' ')
+    let index = 0
 
-    const candidateModels = ['groq/compound', 'groq/compound-mini']
-
-    for (const key of keys) {
-      for (const modelName of candidateModels) {
-        try {
-          const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${key}`
-            },
-            body: JSON.stringify({
-              model: modelName,
-              messages: [
-                { role: 'system', content: SYSTEM_PROMPT },
-                ...updatedMessages.map(m => ({ role: m.role, content: m.content }))
-              ],
-              temperature: 0.4,
-              max_tokens: 350
-            })
-          })
-
-          const data = await res.json()
-          if (res.ok && data.choices?.[0]?.message?.content) {
-            return data.choices[0].message.content
-          }
-        } catch (e) {
-          console.warn('Direct Groq failover attempt...')
-        }
+    const interval = setInterval(() => {
+      if (index < words.length) {
+        currentText += (index === 0 ? '' : ' ') + words[index]
+        setMessages(prev =>
+          prev.map(m => m.id === botMsgId ? { ...m, content: currentText } : m)
+        )
+        index++
+      } else {
+        clearInterval(interval)
       }
-    }
-    return null
+    }, 35) // ~35ms per word for natural fast typing animation
   }
 
   const handleSendMessage = async (customText = null) => {
@@ -147,7 +118,6 @@ export default function AIChatbotWidget() {
 
     let replyText = null
 
-    // 1. Attempt Backend Server Proxy
     try {
       const response = await fetch(`${API_BASE}/api/chat`, {
         method: 'POST',
@@ -162,19 +132,18 @@ export default function AIChatbotWidget() {
         if (data.reply) replyText = data.reply
       }
     } catch (err) {
-      console.warn('Backend proxy unreachable, switching to direct Groq client...')
+      console.warn('Backend API error:', err)
     }
 
-    // 2. Fallback to Direct Groq Client if backend returned no response
-    if (!replyText) {
-      replyText = await callGroqDirect(updatedMessages)
-    }
+    setIsLoading(false)
 
     if (replyText) {
+      const botMsgId = `bot-${Date.now()}`
       setMessages(prev => [
         ...prev,
-        { role: 'assistant', content: replyText, id: `bot-${Date.now()}` }
+        { role: 'assistant', content: '', id: botMsgId }
       ])
+      animateBotResponse(replyText, botMsgId)
       if (!isOpen) setHasUnread(true)
     } else {
       setMessages(prev => [
@@ -187,8 +156,6 @@ export default function AIChatbotWidget() {
         }
       ])
     }
-
-    setIsLoading(false)
   }
 
   const handleLeadSubmit = async (e) => {
