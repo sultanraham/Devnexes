@@ -62,7 +62,7 @@ export default function AIChatbotWidget() {
   const [isLoading, setIsLoading] = useState(false)
   const [showLeadForm, setShowLeadForm] = useState(false)
   const [leadSubmitted, setLeadSubmitted] = useState(false)
-  const [leadData, setLeadData] = useState({ name: '', contact: '', service: 'Custom Web & AI' })
+  const [leadData, setLeadData] = useState({ name: '', contact: '', service: 'Custom Web Application', note: '' })
   const [isSubmittingLead, setIsSubmittingLead] = useState(false)
   const [hasUnread, setHasUnread] = useState(false)
 
@@ -208,7 +208,7 @@ export default function AIChatbotWidget() {
           name: leadData.name,
           contact: leadData.contact,
           service: leadData.service,
-          note: `Chat session context (${messages.length} messages exchanged)`
+          note: leadData.note ? leadData.note : `Chat session context (${messages.length} messages exchanged)`
         })
       }).catch(() => {})
 
@@ -218,7 +218,7 @@ export default function AIChatbotWidget() {
         ...prev,
         { 
           role: 'assistant', 
-          content: `Thank you **${leadData.name}**! 🎉 Our team has received your inquiry for **${leadData.service}**. An email notification has been dispatched to our engineering desk (**devnexes.support@gmail.com**), and we will contact you at **${leadData.contact}** within 2 hours!`,
+          content: `Thank you **${leadData.name}**! 🎉 Our team has received your project quote request for **${leadData.service}**. An email alert has been sent to our engineering desk (**devnexes.support@gmail.com**), and we will reach out to **${leadData.contact}** within 2 hours!`,
           id: `lead-ack-${Date.now()}`
         }
       ])
@@ -454,57 +454,79 @@ export default function AIChatbotWidget() {
                 </div>
               )}
 
-              {/* Inline Lead Capture Form */}
+              {/* Inline Lead Quote Form (Clean Bounds & Full Field Handling) */}
               {showLeadForm && !leadSubmitted && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mx-2 p-4 bg-blue-50/80 rounded-2xl space-y-3"
+                  className="mx-1 my-2 p-4 bg-white rounded-2xl border border-blue-200 shadow-xl space-y-3 font-sans shrink-0"
                 >
-                  <div className="flex items-center justify-between">
-                    <h4 className="text-xs font-bold text-blue-900 uppercase tracking-wider flex items-center gap-1.5">
-                      <Sparkles size={14} className="text-blue-600" /> Request a Free Consultation
+                  <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+                    <h4 className="text-xs font-black text-blue-900 uppercase tracking-wider flex items-center gap-1.5 font-outfit">
+                      <Sparkles size={14} className="text-blue-600" /> Request Custom Project Quote
                     </h4>
-                    <button onClick={() => setShowLeadForm(false)} className="text-slate-400 hover:text-slate-700">
+                    <button onClick={() => setShowLeadForm(false)} className="text-slate-400 hover:text-slate-700 p-1">
                       <X size={14} />
                     </button>
                   </div>
 
                   <form onSubmit={handleLeadSubmit} className="space-y-2.5">
-                    <input
-                      type="text"
-                      placeholder="Your Name *"
-                      required
-                      value={leadData.name}
-                      onChange={e => setLeadData({ ...leadData, name: e.target.value })}
-                      className="w-full bg-white rounded-xl px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white"
-                    />
-                    <input
-                      type="text"
-                      placeholder="Email or WhatsApp Number *"
-                      required
-                      value={leadData.contact}
-                      onChange={e => setLeadData({ ...leadData, contact: e.target.value })}
-                      className="w-full bg-white rounded-xl px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white"
-                    />
-                    <select
-                      value={leadData.service}
-                      onChange={e => setLeadData({ ...leadData, service: e.target.value })}
-                      className="w-full bg-white rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-none"
-                    >
-                      <option value="Custom Web Applications">Custom Web Applications</option>
-                      <option value="AI Automation & Chatbots">AI Automation &amp; Chatbots</option>
-                      <option value="SEO & Page Speed">SEO &amp; Page Speed</option>
-                      <option value="UI/UX & Interactive Design">UI/UX &amp; Interactive Design</option>
-                      <option value="Dedicated Engineering Team">Dedicated Engineering Team</option>
-                    </select>
+                    <div>
+                      <label className="block text-[11px] font-bold text-slate-700 mb-1">Name <span className="text-red-500">*</span></label>
+                      <input
+                        type="text"
+                        placeholder="Your full name"
+                        required
+                        value={leadData.name}
+                        onChange={e => setLeadData({ ...leadData, name: e.target.value })}
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 transition-colors font-medium"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-bold text-slate-700 mb-1">Email or WhatsApp <span className="text-red-500">*</span></label>
+                      <input
+                        type="text"
+                        placeholder="you@example.com or +92 300 1234567"
+                        required
+                        value={leadData.contact}
+                        onChange={e => setLeadData({ ...leadData, contact: e.target.value })}
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 transition-colors font-medium"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-bold text-slate-700 mb-1">Service Interested In <span className="text-red-500">*</span></label>
+                      <select
+                        value={leadData.service}
+                        onChange={e => setLeadData({ ...leadData, service: e.target.value })}
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-blue-600 transition-colors font-medium"
+                      >
+                        <option value="Custom Web Application">Custom Web Application</option>
+                        <option value="AI Automation & Agents">AI Automation &amp; Agents</option>
+                        <option value="SEO & Page Speed">SEO &amp; Page Speed</option>
+                        <option value="UI/UX & Interactive Design">UI/UX &amp; Interactive Design</option>
+                        <option value="Dedicated Engineering Team">Dedicated Engineering Team</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-bold text-slate-700 mb-1">Project Details (Optional)</label>
+                      <textarea
+                        rows={2}
+                        placeholder="Briefly describe your project requirements..."
+                        value={leadData.note || ''}
+                        onChange={e => setLeadData({ ...leadData, note: e.target.value })}
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 transition-colors font-medium resize-none"
+                      />
+                    </div>
 
                     <button
                       type="submit"
                       disabled={isSubmittingLead}
-                      className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 rounded-xl text-xs transition-colors flex items-center justify-center gap-1.5"
+                      className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-2.5 rounded-xl text-xs transition-all shadow-md flex items-center justify-center gap-1.5 uppercase tracking-wider cursor-pointer mt-1"
                     >
-                      {isSubmittingLead ? 'Submitting...' : 'Submit Consultation Request'}
+                      {isSubmittingLead ? 'Submitting Request...' : 'Request Quote'}
                     </button>
                   </form>
                 </motion.div>
