@@ -199,8 +199,14 @@ export default function AIChatbotWidget() {
     if (!leadData.name || !leadData.contact || isSubmittingLead) return
 
     setIsSubmittingLead(true)
+
+    const whatsappMsg = encodeURIComponent(
+      `Hello Devnexes Team! 👋 I would like to get a custom quote:\n\n👤 Name: ${leadData.name}\n📞 Contact: ${leadData.contact}\n💼 Service: ${leadData.service}`
+    )
+    const whatsappUrl = `https://wa.me/923030111550?text=${whatsappMsg}`
+
     try {
-      const res = await fetch(`${API_BASE}/api/lead`, {
+      await fetch(`${API_BASE}/api/lead`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -209,20 +215,22 @@ export default function AIChatbotWidget() {
           service: leadData.service,
           note: `Chat session context (${messages.length} messages exchanged)`
         })
-      })
+      }).catch(() => {})
 
-      if (res.ok) {
-        setLeadSubmitted(true)
-        setShowLeadForm(false)
-        setMessages(prev => [
-          ...prev,
-          { 
-            role: 'assistant', 
-            content: `Thank you ${leadData.name}! 🎉 Our engineering team has received your project details (${leadData.service}). We will reach out to ${leadData.contact} within 2 hours.`,
-            id: `lead-ack-${Date.now()}` 
-          }
-        ])
-      }
+      setLeadSubmitted(true)
+      setShowLeadForm(false)
+      setMessages(prev => [
+        ...prev,
+        { 
+          role: 'assistant', 
+          content: `Thank you **${leadData.name}**! 🎉 Our team has received your request for **${leadData.service}**. We will reach out to **${leadData.contact}** within 2 hours!`,
+          id: `lead-ack-${Date.now()}`,
+          whatsappUrl: whatsappUrl
+        }
+      ])
+
+      // Automatically open WhatsApp with pre-filled lead details
+      window.open(whatsappUrl, '_blank')
     } catch (err) {
       console.error('Lead submit error:', err)
     } finally {
@@ -392,7 +400,19 @@ export default function AIChatbotWidget() {
                     >
                       <p className="whitespace-pre-wrap">{renderFormattedText(msg.content, isUser)}</p>
                       
-                      {msg.isFallback && (
+                      {msg.whatsappUrl && (
+                        <a
+                          href={msg.whatsappUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-3 inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3.5 py-2 rounded-xl transition-all text-xs shadow-md"
+                        >
+                          <Phone size={13} />
+                          Send Quote Request via WhatsApp
+                        </a>
+                      )}
+
+                      {msg.isFallback && !msg.whatsappUrl && (
                         <a
                           href="https://wa.me/923030111550"
                           target="_blank"
