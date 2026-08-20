@@ -76,7 +76,7 @@ const TeamMemberPage = () => {
 
       {/* Hero Section */}
       <section 
-        className="relative pt-40 pb-48 px-6 overflow-hidden"
+        className="relative pt-52 pb-48 px-6 overflow-hidden"
         style={{
           background: `linear-gradient(135deg, ${member.gradientFrom}, ${member.gradientTo})`
         }}

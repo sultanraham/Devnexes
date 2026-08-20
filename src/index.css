@@ -4,12 +4,12 @@
 
 @layer base {
   :root {
-    --font-outfit: "Plus Jakarta Sans", "Outfit", system-ui, -apple-system, sans-serif;
+    --font-outfit: "Inter", "Outfit", system-ui, -apple-system, sans-serif;
   }
 
   /* Prevent layout shift while font loads */
   html {
-    font-family: "Plus Jakarta Sans", "Outfit", system-ui, -apple-system, sans-serif;
+    font-family: "Inter", "Outfit", system-ui, -apple-system, sans-serif;
   }
 
   /* Reduce motion for users who prefer it — improves accessibility score */
