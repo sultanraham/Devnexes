@@ -2,11 +2,11 @@ export const translations = {
   EN: {
     navbar: { home: 'Home', products: 'Products', services: 'Services', contact: 'Contact us' },
     hero: {
-      title: 'Transforming Businesses with Intelligent Web & AI Solutions.',
+      title: 'Transforming Businesses With Next-Gen Web & AI Solutions.',
       getStarted: 'Get Started',
-      register: 'Register',
-      reviewedBy: 'Reviewed by 500+ happy global clients',
-      socialProof: 'With 500+ verified reviews, clients praise our high-performance digital solutions, web engineering, and custom AI systems.',
+      register: 'Contact Us',
+      reviewedBy: 'Reviewed by 1K+ happy global clients',
+      socialProof: 'Over 150+ successful projects delivered with industry-leading performance, web engineering, and custom AI systems.',
       transactionVolume: 'Successful Projects Delivered',
       splitValues: 'Client Satisfaction Rate',
       footerDesc: 'Devnexes Digital Solutions provides Web Development, AI Automation, SEO, UI/UX Design, Chatbots, and Custom Business Websites.'
