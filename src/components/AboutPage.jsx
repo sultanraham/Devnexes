@@ -92,71 +92,103 @@ const OrganizationChart = () => {
   const caio = team.find(m => m.slug === 'muhammad-habeel')
   const lead = team.find(m => m.slug === 'huzaifa-mushtaq')
 
-  return (
-    <div className="w-full mb-20">
-      {/* Executive Board Showcase */}
-      <div className="flex flex-col items-center">
-        {/* CEO Executive Spotlight Card */}
-        {ceo && (
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }} 
-            whileInView={{ opacity: 1, y: 0 }} 
-            viewport={{ once: true }}
-            className="w-full max-w-3xl mb-8"
-          >
-            <Link to={`/team/${ceo.slug}`} className="block group">
-              <div className="bg-gradient-to-r from-[#061632] via-[#091b3a] to-[#0b2447] text-white rounded-3xl p-7 sm:p-8 shadow-2xl shadow-blue-950/25 border border-blue-500/30 flex flex-col sm:flex-row items-center gap-6 relative overflow-hidden group-hover:border-cyan-400/80 transition-all duration-300">
-                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden shrink-0 border-2 border-white/30 shadow-lg">
-                  <img src={ceo.photo} alt={ceo.name} className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" />
-                </div>
-                <div className="text-center sm:text-left flex-1">
-                  <div className="inline-flex items-center gap-2 bg-blue-500/20 text-cyan-300 text-[10px] font-black uppercase tracking-[0.25em] px-3.5 py-1 rounded-full mb-2.5 border border-cyan-400/30">
-                    <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                    Managing Director & CEO
-                  </div>
-                  <h3 className="text-2xl sm:text-3xl font-black tracking-tight text-white mb-2">{ceo.name}</h3>
-                  <p className="text-slate-300 text-xs sm:text-sm leading-relaxed font-medium line-clamp-2">{ceo.bio}</p>
-                </div>
-              </div>
-            </Link>
-          </motion.div>
-        )}
+  const ExecCard = ({ member, isTop = false }) => {
+    if (!member) return null;
+    return (
+      <Link to={`/team/${member.slug}`} className="block group">
+        <div className={`bg-white rounded-3xl p-5 sm:p-6 border transition-all duration-300 shadow-lg hover:shadow-2xl hover:-translate-y-1 text-left relative overflow-hidden ${
+          isTop 
+            ? 'border-2 border-blue-600/80 shadow-blue-900/10 hover:border-blue-600' 
+            : 'border-slate-200/90 shadow-slate-200/50 hover:border-blue-400'
+        }`}>
+          {/* Top accent bar */}
+          <div className={`absolute top-0 left-0 right-0 h-1.5 ${
+            isTop ? 'bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600' : 'bg-gradient-to-r from-slate-300 to-blue-400 group-hover:from-blue-500 group-hover:to-indigo-600'
+          } transition-all duration-300`} />
 
-        {/* Executive C-Suite Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 w-full">
-          {[coo, cto, caio, lead].filter(Boolean).map((member, i) => (
-            <motion.div 
-              key={i} 
-              initial={{ opacity: 0, y: 20 }} 
-              whileInView={{ opacity: 1, y: 0 }} 
-              transition={{ delay: i * 0.1, duration: 0.4 }}
-              viewport={{ once: true }}
-            >
-              <Link to={`/team/${member.slug}`} className="block h-full group">
-                <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-md hover:shadow-xl hover:border-blue-500 transition-all duration-300 h-full flex flex-col justify-between">
-                  <div className="flex items-center gap-3.5 mb-4">
-                    <div className="w-13 h-13 rounded-xl overflow-hidden shrink-0 border border-slate-200 shadow-xs">
-                      <img src={member.photo} alt={member.name} className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform" />
-                    </div>
-                    <div className="text-left">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200/60 inline-block mb-1">
-                        {member.dept}
-                      </span>
-                      <h4 className="font-extrabold text-sm tracking-tight text-slate-900 leading-snug group-hover:text-blue-600 transition-colors">
-                        {member.name}
-                      </h4>
-                    </div>
-                  </div>
-                  <div className="border-t border-slate-100 pt-3">
-                    <p className="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">
-                      {member.role}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl overflow-hidden shrink-0 border border-slate-200 shadow-xs">
+              <img src={member.photo} alt={member.name} className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <span className={`inline-block text-[9px] sm:text-[10px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full mb-1 ${
+                isTop 
+                  ? 'bg-blue-600 text-white shadow-xs' 
+                  : 'bg-blue-50 text-blue-700 border border-blue-200/70'
+              }`}>
+                {member.role.includes('CEO') ? 'Founder & CEO' : member.role.includes('COO') ? 'Founder & COO' : member.role.includes('CTO') ? 'Founder & CTO' : member.role}
+              </span>
+              <h4 className="font-extrabold text-base sm:text-lg tracking-tight text-slate-900 leading-snug group-hover:text-blue-600 transition-colors truncate">
+                {member.name}
+              </h4>
+            </div>
+          </div>
         </div>
+      </Link>
+    )
+  }
+
+  return (
+    <div className="w-full flex justify-center py-10 mb-14 overflow-x-auto hide-scrollbar">
+      <div className="min-w-[950px] max-w-5xl flex flex-col items-center px-4 relative">
+        
+        {/* Tier 1: CEO */}
+        <div className="flex flex-col items-center relative z-20 w-80">
+          <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="w-full">
+            <ExecCard member={ceo} isTop={true} />
+          </motion.div>
+          {/* Vertical Stem Down */}
+          <div className="w-0.5 h-10 bg-gradient-to-b from-blue-600 to-blue-400 relative">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-blue-600" />
+          </div>
+        </div>
+
+        {/* Tier 2: Executives Row (COO | CAIO | CTO) */}
+        <div className="w-full relative z-10">
+          {/* Horizontal Connector Rail across 3 Columns */}
+          <div className="absolute top-0 left-[16.6%] right-[16.6%] h-0.5 bg-gradient-to-r from-blue-400 via-indigo-500 to-blue-400">
+            <div className="absolute top-1/2 left-0 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-blue-600 border border-white shadow-xs" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-blue-600 border border-white shadow-xs" />
+            <div className="absolute top-1/2 right-0 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-blue-600 border border-white shadow-xs" />
+          </div>
+
+          <div className="grid grid-cols-3 gap-8 pt-6">
+            {/* COO Column */}
+            <div className="flex flex-col items-center">
+              <div className="w-0.5 h-6 bg-blue-400 -mt-6 mb-2" />
+              <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} viewport={{ once: true }} className="w-full">
+                <ExecCard member={coo} />
+              </motion.div>
+            </div>
+
+            {/* CAIO Column */}
+            <div className="flex flex-col items-center">
+              <div className="w-0.5 h-6 bg-blue-400 -mt-6 mb-2" />
+              <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} viewport={{ once: true }} className="w-full">
+                <ExecCard member={caio} />
+              </motion.div>
+            </div>
+
+            {/* CTO Column + VP Engineering Sub-Branch */}
+            <div className="flex flex-col items-center">
+              <div className="w-0.5 h-6 bg-blue-400 -mt-6 mb-2" />
+              <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} viewport={{ once: true }} className="w-full">
+                <ExecCard member={cto} />
+              </motion.div>
+
+              {/* Vertical Connector Down to VP of Engineering */}
+              <div className="w-0.5 h-8 bg-gradient-to-b from-blue-400 to-indigo-500 relative">
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-indigo-600" />
+              </div>
+
+              {/* Tier 3: VP of Engineering */}
+              <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} viewport={{ once: true }} className="w-full">
+                <ExecCard member={lead} />
+              </motion.div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   )
