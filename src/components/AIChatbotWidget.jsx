@@ -17,6 +17,7 @@ import { INITIAL_GREETING, QUICK_REPLIES } from '../config/chatbotSystemPrompt'
 
 export default function AIChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [messages, setMessages] = useState([
     { role: 'assistant', content: INITIAL_GREETING, id: 'init-1' }
   ])
@@ -31,6 +32,7 @@ export default function AIChatbotWidget() {
   const messagesEndRef = useRef(null)
   const chatModalRef = useRef(null)
   const triggerBtnRef = useRef(null)
+  const speedDialRef = useRef(null)
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -43,7 +45,7 @@ export default function AIChatbotWidget() {
     }
   }, [messages, isOpen])
 
-  // Close chatbot modal when clicking outside
+  // Close chatbot modal or menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -55,6 +57,16 @@ export default function AIChatbotWidget() {
       ) {
         setIsOpen(false)
       }
+
+      if (
+        isMenuOpen &&
+        speedDialRef.current &&
+        !speedDialRef.current.contains(event.target) &&
+        triggerBtnRef.current &&
+        !triggerBtnRef.current.contains(event.target)
+      ) {
+        setIsMenuOpen(false)
+      }
     }
 
     document.addEventListener('mousedown', handleClickOutside)
@@ -63,7 +75,7 @@ export default function AIChatbotWidget() {
       document.removeEventListener('mousedown', handleClickOutside)
       document.removeEventListener('touchstart', handleClickOutside)
     }
-  }, [isOpen])
+  }, [isOpen, isMenuOpen])
 
   const API_BASE = import.meta.env.VITE_API_URL || ''
 
@@ -159,17 +171,76 @@ export default function AIChatbotWidget() {
 
   return (
     <>
-      {/* ── FLOATING CHAT TRIGGER BUTTON (Clean White Theme) ── */}
-      <div className="fixed bottom-24 right-6 z-[990]">
+      {/* ── UNIFIED FLOATING WIDGET TRIGGER BUTTON ── */}
+      <div className="fixed bottom-6 right-6 z-[990]">
+        
+        {/* Speed-Dial Choices Menu Popover */}
+        <AnimatePresence>
+          {isMenuOpen && !isOpen && (
+            <motion.div
+              ref={speedDialRef}
+              initial={{ opacity: 0, y: 15, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 10, scale: 0.9 }}
+              transition={{ duration: 0.18, ease: "easeOut" }}
+              className="absolute bottom-16 right-0 mb-2 w-56 bg-white rounded-2xl shadow-xl border border-slate-200 p-2 flex flex-col gap-1 z-[992]"
+            >
+              {/* Choice 1: Cortex Mini AI */}
+              <button
+                onClick={() => {
+                  setIsOpen(true)
+                  setIsMenuOpen(false)
+                }}
+                className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-100 transition-colors text-left group"
+              >
+                <div className="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
+                  <img src="/images/devnexes-logo.png" alt="Cortex Mini" className="w-5 h-5 object-contain" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-slate-900 group-hover:text-blue-600 transition-colors">Cortex Mini</h4>
+                  <p className="text-[10px] text-slate-500 font-medium">Devnexes AI Assistant</p>
+                </div>
+              </button>
+
+              <div className="h-[1px] bg-slate-100 mx-2" />
+
+              {/* Choice 2: WhatsApp Chat */}
+              <a
+                href="https://wa.me/923030111550"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-emerald-50 transition-colors text-left group"
+              >
+                <div className="w-9 h-9 rounded-lg bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-xs">
+                  <Phone size={18} />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">WhatsApp Chat</h4>
+                  <p className="text-[10px] text-slate-500 font-medium">+92 303 0111550</p>
+                </div>
+              </a>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Main Floating Trigger Button */}
         <motion.button
           ref={triggerBtnRef}
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => {
+            if (isOpen) {
+              setIsOpen(false)
+              setIsMenuOpen(false)
+            } else {
+              setIsMenuOpen(!isMenuOpen)
+            }
+          }}
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.95 }}
-          className="relative bg-white text-slate-900 w-14 h-14 rounded-full flex items-center justify-center shadow-2xl shadow-blue-950/30 border border-slate-200 group hover:bg-slate-50 transition-colors"
-          aria-label="Open AI Assistant"
+          className="relative bg-white text-slate-900 w-14 h-14 rounded-full flex items-center justify-center shadow-2xl shadow-slate-950/20 border border-slate-200 group hover:bg-slate-50 transition-colors"
+          aria-label="Open Devnexes Assistant"
         >
-          {isOpen ? (
+          {isOpen || isMenuOpen ? (
             <X size={26} className="transition-transform rotate-90 duration-200 text-slate-700" />
           ) : (
             <>
@@ -186,14 +257,14 @@ export default function AIChatbotWidget() {
           )}
         </motion.button>
 
-        {hasUnread && !isOpen && (
+        {hasUnread && !isOpen && !isMenuOpen && (
           <div className="absolute right-16 top-2 bg-blue-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap animate-bounce">
             Cortex Mini Ready 👋
           </div>
         )}
       </div>
 
-      {/* ── CHAT MODAL WINDOW (Clean White Background) ── */}
+      {/* ── CHAT MODAL WINDOW (Clean Flat White) ── */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -204,7 +275,7 @@ export default function AIChatbotWidget() {
             transition={{ duration: 0.25, ease: "easeOut" }}
             className="fixed bottom-24 right-4 sm:right-6 z-[995] w-[calc(100vw-2rem)] sm:w-[420px] max-h-[620px] h-[82vh] bg-white text-slate-900 rounded-3xl shadow-2xl shadow-slate-400/30 border border-slate-200 flex flex-col overflow-hidden font-sans"
           >
-            {/* ── HEADER (White Theme - Clean Minimalist) ── */}
+            {/* ── HEADER (Flat White Minimalist) ── */}
             <div className="bg-white px-4 py-3.5 border-b border-slate-200 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-3">
                 <div className="relative">
@@ -240,7 +311,7 @@ export default function AIChatbotWidget() {
               </div>
             </div>
 
-            {/* ── MESSAGES LIST (White Canvas) ── */}
+            {/* ── MESSAGES LIST (Clean Flat Canvas) ── */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar bg-slate-50/70">
               {messages.map((msg) => {
                 const isUser = msg.role === 'user'
@@ -260,8 +331,8 @@ export default function AIChatbotWidget() {
                     <div
                       className={`max-w-[82%] px-4 py-3 rounded-2xl text-xs sm:text-sm leading-relaxed ${
                         isUser
-                          ? 'bg-blue-600 text-white rounded-tr-none font-medium shadow-sm'
-                          : 'bg-white text-slate-800 rounded-tl-none border border-slate-200/90 shadow-sm font-normal'
+                          ? 'bg-blue-600 text-white rounded-tr-none font-medium'
+                          : 'bg-slate-100 text-slate-800 rounded-tl-none font-normal'
                       }`}
                     >
                       <p className="whitespace-pre-wrap">{msg.content}</p>
@@ -282,13 +353,13 @@ export default function AIChatbotWidget() {
                 )
               })}
 
-              {/* Agent Thinking Animation (Bouncing 3-dot sequence) */}
+              {/* Agent Thinking Animation (Flat sequence) */}
               {isLoading && (
                 <div className="flex items-start gap-2.5">
                   <div className="w-7 h-7 flex items-center justify-center shrink-0">
                     <img src="/images/devnexes-logo.png" alt="Logo" className="w-5 h-5 object-contain animate-pulse" />
                   </div>
-                  <div className="bg-white border border-slate-200/90 shadow-sm rounded-2xl rounded-tl-none px-4 py-3 flex items-center gap-2 text-xs text-slate-600 font-semibold">
+                  <div className="bg-slate-100 rounded-2xl rounded-tl-none px-4 py-3 flex items-center gap-2 text-xs text-slate-600 font-semibold">
                     <span>Cortex Mini is thinking</span>
                     <div className="flex items-center gap-1">
                       <span className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-bounce [animation-delay:-0.3s]" />
@@ -299,7 +370,7 @@ export default function AIChatbotWidget() {
                 </div>
               )}
 
-              {/* Quick Reply Pills */}
+              {/* Quick Reply Pills (Flat) */}
               {messages.length === 1 && !isLoading && (
                 <div className="pl-9 pt-2 space-y-2">
                   <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Suggested Questions:</p>
@@ -308,7 +379,7 @@ export default function AIChatbotWidget() {
                       <button
                         key={idx}
                         onClick={() => handleSendMessage(reply)}
-                        className="text-xs bg-white hover:bg-blue-600 text-slate-700 hover:text-white border border-slate-200 hover:border-blue-600 px-3 py-1.5 rounded-full transition-all text-left shadow-xs"
+                        className="text-xs bg-slate-100 hover:bg-blue-600 text-slate-700 hover:text-white px-3.5 py-1.5 rounded-full transition-all text-left font-medium"
                       >
                         {reply}
                       </button>
@@ -322,7 +393,7 @@ export default function AIChatbotWidget() {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mx-2 p-4 bg-gradient-to-br from-blue-50 to-indigo-50/50 rounded-2xl border border-blue-200 space-y-3 shadow-sm"
+                  className="mx-2 p-4 bg-blue-50/80 rounded-2xl space-y-3"
                 >
                   <div className="flex items-center justify-between">
                     <h4 className="text-xs font-bold text-blue-900 uppercase tracking-wider flex items-center gap-1.5">
@@ -340,7 +411,7 @@ export default function AIChatbotWidget() {
                       required
                       value={leadData.name}
                       onChange={e => setLeadData({ ...leadData, name: e.target.value })}
-                      className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 shadow-2xs"
+                      className="w-full bg-white rounded-xl px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white"
                     />
                     <input
                       type="text"
@@ -348,12 +419,12 @@ export default function AIChatbotWidget() {
                       required
                       value={leadData.contact}
                       onChange={e => setLeadData({ ...leadData, contact: e.target.value })}
-                      className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 shadow-2xs"
+                      className="w-full bg-white rounded-xl px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white"
                     />
                     <select
                       value={leadData.service}
                       onChange={e => setLeadData({ ...leadData, service: e.target.value })}
-                      className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-blue-500 shadow-2xs"
+                      className="w-full bg-white rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-none"
                     >
                       <option value="Custom Web Applications">Custom Web Applications</option>
                       <option value="AI Automation & Chatbots">AI Automation &amp; Chatbots</option>
@@ -365,7 +436,7 @@ export default function AIChatbotWidget() {
                     <button
                       type="submit"
                       disabled={isSubmittingLead}
-                      className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 rounded-xl text-xs transition-colors flex items-center justify-center gap-1.5 shadow-sm"
+                      className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 rounded-xl text-xs transition-colors flex items-center justify-center gap-1.5"
                     >
                       {isSubmittingLead ? 'Submitting...' : 'Submit Consultation Request'}
                     </button>
@@ -376,7 +447,7 @@ export default function AIChatbotWidget() {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* ── FOOTER / INPUT BAR (Clean White) ── */}
+            {/* ── FOOTER / INPUT BAR (Clean Flat White) ── */}
             <div className="p-3 bg-white border-t border-slate-200 flex flex-col gap-2 shrink-0">
               <form
                 onSubmit={(e) => {
@@ -391,12 +462,12 @@ export default function AIChatbotWidget() {
                   value={input}
                   maxLength={2000}
                   onChange={(e) => setInput(e.target.value)}
-                  className="flex-1 bg-slate-100/90 border border-slate-200 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white transition-colors"
+                  className="flex-1 bg-slate-100 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-slate-200/80 transition-colors"
                 />
                 <button
                   type="submit"
                   disabled={!input.trim() || isLoading}
-                  className="bg-blue-600 hover:bg-blue-500 disabled:opacity-40 text-white p-2.5 rounded-xl transition-colors shrink-0 shadow-sm"
+                  className="bg-blue-600 hover:bg-blue-500 disabled:opacity-40 text-white p-2.5 rounded-xl transition-colors shrink-0"
                 >
                   <Send size={16} />
                 </button>
