@@ -387,9 +387,6 @@ const BUILTIN_KEYS = [
   "SOHLSkWoWmN5dXlbvqCkWGdyb3FYgMdtw5rPFefQF5QGyrV0RdLQ",
   "uRhuF38SKJ7PMZGGIwEsWGdyb3FY6Sxd99Ou5JD5CsVpQCC5XxAc",
   "4cs4UbfN81jkDaQzbXUgWGdyb3FYyvFbuU5mSvwq16o8ZZuNTXkh",
-  "QVkOjdntfjmLZqBWFr75WGdyb3FYMDCGdowgxkuZb00wuEWvcUjE",
-  "K5pVzWhwXEoxj3dtNoCKWGdyb3FY9Se5CKpNYPq3vBnSXAFEOy6T",
-  "wEHtrSLizGdzaFEZUwdgWGdyb3FYpOgo62bUrHHfXt9Tkr04i4o2",
   "4kfDBhEu1To4X2g7VrIjWGdyb3FYztpJDeERMXggBo6UjtV37yOh",
   "kO6G7aKilHpkXpHkJtqNWGdyb3FYq5OBLPXLL0qrkX0QHXZeWjRT",
   "JOfrlngIeccIyhnAeza7WGdyb3FY0oM96GwmmeYNjKlj02vzW6rS"
