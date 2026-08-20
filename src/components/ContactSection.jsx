@@ -68,7 +68,7 @@ const ContactSection = ({ t }) => {
         url="https://www.devnexes.site/contact"
         breadcrumbs={[{ name: 'Contact Us', item: '/contact' }]}
       />
-      <section className="min-h-[90vh] w-full relative overflow-x-hidden selection:bg-blue-100 flex flex-col justify-center py-20 md:py-32">
+      <section className="min-h-[90vh] w-full relative overflow-x-hidden selection:bg-blue-100 flex flex-col justify-center pt-36 md:pt-48 pb-20">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-[-20%] right-[-10%] w-[1000px] h-[1000px] bg-[#1e3a8a]/8 rounded-full blur-[140px] mix-blend-multiply" />
           <div className="absolute bottom-[-20%] left-[-10%] w-[1000px] h-[1000px] bg-blue-500/5 rounded-full blur-[160px] mix-blend-multiply" />

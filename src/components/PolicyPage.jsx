@@ -69,7 +69,7 @@ const PolicyPage = () => {
       </section>
 
       {/* Tab Nav */}
-      <div className="sticky top-0 z-40 bg-white border-b border-slate-100 shadow-sm">
+      <div className="sticky top-20 z-40 bg-white border-b border-slate-100 shadow-sm">
         <div className="container mx-auto px-6 max-w-7xl">
           <div className="flex overflow-x-auto no-scrollbar">
             {tabs.map(tab => (

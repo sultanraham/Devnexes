@@ -120,11 +120,11 @@ const Layout = ({ currentLang, setCurrentLang, t }) => {
     localStorage.removeItem('token')
   }
 
-  const isFullPage = ['/contact', '/admin', '/about', '/portfolio', '/policy'].includes(location.pathname) || location.pathname.startsWith('/team/')
+  const isAdminPage = location.pathname === '/admin'
 
   return (
-    <main className="w-full min-h-screen bg-[#1e4b8b] text-white overflow-x-hidden font-sans">
-      {!isFullPage && <Navbar currentLang={currentLang} setCurrentLang={setCurrentLang} user={user} onLogout={logout} />}
+    <main className="w-full min-h-screen bg-[#061632] text-white overflow-x-hidden font-sans">
+      {!isAdminPage && <Navbar currentLang={currentLang} setCurrentLang={setCurrentLang} user={user} onLogout={logout} />}
       <Routes>
         <Route path="/" element={<Home t={t} onLogin={login} user={user} />} />
         <Route path="/contact" element={<ContactSection t={t.hero} />} />
