@@ -16,6 +16,21 @@ import {
 } from 'lucide-react'
 import { INITIAL_GREETING, QUICK_REPLIES, SYSTEM_PROMPT } from '../config/chatbotSystemPrompt'
 
+const renderFormattedText = (text, isUser) => {
+  if (!text) return null
+  const parts = text.split(/(\*\*.*?\*\*)/g)
+  return parts.map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**') && part.length > 4) {
+      return (
+        <strong key={index} className={`font-bold ${isUser ? 'text-white underline decoration-white/30' : 'text-slate-900 font-extrabold'}`}>
+          {part.slice(2, -2)}
+        </strong>
+      )
+    }
+    return part
+  })
+}
+
 export default function AIChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -354,7 +369,7 @@ export default function AIChatbotWidget() {
                           : 'bg-slate-100 text-slate-800 rounded-tl-none font-normal'
                       }`}
                     >
-                      <p className="whitespace-pre-wrap">{msg.content}</p>
+                      <p className="whitespace-pre-wrap">{renderFormattedText(msg.content, isUser)}</p>
                       
                       {msg.isFallback && (
                         <a
