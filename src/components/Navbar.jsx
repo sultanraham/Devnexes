@@ -222,57 +222,87 @@ export function Navbar({ currentLang, setCurrentLang, user, onLogout }) {
             </span>
           </Link>
 
-          {/* Navigation Items */}
-          <nav className="hidden lg:flex items-center gap-2">
+          {/* Navigation Items (with Left-to-Right Hover & Active Underline Animation) */}
+          <nav className="hidden lg:flex items-center gap-3">
             
-            {/* Nav Item 1: Services (Mega Dropdown) */}
-            <button
-              onClick={() => toggleMenu("services")}
-              onMouseEnter={() => setActiveMenu("services")}
-              className={`flex items-center gap-1.5 px-4 py-2 text-[14px] font-bold rounded-lg transition-all ${
-                activeMenu === "services"
-                  ? isScrolled ? "bg-blue-800/60 text-white" : "bg-blue-50 text-blue-600"
-                  : isScrolled ? "text-white/90 hover:bg-blue-900/40 hover:text-white" : "text-slate-800 hover:text-blue-600 hover:bg-slate-100"
-              }`}
-            >
-              <span>Services</span>
-              <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${
-                activeMenu === "services" ? "rotate-180" : ""
-              } ${isScrolled ? "text-blue-300" : "text-slate-400"}`} />
-            </button>
+            {/* Nav Item 1: Services */}
+            <div className="relative group">
+              <button
+                onClick={() => toggleMenu("services")}
+                onMouseEnter={() => setActiveMenu("services")}
+                className={`flex items-center gap-1.5 px-4 py-2 text-[14px] font-bold rounded-lg transition-all relative ${
+                  activeMenu === "services"
+                    ? isScrolled ? "text-blue-300" : "text-blue-600"
+                    : isScrolled ? "text-white/90 group-hover:text-white" : "text-slate-800 group-hover:text-blue-600"
+                }`}
+              >
+                <span>Services</span>
+                <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${
+                  activeMenu === "services" ? "rotate-180" : ""
+                } ${isScrolled ? "text-blue-300" : "text-slate-400"}`} />
+              </button>
+              {/* Left-to-Right Animated Line */}
+              <span className={`absolute bottom-0 left-0 h-[3px] rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300 ease-out ${
+                activeMenu === "services" ? "w-full shadow-[0_0_12px_rgba(59,130,246,0.8)]" : "w-0 group-hover:w-full"
+              }`} />
+            </div>
 
             {/* Nav Item 2: About Us */}
-            <Link 
-              to="/about" 
-              onClick={() => setActiveMenu(null)}
-              className={`px-4 py-2 text-[14px] font-bold rounded-lg transition-all ${
-                isScrolled ? "text-white/90 hover:bg-blue-900/40 hover:text-white" : "text-slate-800 hover:text-blue-600 hover:bg-slate-100"
-              }`}
-            >
-              About Us
-            </Link>
+            <div className="relative group">
+              <Link 
+                to="/about" 
+                onClick={() => setActiveMenu(null)}
+                className={`flex items-center px-4 py-2 text-[14px] font-bold rounded-lg transition-all relative ${
+                  location.pathname === '/about'
+                    ? isScrolled ? "text-blue-300" : "text-blue-600"
+                    : isScrolled ? "text-white/90 group-hover:text-white" : "text-slate-800 group-hover:text-blue-600"
+                }`}
+              >
+                About Us
+              </Link>
+              {/* Left-to-Right Animated Line */}
+              <span className={`absolute bottom-0 left-0 h-[3px] rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300 ease-out ${
+                location.pathname === '/about' ? "w-full shadow-[0_0_12px_rgba(59,130,246,0.8)]" : "w-0 group-hover:w-full"
+              }`} />
+            </div>
 
             {/* Nav Item 3: Portfolio */}
-            <Link 
-              to="/portfolio" 
-              onClick={() => setActiveMenu(null)}
-              className={`px-4 py-2 text-[14px] font-bold rounded-lg transition-all ${
-                isScrolled ? "text-white/90 hover:bg-blue-900/40 hover:text-white" : "text-slate-800 hover:text-blue-600 hover:bg-slate-100"
-              }`}
-            >
-              Portfolio
-            </Link>
+            <div className="relative group">
+              <Link 
+                to="/portfolio" 
+                onClick={() => setActiveMenu(null)}
+                className={`flex items-center px-4 py-2 text-[14px] font-bold rounded-lg transition-all relative ${
+                  location.pathname === '/portfolio'
+                    ? isScrolled ? "text-blue-300" : "text-blue-600"
+                    : isScrolled ? "text-white/90 group-hover:text-white" : "text-slate-800 group-hover:text-blue-600"
+                }`}
+              >
+                Portfolio
+              </Link>
+              {/* Left-to-Right Animated Line */}
+              <span className={`absolute bottom-0 left-0 h-[3px] rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300 ease-out ${
+                location.pathname === '/portfolio' ? "w-full shadow-[0_0_12px_rgba(59,130,246,0.8)]" : "w-0 group-hover:w-full"
+              }`} />
+            </div>
 
             {/* Nav Item 4: Privacy & Policy */}
-            <Link 
-              to="/policy" 
-              onClick={() => setActiveMenu(null)}
-              className={`px-4 py-2 text-[14px] font-bold rounded-lg transition-all ${
-                isScrolled ? "text-white/90 hover:bg-blue-900/40 hover:text-white" : "text-slate-800 hover:text-blue-600 hover:bg-slate-100"
-              }`}
-            >
-              Privacy &amp; Policy
-            </Link>
+            <div className="relative group">
+              <Link 
+                to="/policy" 
+                onClick={() => setActiveMenu(null)}
+                className={`flex items-center px-4 py-2 text-[14px] font-bold rounded-lg transition-all relative ${
+                  location.pathname === '/policy'
+                    ? isScrolled ? "text-blue-300" : "text-blue-600"
+                    : isScrolled ? "text-white/90 group-hover:text-white" : "text-slate-800 group-hover:text-blue-600"
+                }`}
+              >
+                Privacy &amp; Policy
+              </Link>
+              {/* Left-to-Right Animated Line */}
+              <span className={`absolute bottom-0 left-0 h-[3px] rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300 ease-out ${
+                location.pathname === '/policy' ? "w-full shadow-[0_0_12px_rgba(59,130,246,0.8)]" : "w-0 group-hover:w-full"
+              }`} />
+            </div>
 
           </nav>
 
