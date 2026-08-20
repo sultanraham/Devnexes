@@ -29,6 +29,8 @@ export default function AIChatbotWidget() {
   const [hasUnread, setHasUnread] = useState(false)
 
   const messagesEndRef = useRef(null)
+  const chatModalRef = useRef(null)
+  const triggerBtnRef = useRef(null)
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -40,6 +42,28 @@ export default function AIChatbotWidget() {
       setHasUnread(false)
     }
   }, [messages, isOpen])
+
+  // Close chatbot modal when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        isOpen && 
+        chatModalRef.current && 
+        !chatModalRef.current.contains(event.target) &&
+        triggerBtnRef.current &&
+        !triggerBtnRef.current.contains(event.target)
+      ) {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    document.addEventListener('touchstart', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('touchstart', handleClickOutside)
+    }
+  }, [isOpen])
 
   const API_BASE = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://127.0.0.1:5001' : '')
 
@@ -138,6 +162,7 @@ export default function AIChatbotWidget() {
       {/* ── FLOATING CHAT TRIGGER BUTTON (Clean White Theme) ── */}
       <div className="fixed bottom-24 right-6 z-[990]">
         <motion.button
+          ref={triggerBtnRef}
           onClick={() => setIsOpen(!isOpen)}
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.95 }}
@@ -172,6 +197,7 @@ export default function AIChatbotWidget() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            ref={chatModalRef}
             initial={{ opacity: 0, y: 30, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
