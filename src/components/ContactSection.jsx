@@ -190,10 +190,9 @@ const ContactSection = ({ t }) => {
                       <motion.button
                         type="submit" disabled={status === 'sending'}
                         whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-                        className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-5 rounded-2xl font-bold text-base flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-600/20 group tracking-widest uppercase disabled:opacity-60 mt-4"
+                        className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-5 rounded-2xl font-bold text-base flex items-center justify-center gap-3 transition-all shadow-xl shadow-blue-600/20 group tracking-widest uppercase disabled:opacity-60 mt-4 cursor-pointer"
                       >
                         <span>{status === 'sending' ? 'Transmitting...' : 'Submit Request'}</span>
-                        <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                       </motion.button>
 
                       <p className="text-center text-slate-400 text-xs font-bold uppercase tracking-widest mt-6">Expected Response: &lt; 2 Hours</p>

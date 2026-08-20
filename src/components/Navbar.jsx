@@ -366,7 +366,6 @@ export function Navbar({ currentLang, setCurrentLang, user, onLogout }) {
                   : "bg-blue-600 hover:bg-blue-700 text-white shadow-md shadow-blue-600/25"
               }`}>
                 <span>{t.contact || 'Book Consultation'}</span>
-                <ArrowRight size={14} />
               </button>
             </Link>
 
