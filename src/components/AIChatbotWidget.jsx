@@ -11,7 +11,8 @@ import {
   ExternalLink,
   CheckCircle2,
   RefreshCw,
-  ChevronDown
+  ChevronDown,
+  Settings
 } from 'lucide-react'
 import { INITIAL_GREETING, QUICK_REPLIES } from '../config/chatbotSystemPrompt'
 
@@ -171,60 +172,56 @@ export default function AIChatbotWidget() {
 
   return (
     <>
-      {/* ── UNIFIED FLOATING WIDGET TRIGGER BUTTON ── */}
-      <div className="fixed bottom-6 right-6 z-[990]">
+      {/* ── UNIFIED FLOATING SPEED-DIAL WIDGET ── */}
+      <div className="fixed bottom-6 right-6 z-[990] flex flex-col items-end">
         
-        {/* Speed-Dial Choices Menu Popover */}
+        {/* Speed-Dial Round Sub-Buttons Menu (No square box!) */}
         <AnimatePresence>
           {isMenuOpen && !isOpen && (
             <motion.div
               ref={speedDialRef}
-              initial={{ opacity: 0, y: 15, scale: 0.9 }}
+              initial={{ opacity: 0, y: 15, scale: 0.85 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 10, scale: 0.9 }}
-              transition={{ duration: 0.18, ease: "easeOut" }}
-              className="absolute bottom-16 right-0 mb-2 w-56 bg-white rounded-2xl shadow-xl border border-slate-200 p-2 flex flex-col gap-1 z-[992]"
+              exit={{ opacity: 0, y: 10, scale: 0.85 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="mb-3 flex flex-col items-end gap-3 z-[992]"
             >
-              {/* Choice 1: Cortex Mini AI */}
+              {/* Choice 1: Cortex Mini AI (Round Sub-Button) */}
               <button
                 onClick={() => {
                   setIsOpen(true)
                   setIsMenuOpen(false)
                 }}
-                className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-100 transition-colors text-left group"
+                className="flex items-center gap-3.5 group cursor-pointer"
               >
-                <div className="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
-                  <img src="/images/devnexes-logo.png" alt="Cortex Mini" className="w-5 h-5 object-contain" />
-                </div>
-                <div>
-                  <h4 className="text-xs font-bold text-slate-900 group-hover:text-blue-600 transition-colors">Cortex Mini</h4>
-                  <p className="text-[10px] text-slate-500 font-medium">Devnexes AI Assistant</p>
+                <span className="bg-[#061632] text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-200 whitespace-nowrap translate-x-2 group-hover:translate-x-0">
+                  Cortex Mini AI
+                </span>
+                <div className="w-12 h-12 rounded-full bg-white text-slate-900 border border-slate-200 flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:bg-slate-50 transition-all">
+                  <img src="/images/devnexes-logo.png" alt="Cortex Mini" className="w-6 h-6 object-contain" />
                 </div>
               </button>
 
-              <div className="h-[1px] bg-slate-100 mx-2" />
-
-              {/* Choice 2: WhatsApp Chat */}
+              {/* Choice 2: WhatsApp Chat (Round Sub-Button) */}
               <a
                 href="https://wa.me/923030111550"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setIsMenuOpen(false)}
-                className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-emerald-50 transition-colors text-left group"
+                className="flex items-center gap-3.5 group cursor-pointer"
               >
-                <div className="w-9 h-9 rounded-lg bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-xs">
-                  <Phone size={18} />
-                </div>
-                <div>
-                  <h4 className="text-xs font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">WhatsApp Chat</h4>
-                  <p className="text-[10px] text-slate-500 font-medium">+92 303 0111550</p>
+                <span className="bg-[#061632] text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-200 whitespace-nowrap translate-x-2 group-hover:translate-x-0">
+                  WhatsApp Chat
+                </span>
+                <div className="w-12 h-12 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:bg-emerald-400 transition-all">
+                  <Phone size={20} />
                 </div>
               </a>
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Main Floating Trigger Button */}
+        {/* Main Spinning Settings Gear Trigger Button */}
         <motion.button
           ref={triggerBtnRef}
           onClick={() => {
@@ -237,21 +234,17 @@ export default function AIChatbotWidget() {
           }}
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.95 }}
-          className="relative bg-white text-slate-900 w-14 h-14 rounded-full flex items-center justify-center shadow-2xl shadow-slate-950/20 border border-slate-200 group hover:bg-slate-50 transition-colors"
-          aria-label="Open Devnexes Assistant"
+          className="relative bg-gradient-to-r from-[#061632] to-[#0b2447] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl shadow-blue-950/40 border border-blue-400/30 group transition-colors"
+          aria-label="Open Devnexes Tools Menu"
         >
           {isOpen || isMenuOpen ? (
-            <X size={26} className="transition-transform rotate-90 duration-200 text-slate-700" />
+            <X size={26} className="transition-transform rotate-90 duration-200 text-white" />
           ) : (
             <>
-              <img 
-                src="/images/devnexes-logo.png" 
-                alt="Devnexes Logo" 
-                className="w-8 h-8 object-contain group-hover:rotate-12 transition-transform duration-300" 
-              />
+              <Settings className="w-7 h-7 text-cyan-400 group-hover:rotate-180 transition-transform duration-500" />
               <span className="absolute -top-1 -right-1 flex h-4 w-4">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-4 w-4 bg-blue-600 border-2 border-white"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-4 w-4 bg-cyan-500 border-2 border-[#061632]"></span>
               </span>
             </>
           )}

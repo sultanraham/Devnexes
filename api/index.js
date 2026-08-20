@@ -10,16 +10,16 @@ import { Groq } from 'groq-sdk';
 import { SYSTEM_PROMPT } from '../src/config/chatbotSystemPrompt.js';
 
 // ── Environment ────────────────────────────────────────────────────────
-const supabaseUrl  = process.env.VITE_SUPABASE_URL;
-const supabaseKey  = process.env.SUPABASE_SERVICE_KEY;
-const JWT_SECRET   = process.env.JWT_SECRET;
+const supabaseUrl = process.env.VITE_SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_KEY;
+const JWT_SECRET = process.env.JWT_SECRET;
 
 if (!supabaseUrl || !supabaseKey || !JWT_SECRET) {
   console.error('[FATAL] Missing required environment variables (VITE_SUPABASE_URL, SUPABASE_SERVICE_KEY, JWT_SECRET). Check your .env file.');
 }
 
 const supabase = createClient(supabaseUrl, supabaseKey);
-const app  = express();
+const app = express();
 
 // Fix for Vercel: Vercel strips the '/api' prefix when mounting api/index.js
 // This middleware ensures our routes starting with '/api' still match.
@@ -123,7 +123,7 @@ app.post('/api/login', loginLimiter, [
   const INVALID = 'Invalid username or password';
 
   const { data: row, error } = await supabase.from('users').select('*').eq('username', username).single();
-  
+
   if (error || !row || !bcrypt.compareSync(password, row.password)) {
     return res.status(401).json({ success: false, message: INVALID });
   }
@@ -143,7 +143,7 @@ app.post('/api/register', loginLimiter, [
   body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters'),
 ], validate, async (req, res) => {
   const username = sanitize(req.body.username, 50);
-  const email    = sanitize(req.body.email, 100);
+  const email = sanitize(req.body.email, 100);
   const password = req.body.password;
 
   if (!isValidUsername(username))
@@ -151,7 +151,7 @@ app.post('/api/register', loginLimiter, [
 
   const hash = bcrypt.hashSync(password, 12);
   const { data, error } = await supabase.from('users').insert({ username, password: hash, email }).select();
-  
+
   if (error) return res.status(400).json({ error: 'Username or email already exists' });
   res.status(201).json({ success: true, id: data[0].id });
 });
@@ -162,8 +162,8 @@ app.post('/api/contact', contactLimiter, [
   body('email').isEmail().withMessage('Valid email required').normalizeEmail(),
   body('message').isString().trim().isLength({ min: 5, max: 2000 }).withMessage('Message must be 5–2000 characters'),
 ], validate, async (req, res) => {
-  const name    = sanitize(req.body.name, 100);
-  const email   = sanitize(req.body.email, 100);
+  const name = sanitize(req.body.name, 100);
+  const email = sanitize(req.body.email, 100);
   const message = sanitize(req.body.message, 2000);
 
   const { error } = await supabase.from('contact_requests').insert({ name, email, message });
@@ -199,10 +199,10 @@ app.post('/api/session/heartbeat', [
   body('username').optional().isString().isLength({ max: 50 }),
 ], validate, async (req, res) => {
   const visitor_id = sanitize(req.body.visitor_id, 128);
-  const username   = sanitize(req.body.username || 'Anonymous', 50);
+  const username = sanitize(req.body.username || 'Anonymous', 50);
 
   const { data: row } = await supabase.from('site_visitors').select('id').eq('visitor_id', visitor_id).single();
-  
+
   if (row) {
     await supabase.from('site_visitors').update({ username, last_seen: new Date().toISOString(), is_active: 1 }).eq('visitor_id', visitor_id);
   } else {
@@ -240,9 +240,9 @@ app.put('/api/social-data', auth, adminOnly, async (req, res) => {
   const payload = {
     id: 1,
     transaction_volume: sanitize(req.body.transaction_volume),
-    split_values:       sanitize(req.body.split_values),
-    reviewed_by:        sanitize(req.body.reviewed_by),
-    social_proof:       sanitize(req.body.social_proof, 1000),
+    split_values: sanitize(req.body.split_values),
+    reviewed_by: sanitize(req.body.reviewed_by),
+    social_proof: sanitize(req.body.social_proof, 1000),
   };
   const { error } = await supabase.from('social_data').upsert(payload);
   if (error) return res.status(500).json({ error: 'Could not update' });
@@ -262,11 +262,11 @@ app.put('/api/trusted-clients', auth, adminOnly, async (req, res) => {
   try {
     for (const client of clients) {
       const payload = {
-        name:  sanitize(client.name, 100),
-        role:  sanitize(client.role, 100),
-        ring:  VALID_RINGS.has(client.ring) ? client.ring : 'outer',
+        name: sanitize(client.name, 100),
+        role: sanitize(client.role, 100),
+        ring: VALID_RINGS.has(client.ring) ? client.ring : 'outer',
         angle: Number.isInteger(Number(client.angle)) ? Math.abs(Number(client.angle)) % 360 : 0,
-        text:  sanitize(client.text, 300),
+        text: sanitize(client.text, 300),
       };
       if (client.id) {
         await supabase.from('trusted_clients').upsert({ id: client.id, ...payload }, { onConflict: 'id' });
@@ -299,7 +299,7 @@ app.get('/api/admin/sessions', auth, adminOnly, async (req, res) => {
   // Update inactive
   const twoMinsAgo = new Date(Date.now() - 120000).toISOString();
   await supabase.from('site_visitors').update({ is_active: 0 }).eq('is_active', 1).lt('last_seen', twoMinsAgo);
-  
+
   const { data } = await supabase.from('site_visitors').select('id, visitor_id, username, first_seen, last_seen, is_active').order('last_seen', { ascending: false }).limit(100);
   res.json(data || []);
 });
@@ -328,7 +328,7 @@ app.get('/api/messages', auth, [
   const user_id = parseInt(req.query.user_id, 10);
   if (req.user.role !== 'admin' && req.user.id !== user_id)
     return res.status(403).json({ error: 'Forbidden' });
-  
+
   const { data, error } = await supabase.from('messages').select('id, sender, text, timestamp, is_read').eq('user_id', user_id).order('timestamp', { ascending: true });
   if (error) return res.status(500).json({ error: 'Server error' });
   res.json(data);
@@ -338,11 +338,11 @@ app.post('/api/messages', auth, [
   body('text').isString().trim().isLength({ min: 1, max: 2000 }).withMessage('Message text required (max 2000 chars)'),
   body('user_id').isInt({ min: 1 }).withMessage('Valid user_id required'),
 ], validate, async (req, res) => {
-  const text    = sanitize(req.body.text, 2000);
+  const text = sanitize(req.body.text, 2000);
   const user_id = parseInt(req.body.user_id, 10);
   if (req.user.role !== 'admin' && req.user.id !== user_id)
     return res.status(403).json({ error: 'Forbidden' });
-  
+
   const sender = req.user.role === 'admin' ? 'Developer' : 'User';
   const { data, error } = await supabase.from('messages').insert({ sender, text, user_id }).select();
   if (error) return res.status(500).json({ error: 'Server error' });
@@ -355,7 +355,7 @@ app.put('/api/messages/read', auth, [
   const user_id = parseInt(req.body.user_id, 10);
   if (req.user.role !== 'admin' && req.user.id !== user_id)
     return res.status(403).json({ error: 'Forbidden' });
-  
+
   const senderToMark = req.user.role === 'admin' ? 'User' : 'Developer';
   const { error } = await supabase.from('messages').update({ is_read: 1 }).eq('user_id', user_id).eq('sender', senderToMark);
   if (error) return res.status(500).json({ error: 'Server error' });
@@ -368,7 +368,7 @@ app.get('/api/messages/unread', auth, [
   const user_id = parseInt(req.query.user_id, 10);
   if (req.user.role !== 'admin' && req.user.id !== user_id)
     return res.status(403).json({ error: 'Forbidden' });
-  
+
   const sender = req.user.role === 'admin' ? 'User' : 'Developer';
   const { count, error } = await supabase.from('messages').select('id', { count: 'exact' }).eq('user_id', user_id).eq('sender', sender).eq('is_read', 0);
   if (error) return res.status(500).json({ error: 'Server error' });
@@ -411,8 +411,8 @@ const chatLimiter = (req, res, next) => {
   chatRateLimitStore.set(ip, record);
 
   if (record.count > maxRequests) {
-    return res.status(429).json({ 
-      error: 'Rate limit exceeded. You can send up to 20 messages per 10 minutes. Please reach out to our team directly on WhatsApp (+92 303 0111550).' 
+    return res.status(429).json({
+      error: 'Rate limit exceeded. You can send up to 20 messages per 10 minutes. Please reach out to our team directly on WhatsApp (+92 303 0111550).'
     });
   }
   next();
@@ -424,7 +424,7 @@ app.post('/api/chat', chatLimiter, [
 ], validate, async (req, res) => {
   try {
     const rawMessages = req.body.messages;
-    
+
     // Check total conversation length & input sanitization
     const lastUserMsg = rawMessages[rawMessages.length - 1];
     if (!lastUserMsg || typeof lastUserMsg.content !== 'string') {
@@ -478,7 +478,7 @@ app.post('/api/chat', chatLimiter, [
     }
 
     if (!responseText) {
-      return res.status(503).json({ 
+      return res.status(503).json({
         error: 'AI service temporarily unavailable. Please chat with us on WhatsApp (+92 303 0111550) or email devnexes.support@gmail.com.',
         whatsappFallback: true
       });
