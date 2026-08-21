@@ -12,7 +12,7 @@ const AdminPortal = ({ onLogout }) => {
   const [saveStatus, setSaveStatus] = useState(null)
   
   const [siteSettings, setSiteSettings] = useState({ 
-    download_title: '', download_subtitle: '', download_desc: '', qr_url: '', mobile_wallpaper: '', trusted_clients_count: '1000+k',
+    download_title: '', download_subtitle: '', download_desc: '', qr_url: '', mobile_wallpaper: '', trusted_clients_count: '150+',
     stat_1_value: '150K', stat_1_label: 'AI Solutions',
     stat_2_value: '500K', stat_2_label: 'Vision AI',
     stat_3_value: '250M', stat_3_label: 'Web Dev',
@@ -287,7 +287,7 @@ const AdminPortal = ({ onLogout }) => {
                 <button onClick={addNewClient} className="bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-800 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all flex items-center gap-2"><Plus size={16} /> Mint New Client Node</button>
                 <div className="flex items-center gap-4 bg-slate-50 p-2 pl-4 rounded-xl border border-slate-200">
                   <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-pink-600">Total Clients Count</label>
-                  <input type="text" value={siteSettings.trusted_clients_count || '1000+k'} onChange={e => setSiteSettings({ ...siteSettings, trusted_clients_count: e.target.value })} className="w-28 bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm font-bold text-slate-900 focus:border-pink-500 focus:ring-4 focus:ring-pink-500/10 transition-all outline-none text-center" />
+                  <input type="text" value={siteSettings.trusted_clients_count || '150+'} onChange={e => setSiteSettings({ ...siteSettings, trusted_clients_count: e.target.value })} className="w-28 bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm font-bold text-slate-900 focus:border-pink-500 focus:ring-4 focus:ring-pink-500/10 transition-all outline-none text-center" />
                 </div>
               </div>
               <div className="flex-1 overflow-y-auto p-6 lg:p-12 custom-scrollbar">

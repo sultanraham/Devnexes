@@ -60,7 +60,7 @@ const Hero = ({ t }) => {
   const socialData = {
     transaction_volume: '150+',
     split_values: '99.5%',
-    reviewed_by: '1K+'
+    reviewed_by: '150+'
   }
 
   const statsData = [

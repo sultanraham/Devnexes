@@ -90,7 +90,7 @@ const AvatarOrbit = ({ client, radius, isAnyHovered, hoveredId, onHover, isRever
 export default function TrustedClients({ t }) {
   const [hoveredAvatar, setHoveredAvatar] = useState(null)
   const [isMobile, setIsMobile] = useState(false)
-  const clientCount = '1000+k'
+  const clientCount = '150+'
   const clients = [
     { id: 1, name: 'Sara', role: 'Digital Creator', ring: 'outer', angle: 0, text: 'Quick and easy account opening.' },
     { id: 2, name: 'Jack', role: 'Software Engineer', ring: 'outer', angle: 90, text: 'Best automation tools available.' },
