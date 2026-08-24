@@ -218,7 +218,7 @@ export function Navbar({ currentLang, setCurrentLang, user, onLogout }) {
             <span className={`text-xl sm:text-2xl font-black tracking-tight font-outfit transition-colors ${
               isScrolled ? "text-white" : "text-[#061632]"
             }`}>
-              Devnexes<span className={isScrolled ? "text-blue-400" : "text-blue-600"}>.</span>
+              Devnexes
             </span>
           </Link>
 

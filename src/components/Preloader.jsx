@@ -54,7 +54,7 @@ const Preloader = () => {
               className="flex flex-col items-center text-center"
             >
               <span className="text-2xl sm:text-3xl font-extrabold font-outfit tracking-tight text-[#061632]">
-                Devnexes<span className="text-blue-600">.</span>
+                Devnexes
               </span>
               <span className="text-[11px] sm:text-xs font-bold text-blue-600 tracking-[0.25em] uppercase -mt-0.5">
                 Digital Solutions

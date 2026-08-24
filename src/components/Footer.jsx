@@ -30,14 +30,14 @@ const Footer = ({ t }) => {
       <div className="absolute inset-0 bg-gradient-to-t from-[#061632]/90 via-[#061632]/40 to-[#061632]/80 z-20 pointer-events-none" />
 
       {/* Main Full-Width Content Container */}
-      <div className="relative z-30 w-full px-6 sm:px-10 md:px-14 lg:px-16 xl:px-24 pt-16 pb-8 flex flex-col justify-between">
+      <div className="relative z-30 w-full px-6 sm:px-10 md:px-14 lg:px-16 xl:px-24 pt-28 md:pt-36 lg:pt-40 pb-8 flex flex-col justify-between">
 
         {/* Top Grid Section */}
         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12 xl:gap-14 pb-12">
           
           {/* Column 1: Brand & Identity (Clean Transparent Logo - No Box) (4 cols) */}
           <div className="lg:col-span-4 flex flex-col gap-6 pr-0 lg:pr-6">
-            <Link to="/" className="flex items-center gap-3.5 group w-fit">
+            <Link to="/" className="flex items-center gap-3.5 group w-fit cursor-pointer">
               <img
                 src="/images/devnexes-logo.png"
                 alt="Devnexes Logo"
@@ -74,16 +74,16 @@ const Footer = ({ t }) => {
             </h4>
             <ul className="flex flex-col gap-3">
               {[
-                { label: 'Web Applications', to: '/#features' },
-                { label: 'AI Automation & Agents', to: '/#features' },
+                { label: 'Web Applications', to: '/portfolio' },
+                { label: 'AI Automation & Agents', to: '/portfolio' },
                 { label: 'Custom SaaS & Cloud Systems', to: '/portfolio' },
-                { label: 'UI / UX Product Design', to: '/#features' },
-                { label: 'SEO & Growth Strategy', to: '/#features' },
+                { label: 'UI / UX Product Design', to: '/portfolio' },
+                { label: 'SEO & Growth Strategy', to: '/contact' },
               ].map((link, i) => (
                 <li key={i}>
                   <Link
                     to={link.to}
-                    className="group inline-flex items-center gap-1.5 text-slate-300 hover:text-white text-sm md:text-[15px] font-medium transition-all duration-150 hover:translate-x-1.5"
+                    className="group inline-flex items-center gap-1.5 text-slate-300 hover:text-white text-sm md:text-[15px] font-medium transition-all duration-150 hover:translate-x-1.5 cursor-pointer"
                   >
                     <span>{link.label}</span>
                     <ArrowUpRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-blue-400" />
@@ -109,7 +109,7 @@ const Footer = ({ t }) => {
                 <li key={i}>
                   <Link
                     to={link.to}
-                    className="group inline-flex items-center gap-1.5 text-slate-300 hover:text-white text-sm md:text-[15px] font-medium transition-all duration-150 hover:translate-x-1.5"
+                    className="group inline-flex items-center gap-1.5 text-slate-300 hover:text-white text-sm md:text-[15px] font-medium transition-all duration-150 hover:translate-x-1.5 cursor-pointer"
                   >
                     <span>{link.label}</span>
                     <ArrowUpRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-blue-400" />
@@ -191,11 +191,17 @@ const Footer = ({ t }) => {
 
         </div>
 
-        {/* Visible DEVNEXES Signature Typography */}
+        {/* Visible DEVNEXES Signature Typography (Upwards Scroll Animation) */}
         <div className="w-full select-none pointer-events-none py-4 flex justify-center items-center overflow-hidden">
-          <span className="text-[13vw] font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white/20 via-white/10 to-transparent leading-none whitespace-nowrap font-outfit select-none">
+          <motion.span
+            initial={{ y: 90, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-[13vw] font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white/25 via-white/12 to-transparent leading-none whitespace-nowrap font-outfit select-none will-change-transform inline-block"
+          >
             DEVNEXES
-          </span>
+          </motion.span>
         </div>
 
         {/* Bottom Bar */}
