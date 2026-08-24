@@ -18,6 +18,7 @@ import Footer from './components/Footer'
 import SEO from './components/SEO'
 import CookieConsent from './components/CookieConsent'
 import AIChatbotWidget from './components/AIChatbotWidget'
+import Preloader from './components/Preloader'
 import { translations } from './translations'
 
 const Home = ({ t }) => (
@@ -62,6 +63,7 @@ const Layout = ({ currentLang, setCurrentLang, t }) => {
         <Route path="/policy" element={<PolicyPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      <Preloader />
       <CookieConsent />
       <AIChatbotWidget />
     </main>
