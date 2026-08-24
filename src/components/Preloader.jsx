@@ -5,10 +5,10 @@ const Preloader = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Show splash screen on open, then smoothly exit
+    // Show clean splash loader on open, then smoothly exit
     const timer = setTimeout(() => {
       setLoading(false)
-    }, 1600)
+    }, 1500)
 
     return () => clearTimeout(timer)
   }, [])
@@ -22,58 +22,41 @@ const Preloader = () => {
           exit={{ 
             opacity: 0,
             scale: 1.02,
-            transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } 
+            transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } 
           }}
-          className="fixed inset-0 z-[999999] flex flex-col items-center justify-center bg-white select-none overflow-hidden"
+          className="fixed inset-0 z-[999999] flex items-center justify-center bg-white select-none overflow-hidden"
         >
-          {/* Subtle Ambient Background Light */}
-          <div className="absolute w-96 h-96 bg-blue-100/50 rounded-full blur-3xl pointer-events-none" />
+          {/* Circular Spinner Framing the Center Logo */}
+          <div className="relative flex items-center justify-center">
+            
+            {/* Outer Static Track Ring */}
+            <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full border-[2.5px] border-blue-50/80" />
 
-          {/* Logo & Brand Container */}
-          <div className="relative z-10 flex flex-col items-center gap-5">
+            {/* Animated Spinning Circular Loading Ring */}
             <motion.div
-              initial={{ scale: 0.75, opacity: 0, y: 15 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
+              animate={{ rotate: 360 }}
               transition={{ 
-                duration: 0.7, 
-                ease: [0.16, 1, 0.3, 1] 
+                repeat: Infinity, 
+                duration: 0.95, 
+                ease: "linear" 
               }}
-              className="relative"
+              className="absolute inset-0 rounded-full border-[2.5px] border-transparent border-t-blue-600 border-r-blue-500"
+            />
+
+            {/* Center Official Devnexes Logo */}
+            <motion.div
+              initial={{ scale: 0.75, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute inset-0 flex items-center justify-center p-5"
             >
               <img
                 src="/images/devnexes-logo.png"
                 alt="Devnexes Logo"
-                className="w-20 h-20 sm:w-24 sm:h-24 object-contain drop-shadow-lg"
+                className="w-12 h-12 sm:w-14 sm:h-14 object-contain"
               />
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.25, ease: 'easeOut' }}
-              className="flex flex-col items-center text-center"
-            >
-              <span className="text-2xl sm:text-3xl font-extrabold font-outfit tracking-tight text-[#061632]">
-                Devnexes
-              </span>
-              <span className="text-[11px] sm:text-xs font-bold text-blue-600 tracking-[0.25em] uppercase -mt-0.5">
-                Digital Solutions
-              </span>
-            </motion.div>
-
-            {/* Smooth Circular Loading Spinner */}
-            <div className="relative flex items-center justify-center mt-2">
-              <div className="w-8 h-8 rounded-full border-2 border-blue-100" />
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ 
-                  repeat: Infinity, 
-                  duration: 0.85, 
-                  ease: "linear" 
-                }}
-                className="absolute inset-0 w-8 h-8 rounded-full border-2 border-transparent border-t-blue-600 border-r-blue-600"
-              />
-            </div>
           </div>
         </motion.div>
       )}
