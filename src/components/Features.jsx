@@ -29,8 +29,52 @@ const Features = () => {
   }
 
   return (
-    <section className="py-20 md:py-32 bg-white">
-      <div className="container mx-auto px-6 max-w-7xl">
+    <section className="bg-white">
+      {/* Smooth Moveable Featured Products Strip (CORTEX, GTD, LexiBase) */}
+      <div className="w-full bg-white border-b border-slate-100 py-7 md:py-9 overflow-hidden relative select-none">
+        {/* Soft edge fade masks */}
+        <div className="absolute inset-y-0 left-0 w-24 sm:w-36 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-24 sm:w-36 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+
+        <div 
+          className="w-full overflow-hidden flex items-center"
+          style={{
+            maskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)'
+          }}
+        >
+          <motion.div
+            animate={{ x: ['-50%', '0%'] }}
+            transition={{
+              repeat: Infinity,
+              duration: 35,
+              ease: 'linear'
+            }}
+            className="flex items-center gap-28 sm:gap-40 md:gap-56 whitespace-nowrap will-change-transform pr-28 sm:pr-40 md:pr-56"
+          >
+            {[
+              'CORTEX', 'GTD', 'LexiBase',
+              'CORTEX', 'GTD', 'LexiBase',
+              'CORTEX', 'GTD', 'LexiBase',
+              'CORTEX', 'GTD', 'LexiBase',
+              'CORTEX', 'GTD', 'LexiBase',
+              'CORTEX', 'GTD', 'LexiBase'
+            ].map((brand, idx) => (
+              <div 
+                key={idx} 
+                className="group flex items-center justify-center cursor-default transition-all duration-300 hover:scale-105"
+              >
+                <span className="font-brand font-black text-2xl sm:text-3xl md:text-[34px] tracking-[0.25em] text-[#061632] group-hover:text-blue-600 transition-all uppercase select-none">
+                  {brand}
+                </span>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </div>
+
+      <div className="py-20 md:py-32">
+        <div className="container mx-auto px-6 max-w-7xl">
 
         {/* Header Section */}
         <motion.div
@@ -130,6 +174,7 @@ const Features = () => {
             </AnimatePresence>
           </div>
 
+          </div>
         </div>
       </div>
     </section>

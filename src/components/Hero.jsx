@@ -1,74 +1,12 @@
 import React from 'react'
-import { motion, AnimatePresence, useInView, useReducedMotion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-const StatCounter = ({ value }) => {
-  const [displayValue, setDisplayValue] = React.useState("0")
-  const ref = React.useRef(null)
-  const isInView = useInView(ref, { once: true, amount: 0.5 })
-
-  React.useEffect(() => {
-    if (!isInView || !value) {
-      setDisplayValue("0")
-      return
-    }
-
-    const numericPart = parseFloat(value.replace(/[^0-9.]/g, '')) || 0
-    const suffix = value.replace(/[0-9.]/g, '')
-
-    let actualValue = numericPart
-    if (suffix.toLowerCase() === 'k') actualValue *= 1000
-    else if (suffix.toLowerCase() === 'm') actualValue *= 1000000
-
-    let start = 0
-    const duration = 2000
-    const startTime = performance.now()
-
-    const update = (now) => {
-      const elapsed = now - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      const easedProgress = 1 - Math.pow(1 - progress, 3)
-
-      if (progress < 1) {
-        if (suffix.toLowerCase() === 'k' || suffix.toLowerCase() === 'm') {
-          const raw = start + (actualValue - start) * easedProgress
-          let formatted = Math.floor(raw).toString()
-          if (raw >= 1000000) {
-            formatted = (raw / 1000000).toFixed(1) + suffix
-          } else if (raw >= 1000) {
-            formatted = (raw / 1000).toFixed(1) + suffix
-          }
-          setDisplayValue(formatted)
-        } else {
-          const current = start + (numericPart - start) * easedProgress
-          const formatted = value.includes('.') ? current.toFixed(1) : Math.floor(current).toString()
-          setDisplayValue(formatted + suffix)
-        }
-        requestAnimationFrame(update)
-      } else {
-        setDisplayValue(value)
-      }
-    }
-
-    requestAnimationFrame(update)
-  }, [value, isInView])
-
-  return <span ref={ref}>{displayValue}</span>
-}
 
 const Hero = ({ t }) => {
   const shouldReduceMotion = useReducedMotion()
-  const socialData = {
-    transaction_volume: '150+',
-    split_values: '99.5%',
-    reviewed_by: '150+'
-  }
-
-  const statsData = [
-    { value: socialData.transaction_volume, label: t.transactionVolume, subValue: socialData.split_values, subLabel: t.splitValues },
-  ]
 
   return (
-    <section className="relative min-h-screen w-full flex flex-col bg-[#061632] overflow-hidden">
+    <section className="relative min-h-[90vh] lg:min-h-screen w-full flex flex-col justify-center items-center bg-[#061632] overflow-hidden">
 
       {/* Background Layers */}
       <img
@@ -102,7 +40,7 @@ const Hero = ({ t }) => {
       />
 
       {/* Main Content Container */}
-      <div className="relative z-30 container mx-auto px-6 flex flex-col grow items-center text-center pt-64 md:pt-76 lg:pt-84 pb-24">
+      <div className="relative z-30 container mx-auto px-6 flex flex-col items-center text-center pt-48 md:pt-60 pb-28 md:pb-36 my-auto">
 
         <motion.h1 
           className="font-outfit text-3xl md:text-5xl lg:text-7xl font-bold text-white mb-6 tracking-tight leading-[1.1] max-w-5xl"
@@ -146,7 +84,7 @@ const Hero = ({ t }) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 w-full sm:w-auto"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto"
         >
           <Link to="/contact" className="w-full sm:w-auto">
             <motion.button
@@ -156,7 +94,7 @@ const Hero = ({ t }) => {
                 boxShadow: "0 0 30px rgba(255,255,255,0.3)"
               }}
               whileTap={{ scale: 0.95 }}
-              className="w-full sm:w-auto bg-white/10 backdrop-blur-lg border border-white/30 text-white px-8 py-3 rounded-full font-bold text-base md:text-lg hover:bg-white/20 transition-all shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] relative overflow-hidden group/btn"
+              className="w-full sm:w-auto min-w-[160px] bg-white/10 backdrop-blur-lg border border-white/30 text-white px-8 py-3.5 rounded-full font-bold text-base md:text-lg hover:bg-white/20 transition-all shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] relative overflow-hidden group/btn cursor-pointer"
             >
               <motion.div 
                 className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/btn:animate-shine-fast"
@@ -165,6 +103,7 @@ const Hero = ({ t }) => {
               <span className="relative z-10">{t.getStarted}</span>
             </motion.button>
           </Link>
+
           <Link to="/contact" className="w-full sm:w-auto">
             <motion.button
               whileHover={{ 
@@ -173,7 +112,7 @@ const Hero = ({ t }) => {
                 boxShadow: "0 0 30px rgba(255,255,255,0.3)"
               }}
               whileTap={{ scale: 0.95 }}
-              className="w-full bg-white/10 backdrop-blur-lg border border-white/30 text-white px-12 py-3.5 rounded-full font-bold text-xl md:text-[32px] hover:bg-white/20 transition-all shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] relative overflow-hidden group/btn"
+              className="w-full sm:w-auto min-w-[160px] bg-white/10 backdrop-blur-lg border border-white/30 text-white px-8 py-3.5 rounded-full font-bold text-base md:text-lg hover:bg-white/20 transition-all shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] relative overflow-hidden group/btn cursor-pointer"
             >
               <motion.div 
                 className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/btn:animate-shine-fast"
@@ -184,73 +123,6 @@ const Hero = ({ t }) => {
           </Link>
         </motion.div>
 
-        {/* Bottom Section */}
-        <div className="w-full mt-auto">
-          <div className="flex flex-col lg:flex-row justify-between items-center lg:items-end gap-16 mb-24 text-left">
-
-            {/* Social Proof */}
-            <motion.div
-              initial={{ opacity: 0, x: -100 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: false, amount: 0.3 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="max-w-2xl w-full"
-            >
-              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
-                <div className="flex -space-x-4 shrink-0 mb-4 sm:mb-0">
-                  {[1, 2, 3, 4].map((i) => (
-                    <motion.div 
-                      key={i} 
-                      initial={{ scale: 0 }}
-                      whileInView={{ scale: 1 }}
-                      viewport={{ once: false }}
-                      transition={{ delay: i * 0.1, type: "spring", stiffness: 260, damping: 20 }}
-                      className="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-white/40 bg-gray-800 overflow-hidden shadow-2xl relative" 
-                      style={{ zIndex: 4 - i }}
-                    >
-                      <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=user${i}`} alt="client avatar" loading="lazy" decoding="async" className="w-full h-full object-cover" />
-                    </motion.div>
-                  ))}
-                </div>
-                <div className="flex flex-col text-center sm:text-left">
-                  <p className="text-white font-black text-2xl md:text-3xl font-outfit leading-none mb-2 tracking-tight drop-shadow-md">{socialData.reviewed_by}</p>
-                  <p className="text-white/80 text-sm md:text-base font-medium leading-relaxed">
-                    "{socialData.social_proof}"
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Stats */}
-            <motion.div
-              initial={{ opacity: 0, x: 100 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: false, amount: 0.3 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="w-full lg:w-auto text-center lg:text-right lg:pr-12"
-            >
-              <div className="flex flex-col items-center lg:items-end">
-                <p className="text-blue-300 font-bold text-xs md:text-sm mb-3 uppercase tracking-widest">{t.splitValues}</p>
-                <div className="flex flex-col items-center lg:items-end mb-6">
-                  <h2 className="font-outfit text-white text-3xl md:text-5xl lg:text-6xl font-black leading-none tracking-tighter drop-shadow-lg">
-                    <StatCounter value={statsData[0].value} />
-                  </h2>
-                  <p className="text-white/80 font-semibold mt-1.5 text-xs md:text-sm">
-                    {statsData[0].label}
-                  </p>
-                </div>
-                <div className="flex flex-col items-center lg:items-end">
-                  <h2 className="font-outfit text-white text-3xl md:text-5xl lg:text-6xl font-black leading-none tracking-tighter drop-shadow-lg">
-                    <StatCounter value={statsData[0].subValue} />
-                  </h2>
-                  <p className="text-white/80 font-semibold mt-1.5 text-xs md:text-sm">
-                    {statsData[0].subLabel}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
       </div>
     </section>
   )

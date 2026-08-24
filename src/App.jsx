@@ -5,8 +5,6 @@ import Hero from './components/Hero'
 import Features from './components/Features'
 import DigitalGrowth from './components/DigitalGrowth'
 import TrustedClients from './components/TrustedClients'
-import VideoSection from './components/VideoSection'
-import DownloadSection from './components/DownloadSection'
 import FAQSection from './components/FAQSection'
 import CustomerSupport from './components/CustomerSupport'
 import ContactSection from './components/ContactSection'
@@ -33,8 +31,6 @@ const Home = ({ t }) => (
     <Features t={t.features} />
     <DigitalGrowth t={t.growth} />
     <TrustedClients t={t.clients} />
-    <VideoSection t={t.features} />
-    <DownloadSection t={t.download} />
     <FAQSection t={t.faq} />
     <CustomerSupport t={t.support} />
     <Footer t={t.hero} />
