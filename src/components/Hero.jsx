@@ -94,7 +94,7 @@ const Hero = ({ t }) => {
                 boxShadow: "0 0 30px rgba(255,255,255,0.3)"
               }}
               whileTap={{ scale: 0.95 }}
-              className="w-full sm:w-auto min-w-[160px] bg-white/10 backdrop-blur-lg border border-white/30 text-white px-8 py-3.5 rounded-full font-bold text-base md:text-lg hover:bg-white/20 transition-all shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] relative overflow-hidden group/btn cursor-pointer"
+              className="w-full sm:w-auto min-w-[160px] bg-white/10 backdrop-blur-lg border border-white/30 text-white px-8 py-3.5 rounded-xl font-bold text-base md:text-lg hover:bg-white/20 transition-all shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] relative overflow-hidden group/btn cursor-pointer"
             >
               <motion.div 
                 className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/btn:animate-shine-fast"
@@ -112,7 +112,7 @@ const Hero = ({ t }) => {
                 boxShadow: "0 0 30px rgba(255,255,255,0.3)"
               }}
               whileTap={{ scale: 0.95 }}
-              className="w-full sm:w-auto min-w-[160px] bg-white/10 backdrop-blur-lg border border-white/30 text-white px-8 py-3.5 rounded-full font-bold text-base md:text-lg hover:bg-white/20 transition-all shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] relative overflow-hidden group/btn cursor-pointer"
+              className="w-full sm:w-auto min-w-[160px] bg-white/10 backdrop-blur-lg border border-white/30 text-white px-8 py-3.5 rounded-xl font-bold text-base md:text-lg hover:bg-white/20 transition-all shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] relative overflow-hidden group/btn cursor-pointer"
             >
               <motion.div 
                 className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/btn:animate-shine-fast"
